@@ -7,7 +7,16 @@ authors = [
     { name = "Charan Kotra", email = "charankotra11@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi>=0.141.1",
+    "langchain>=1.4.2",
+    "langchain-openai>=1.6.6",
+    "langchain-qdrant>=1.1.0",
+    "pypdf>=6.19.0",
+    "python-dotenv>=1.2.3",
+    "qdrant-client>=1.19.1",
+    "uvicorn>=0.53.0",
+]
 
 [project.scripts]
 production-rag = "production_rag:main"
