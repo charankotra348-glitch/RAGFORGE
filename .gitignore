@@ -1,10 +1,23 @@
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
 # Python-generated files
 __pycache__/
-*.py[oc]
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build and distribution
 build/
 dist/
 wheels/
-*.egg-info
+*.egg-info/
 
-# Virtual environments
-.venv
+# Editor and operating system
+.DS_Store
