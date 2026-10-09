@@ -1,0 +1,435 @@
+{
+  "document": "data/test.pdf",
+  "description": "Hand-labeled retrieval evaluation for the sample lease. 'evidence' lists phrases from the lease that a retrieved chunk must contain; matching ignores case, whitespace and punctuation. Questions with answerable=false have no evidence and are used only to inspect score behavior. 'tags' describe the failure mode a question probes: fact, paraphrase, vocab-gap (question wording differs from the clause), multi-clause (several facts needed), cross-chunk, continuation (clause continues across a page break), calculation, distractor (a similar-but-wrong clause exists), unanswerable. Questions q11-q35 were drafted from the lease text and should be reviewed by a human.",
+  "questions": [
+    {
+      "id": "q01",
+      "question": "What is the monthly rent amount?",
+      "answerable": true,
+      "expected": "$750 per month",
+      "evidence": [
+        "monthly rent of__$750"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q02",
+      "question": "When does the lease term start and end?",
+      "answerable": true,
+      "expected": "Starts August 1, 2026 and ends July 31, 2027",
+      "evidence": [
+        "start on _08/01/2026_and end on _07/31/2027_"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q03",
+      "question": "What is the security deposit amount?",
+      "answerable": true,
+      "expected": "$750",
+      "evidence": [
+        "Tenant deposits with the Landlord $750"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q04",
+      "question": "What are all the conditions under which the landlord can enter the premises?",
+      "answerable": true,
+      "expected": "Reasonable prior notice (typically 24 hours) for inspection, maintenance or repair between 9AM and 8PM; no notice in a bona fide emergency; during the last 60 days to show the premises.",
+      "evidence": [
+        "reasonable prior notice (typically 24 hours)",
+        "9:00 A.M. to 8:00 P.M.",
+        "bona fide emergency (e.g., fire, flood, or gas leak)",
+        "During the last sixty (60) days of the Lease term"
+      ],
+      "tags": [
+        "multi-clause",
+        "vocab-gap"
+      ]
+    },
+    {
+      "id": "q05",
+      "question": "What is the tenant responsible for paying regarding utilities?",
+      "answerable": true,
+      "expected": "70% of all utility bills including water, electricity, wifi and snow removal, plus a $60 charge if a utility is turned off and reverts to the landlord.",
+      "evidence": [
+        "utility services(70%) required on the premises, including water",
+        "electricity, wifi, and snow removal",
+        "agrees to pay a $60.00"
+      ],
+      "tags": [
+        "multi-clause",
+        "continuation"
+      ]
+    },
+    {
+      "id": "q06",
+      "question": "If the tenant pays rent on the 6th of the month, what is the total amount owed?",
+      "answerable": true,
+      "expected": "$800 ($750 rent plus $50 late fee)",
+      "evidence": [
+        "monthly rent of__$750",
+        "may impose a late fee of $50"
+      ],
+      "tags": [
+        "multi-clause",
+        "calculation"
+      ]
+    },
+    {
+      "id": "q07",
+      "question": "Can the tenant sublet the apartment to a friend for two months while traveling?",
+      "answerable": true,
+      "expected": "No. Subletting requires the landlord's prior written consent.",
+      "evidence": [
+        "shall not assign this Lease, or sublet",
+        "without the Landlord's prior written consent"
+      ],
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q08",
+      "question": "What is the landlord's phone number?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    },
+    {
+      "id": "q09",
+      "question": "What is the penalty for breaking the lease early?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "What must the tenant do before the lease expires to avoid automatic termination?",
+      "answerable": true,
+      "expected": "Written notice no later than 60 days before expiration stating intent to renew or vacate.",
+      "evidence": [
+        "No later than sixty (60) days prior to the expiration date",
+        "stating their intent to either request a renewal of this Lease or vacate the Premises"
+      ],
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "How many days does the tenant have to report defects after the lease starts?",
+      "answerable": true,
+      "expected": "Seven days from the lease start date, in writing.",
+      "evidence": [
+        "within seven (7) days of the lease start date"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "Is smoking allowed on the property?",
+      "answerable": true,
+      "expected": "No. It is a non-smoking property, including vaping and cannabis.",
+      "evidence": [
+        "This is a non-smoking property"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q13",
+      "question": "Can the tenant repaint or renovate the unit without permission?",
+      "answerable": true,
+      "expected": "No. Alterations, additions and improvements need the landlord's prior written consent.",
+      "evidence": [
+        "make no alterations, additions, or improvements to the Premises without the prior written consent"
+      ],
+      "tags": [
+        "vocab-gap"
+      ]
+    },
+    {
+      "id": "q14",
+      "question": "Are pets allowed?",
+      "answerable": true,
+      "expected": "Not without the landlord's prior written consent.",
+      "evidence": [
+        "shall keep no domestic or other animals in or about the Premises without the prior written consent of Landlord"
+      ],
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q15",
+      "question": "How many people may live in the apartment?",
+      "answerable": true,
+      "expected": "No more than 1 individual; additional occupants need written consent.",
+      "evidence": [
+        "occupied by no more than __ 1_____ individuals"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q16",
+      "question": "How many days does the landlord have to return the security deposit after the tenant moves out?",
+      "answerable": true,
+      "expected": "Within fourteen (14) days after the tenant vacates.",
+      "evidence": [
+        "within fourteen (14) days after the Tenant vacates the Premises"
+      ],
+      "tags": [
+        "fact",
+        "distractor"
+      ]
+    },
+    {
+      "id": "q17",
+      "question": "Can the tenant use the security deposit as the last month's rent?",
+      "answerable": true,
+      "expected": "No. The deposit cannot be deducted from the last month's rent or any other rent.",
+      "evidence": [
+        "Tenant shall not apply or deduct any portion of the Security Deposit from the last month's rent"
+      ],
+      "tags": [
+        "distractor"
+      ]
+    },
+    {
+      "id": "q18",
+      "question": "What is the minimum indoor temperature the tenant must maintain in winter?",
+      "answerable": true,
+      "expected": "No lower than 65 F at all times.",
+      "evidence": [
+        "no lower than 65°F"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q19",
+      "question": "What substances is the tenant not allowed to pour into the drains?",
+      "answerable": true,
+      "expected": "Grease, oil, food, coffee grounds or similar substances.",
+      "evidence": [
+        "shall not pour grease, oil, food, coffee grounds"
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q20",
+      "question": "What happens if the tenant abandons the apartment?",
+      "answerable": true,
+      "expected": "Landlord may retake possession and relet; tenant stays liable for rent until the unit is relet, if the landlord makes good-faith efforts.",
+      "evidence": [
+        "If Tenant abandons the Premises, Landlord shall have the right to retake possession of the Premises",
+        "Tenant shall remain liable for the rent due under the remaining term of this Lease"
+      ],
+      "tags": [
+        "multi-clause"
+      ]
+    },
+    {
+      "id": "q21",
+      "question": "What happens to the rent if the unit is damaged by a fire the tenant did not cause?",
+      "answerable": true,
+      "expected": "Rent is abated in proportion to the unusable part; the landlord may terminate if repair is not economically feasible.",
+      "evidence": [
+        "the rent shall be abated in proportion to the part of the Premises rendered untenantable",
+        "the Landlord may terminate this Lease upon written notice to the Tenant"
+      ],
+      "tags": [
+        "multi-clause",
+        "vocab-gap"
+      ]
+    },
+    {
+      "id": "q22",
+      "question": "Is the tenant required to carry renter's insurance?",
+      "answerable": true,
+      "expected": "The lease makes obtaining renter's insurance the tenant's responsibility and strongly advises it.",
+      "evidence": [
+        "it is the Tenant’s responsibility to obtain their own renter’s insurance",
+        "Tenant is strongly advised to obtain a renter’s insurance policy"
+      ],
+      "tags": [
+        "multi-clause"
+      ]
+    },
+    {
+      "id": "q23",
+      "question": "Who is responsible for landscaping?",
+      "answerable": true,
+      "expected": "The landlord.",
+      "evidence": [
+        "Landlord shall be responsible for landscaping"
+      ],
+      "tags": [
+        "continuation"
+      ]
+    },
+    {
+      "id": "q24",
+      "question": "If the landlord withholds part of the security deposit, what must they provide?",
+      "answerable": true,
+      "expected": "An itemized statement describing the basis for each deduction; withholding is limited to damage beyond normal wear and tear.",
+      "evidence": [
+        "accompanied by an itemized statement describing the basis for any such deduction"
+      ],
+      "tags": [
+        "distractor"
+      ]
+    },
+    {
+      "id": "q25",
+      "question": "Who does the tenant tell about a plumbing or heating problem?",
+      "answerable": true,
+      "expected": "The tenant must immediately notify the landlord of defects or issues with plumbing, heating, electrical or structural systems.",
+      "evidence": [
+        "Tenant shall immediately notify Landlord of any defects or issues with plumbing, heating, electrical, or structural systems"
+      ],
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q26",
+      "question": "Are overnight guests allowed?",
+      "answerable": true,
+      "expected": "No. Guests are for occasional visits only; no overnight guests and no parties.",
+      "evidence": [
+        "No Overnight guests. No party."
+      ],
+      "tags": [
+        "fact"
+      ]
+    },
+    {
+      "id": "q27",
+      "question": "Does the landlord have to give notice before showing the apartment to prospective renters?",
+      "answerable": true,
+      "expected": "Yes, reasonable prior notice to the tenant.",
+      "evidence": [
+        "may show the Premises to prospective tenants, purchasers, lenders, or other authorized parties upon providing reasonable prior notice to the Tenant"
+      ],
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q28",
+      "question": "What fees or extra charges can the tenant be charged besides rent?",
+      "answerable": true,
+      "expected": "A $50 late fee if rent is late after the 4th day, and a $60 additional rent charge if a utility is turned off and reverts to the landlord.",
+      "evidence": [
+        "may impose a late fee of $50",
+        "agrees to pay a $60.00"
+      ],
+      "tags": [
+        "multi-clause",
+        "cross-chunk"
+      ]
+    },
+    {
+      "id": "q29",
+      "question": "What happens if the tenant does not give written notice about renewal before the lease expires?",
+      "answerable": true,
+      "expected": "The lease terminates automatically on the expiration date and the tenant must vacate.",
+      "evidence": [
+        "Failure to provide this notice by the required deadline shall result in the automatic termination of this Lease"
+      ],
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q30",
+      "question": "What condition must the unit be in when the tenant moves out?",
+      "answerable": true,
+      "expected": "Broom clean, vacant, and free of personal property and debris; reasonable wear and tear excepted.",
+      "evidence": [
+        "returned in \"broom clean\" condition, vacant, and free of all personal property and debris"
+      ],
+      "tags": [
+        "paraphrase",
+        "vocab-gap"
+      ]
+    },
+    {
+      "id": "q31",
+      "question": "What is the pet deposit amount?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ]
+    },
+    {
+      "id": "q32",
+      "question": "What interest rate does the security deposit earn?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ]
+    },
+    {
+      "id": "q33",
+      "question": "Does the apartment include a washer and dryer?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    },
+    {
+      "id": "q34",
+      "question": "How much can the rent increase if the lease is renewed?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ]
+    },
+    {
+      "id": "q35",
+      "question": "What are the quiet hours?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ]
+    }
+  ]
+}

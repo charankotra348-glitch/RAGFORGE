@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ragforge.app.retrieval.search import SearchResult
+from ragforge.app.retrieval.types import SearchResult
 
 
 SYSTEM_PROMPT = """

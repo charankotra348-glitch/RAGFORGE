@@ -9,13 +9,12 @@ from ragforge.ingestion.chunker import (
     chunk_documents,
     validate_chunks,
 )
-from ragforge.ingestion.embedder import get_embedding_model
+from ragforge.ingestion.embedder import embed_chunks
 from ragforge.ingestion.loader import ingest_file
-from ragforge.app.retrieval.vector import (
-    get_collection_count,
-    get_qdrant,
-    recreate_collection,
-    upsert_documents,
+from ragforge.app.retrieval.vector import get_collection_count, get_qdrant
+from ragforge.app.retrieval.vector_store import (
+    count_document_chunks,
+    replace_document_chunks,
 )
 
 logger = logging.getLogger(__name__)
@@ -37,44 +36,13 @@ def generate_embeddings(
     documents,
     settings: Settings,
 ) -> list[list[float]]:
-    """
-    Generate embeddings for all documents using the configured
-    FastEmbed model.
-    """
-
+    """Generate and validate embeddings using the shared FastEmbed path."""
     if not documents:
-        raise ValueError(
-            "Cannot generate embeddings for an empty document list."
-        )
+        raise ValueError("Cannot generate embeddings for an empty document list.")
 
-    model = get_embedding_model(settings)
-
-    texts = [
-        document.page_content
-        for document in documents
-    ]
-
-    logger.info(
-        "Generating embeddings for %d chunks...",
-        len(texts),
-    )
-
-    embeddings = [
-        list(map(float, embedding))
-        for embedding in model.embed(texts)
-    ]
-
-    if len(embeddings) != len(documents):
-        raise RuntimeError(
-            "Embedding count does not match chunk count: "
-            f"{len(embeddings)} != {len(documents)}"
-        )
-
-    logger.info(
-        "Generated %d embeddings.",
-        len(embeddings),
-    )
-
+    logger.info("Generating embeddings for %d chunks...", len(documents))
+    embeddings = embed_chunks(settings, documents)
+    logger.info("Generated %d embeddings.", len(embeddings))
     return embeddings
 
 
@@ -90,7 +58,7 @@ def reindex(
     chunk_overlap: int = DEFAULT_CHUNK_OVERLAP,
 ) -> None:
     """
-    Rebuild the complete Qdrant index for a document.
+    Re-index one document in the shared Qdrant collection without deleting other documents.
 
     Pipeline:
 
@@ -102,9 +70,7 @@ def reindex(
           ↓
         embeddings
           ↓
-        recreate Qdrant collection
-          ↓
-        upsert vectors
+        replace this document's vectors safely
           ↓
         verify count
     """
@@ -187,10 +153,10 @@ def reindex(
     # Verify embedding dimensions.
     vector_dimension = len(embeddings[0])
 
-    if vector_dimension != 384:
+    if vector_dimension != settings.vector_size:
         raise RuntimeError(
             "Unexpected embedding dimension: "
-            f"{vector_dimension}. Expected 384."
+            f"{vector_dimension}. Expected {settings.vector_size}."
         )
 
     logger.info(
@@ -209,29 +175,29 @@ def reindex(
     client = get_qdrant(settings)
 
     # -----------------------------------------------------------------------
-    # 5. Recreate collection and index
+    # 5. Replace this document's chunks without deleting other documents.
     # -----------------------------------------------------------------------
 
     logger.info(
-        "Step 5/6: Recreating Qdrant collection...",
-    )
-
-    recreate_collection(
-        client,
-        settings,
-    )
-
-    logger.info(
-        "Indexing %d chunks into Qdrant...",
+        "Step 5/6: Safely replacing %d chunks for this document...",
         len(chunks),
     )
 
-    upsert_documents(
+    upserted_count = replace_document_chunks(
         client=client,
         settings=settings,
-        documents=chunks,
+        chunks=chunks,
         embeddings=embeddings,
     )
+    if upserted_count != len(chunks):
+        raise RuntimeError(
+            f"Qdrant accepted {upserted_count} chunks; expected {len(chunks)}."
+        )
+
+    # Qdrant has changed; invalidate the in-process lexical index immediately.
+    from ragforge.app.generation.service import clear_hybrid_searcher_cache
+
+    clear_hybrid_searcher_cache()
 
     # -----------------------------------------------------------------------
     # 6. Verify
@@ -252,15 +218,21 @@ def reindex(
     )
 
     logger.info(
-        "Actual Qdrant points: %d",
+        "Actual Qdrant points across all documents: %d",
         collection_count,
     )
 
-    if collection_count != len(chunks):
+    document_id = chunks[0].metadata["document_id"]
+    document_count = count_document_chunks(
+        client,
+        settings,
+        document_id,
+    )
+    logger.info("Verified chunks for this document: %d", document_count)
+    if document_count != len(chunks):
         raise RuntimeError(
-            "Qdrant verification failed: "
-            f"expected {len(chunks)} points, "
-            f"found {collection_count}."
+            "Qdrant verification failed for document "
+            f"{document_id!r}: expected {len(chunks)} chunks, found {document_count}."
         )
 
     logger.info("=" * 80)

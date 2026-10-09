@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import Iterable
 
 from langchain_core.documents import Document
+
+from ragforge.ingestion.cleaner import clean_documents
 from langchain_community.document_loaders import (
     DirectoryLoader,
     PyPDFLoader,
@@ -60,7 +62,9 @@ def validate_file(file_path: str | Path) -> Path:
             f"Supported types: {sorted(SUPPORTED_EXTENSIONS)}"
         )
 
-    return path
+    # Normalize path identity so relative and absolute invocations of the same
+    # file produce the same source metadata and deterministic document ID.
+    return path.resolve()
 
 
 # ---------------------------------------------------------------------------
@@ -568,6 +572,7 @@ def ingest_file(
     documents = validate_documents(
         documents
     )
+    documents = clean_documents(documents)
 
     logger.info(
         "Finished ingestion: %s | %d document(s)",

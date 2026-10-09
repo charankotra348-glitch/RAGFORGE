@@ -90,6 +90,14 @@ def embed_chunks(
         for vector in embeddings
     ]
 
+    dimensions = {len(vector) for vector in result}
+    if dimensions != {settings.vector_size}:
+        raise RuntimeError(
+            "Embedding dimension mismatch: "
+            f"got {sorted(dimensions)}, expected {settings.vector_size} "
+            f"for model {settings.embedding_model!r}"
+        )
+
     logger.info(
         "Finished embedding %d chunk(s)",
         len(result),

@@ -1,22 +1,32 @@
-from ragforge.core.config import get_settings
-from ragforge.app.generation.service import answer_query
+"""Opt-in integration test for a running RAGForge stack.
 
+Set RAGFORGE_RUN_INTEGRATION=1 to run this test. It requires Qdrant and
+Ollama to be running, the configured Ollama model to be pulled, and the
+example document to have been indexed. Ordinary pytest runs do not make
+network/model calls during test collection.
+"""
 
-settings = get_settings()
+import os
 
-response = answer_query(
-    settings,
-    "What happens to the security deposit when the tenant vacates?",
+import pytest
+
+pytestmark = pytest.mark.skipif(
+    os.getenv("RAGFORGE_RUN_INTEGRATION") != "1",
+    reason="Set RAGFORGE_RUN_INTEGRATION=1 to run the live RAG integration test",
 )
 
-print("\n=== ANSWER ===")
-print(response.answer)
 
-print("\n=== SOURCES ===")
+def test_answer_query_returns_answer_and_typed_sources() -> None:
+    from ragforge.app.generation.service import answer_query
+    from ragforge.core.config import get_settings
 
-for i, source in enumerate(response.sources, start=1):
-    print(f"\n--- Source {i} ---")
-    print(f"Score: {source.score:.4f}")
-    print(f"Page: {source.metadata.get('page_number')}")
-    print(f"Section: {source.metadata.get('section_number')}")
-    print(source.text)
+    response = answer_query(
+        get_settings(),
+        "What happens to the security deposit when the tenant vacates?",
+    )
+
+    assert response.answer.strip()
+    assert response.query == "What happens to the security deposit when the tenant vacates?"
+    for source in response.sources:
+        assert source.text.strip()
+        assert isinstance(source.metadata, dict)

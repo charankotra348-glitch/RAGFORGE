@@ -85,7 +85,7 @@ def main():
         response = answer_query(
             settings=settings,
             query=item["question"],
-            top_k=5,
+            top_k=12,
         )
 
         print("\nANSWER:")
@@ -99,7 +99,8 @@ def main():
         for i, source in enumerate(response.sources, start=1):
             print(
                 f"[Source {i}] "
-                f"score={source.score:.4f} "
+                f"rerank={source.rerank_score if source.rerank_score is not None else 'n/a'} "
+                f"rrf={source.rrf_score:.6f} "
                 f"page={source.metadata.get('page_number')} "
                 f"section={source.metadata.get('section_number')}"
             )

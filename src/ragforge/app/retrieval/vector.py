@@ -1,21 +1,19 @@
 from __future__ import annotations
 
 import logging
-from uuid import uuid4
 
 from langchain_core.documents import Document
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, PointStruct, VectorParams
+from qdrant_client.models import Distance, VectorParams
 
 from ragforge.app.retrieval.types import SearchResult
 from ragforge.core.config import Settings
+from ragforge.app.retrieval.vector_store import upsert_chunks
 
 logger = logging.getLogger(__name__)
 
 _client: QdrantClient | None = None
 
-# FastEmbed model currently produces 384-dimensional vectors.
-VECTOR_SIZE = 384
 
 
 # ---------------------------------------------------------------------------
@@ -61,7 +59,7 @@ def _ensure_collection(
         client.create_collection(
             collection_name=settings.qdrant_collection,
             vectors_config=VectorParams(
-                size=VECTOR_SIZE,
+                size=settings.vector_size,
                 distance=Distance.COSINE,
             ),
         )
@@ -72,22 +70,31 @@ def _ensure_collection(
         )
 
     else:
-        logger.info(
-            "Qdrant collection already exists: %s",
-            settings.qdrant_collection,
-        )
+        collection_info = client.get_collection(settings.qdrant_collection)
+        vector_config = collection_info.config.params.vectors
+        configured_size = getattr(vector_config, "size", None)
+        if configured_size != settings.vector_size:
+            raise RuntimeError(
+                f"Qdrant collection {settings.qdrant_collection!r} uses vector size "
+                f"{configured_size}, but configuration requires {settings.vector_size}. "
+                "Use a new collection or deliberately reindex; do not mix embedding dimensions."
+            )
+        logger.info("Qdrant collection already exists: %s", settings.qdrant_collection)
 
 
 def recreate_collection(
     client: QdrantClient,
     settings: Settings,
+    *,
+    confirm_delete_all_documents: bool = False,
 ) -> None:
-    """
-    Delete the existing Qdrant collection and recreate it.
+    """Destructively recreate the entire collection only after explicit confirmation."""
 
-    This is used when chunking or embedding logic changes and
-    the entire document index needs to be rebuilt.
-    """
+    if not confirm_delete_all_documents:
+        raise ValueError(
+            "Recreating the collection deletes every indexed document. "
+            "Pass confirm_delete_all_documents=True only when a full rebuild is intended."
+        )
 
     if client.collection_exists(settings.qdrant_collection):
         logger.info(
@@ -117,47 +124,8 @@ def upsert_documents(
     documents: list[Document],
     embeddings: list[list[float]],
 ) -> None:
-    """
-    Insert document embeddings and metadata into Qdrant.
-    """
-
-    if len(documents) != len(embeddings):
-        raise ValueError(
-            f"Document count ({len(documents)}) does not match "
-            f"embedding count ({len(embeddings)})."
-        )
-
-    if not documents:
-        logger.warning("No documents to index.")
-        return
-
-    points: list[PointStruct] = []
-
-    for document, embedding in zip(documents, embeddings):
-        point_id = str(uuid4())
-
-        payload = {
-            "text": document.page_content,
-            "metadata": document.metadata,
-        }
-
-        points.append(
-            PointStruct(
-                id=point_id,
-                vector=embedding,
-                payload=payload,
-            )
-        )
-
-    client.upsert(
-        collection_name=settings.qdrant_collection,
-        points=points,
-    )
-
-    logger.info(
-        "Upserted %d documents into Qdrant",
-        len(points),
-    )
+    """Compatibility wrapper that stores chunks using stable deterministic IDs."""
+    upsert_chunks(client, settings, documents, embeddings)
 
 
 # ---------------------------------------------------------------------------
@@ -190,6 +158,14 @@ def search_vectors(
     """
     Retrieve the most relevant chunks from Qdrant.
     """
+
+    if top_k <= 0:
+        raise ValueError("top_k must be greater than 0")
+    if len(query_vector) != settings.vector_size:
+        raise ValueError(
+            f"Query vector dimension {len(query_vector)} does not match "
+            f"configured vector_size {settings.vector_size}"
+        )
 
     response = client.query_points(
         collection_name=settings.qdrant_collection,

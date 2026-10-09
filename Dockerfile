@@ -11,14 +11,13 @@ WORKDIR /app
 # Install uv
 RUN pip install --no-cache-dir uv
 
-# Copy dependency files first
-COPY pyproject.toml uv.lock ./
-
-# Install dependencies
-RUN uv sync --frozen
-
-# Copy source code
+# Copy project metadata and source before installing the project package.
+# uv_build needs the source tree to build the local package.
+COPY pyproject.toml uv.lock README.md ./
 COPY src ./src
+
+# Install dependencies and the local project package.
+RUN uv sync --frozen
 
 # Run the application
 CMD ["uv", "run", "uvicorn", "ragforge.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

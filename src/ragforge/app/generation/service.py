@@ -4,10 +4,12 @@ import logging
 from dataclasses import dataclass
 
 from ragforge.app.generation.llm import generate_answer
-from ragforge.app.retrieval.search import SearchResult, search_vectors
+from ragforge.app.retrieval.search import HybridSearcher
+from ragforge.app.retrieval.types import SearchResult
 from ragforge.app.retrieval.vector import get_qdrant
 from ragforge.core.config import Settings
 from ragforge.ingestion.embedder import get_embedding_model
+from ragforge.app.retrieval.vector_store import get_indexed_chunks
 
 logger = logging.getLogger(__name__)
 
@@ -19,64 +21,80 @@ class RAGResponse:
     sources: list[SearchResult]
 
 
+_searcher: HybridSearcher | None = None
+_searcher_collection: str | None = None
+
+
+def get_hybrid_searcher(settings: Settings) -> HybridSearcher:
+    """
+    Initialize the hybrid retriever from the indexed Qdrant corpus.
+
+    Building BM25 from Qdrant payloads ensures lexical and dense retrieval
+    search the same indexed chunks, rather than a hard-coded local PDF.
+    """
+
+    global _searcher, _searcher_collection
+
+    if _searcher is not None and _searcher_collection == settings.qdrant_collection:
+        return _searcher
+
+    client = get_qdrant(settings)
+    chunks = get_indexed_chunks(client, settings)
+
+    if not chunks:
+        raise RuntimeError(
+            f"Qdrant collection {settings.qdrant_collection!r} is empty. "
+            "Index at least one document before querying RAGForge."
+        )
+
+    logger.info("Loaded %d indexed chunks for BM25", len(chunks))
+
+    _searcher = HybridSearcher(
+        client=client,
+        settings=settings,
+        embedding_model=get_embedding_model(settings),
+        chunks=chunks,
+        vector_top_k=30,
+        bm25_top_k=30,
+    )
+    _searcher_collection = settings.qdrant_collection
+
+    return _searcher
+
+
+def clear_hybrid_searcher_cache() -> None:
+    """Invalidate the in-process BM25 index after the Qdrant corpus changes."""
+    global _searcher, _searcher_collection
+    _searcher = None
+    _searcher_collection = None
+
+
 def answer_query(
     settings: Settings,
     query: str,
     top_k: int = 5,
 ) -> RAGResponse:
-    """
-    Run the vector-only RAG pipeline.
-
-    Query
-      ↓
-    Query embedding
-      ↓
-    Vector retrieval
-      ↓
-    Prompt construction
-      ↓
-    LLM generation
-      ↓
-    Grounded answer
-    """
+    """Retrieve relevant chunks and generate a grounded answer."""
 
     if not query.strip():
         raise ValueError("Query cannot be empty")
 
-    logger.info("Starting RAG query: %s", query)
+    if top_k <= 0:
+        raise ValueError("top_k must be greater than 0")
 
-    # ------------------------------------------------------------------
-    # Qdrant
-    # ------------------------------------------------------------------
+    logger.info("Starting hybrid RAG query: %s", query)
 
-    client = get_qdrant(settings)
+    searcher = get_hybrid_searcher(settings)
 
-    # ------------------------------------------------------------------
-    # Embedding model
-    # ------------------------------------------------------------------
-
-    embedding_model = get_embedding_model(settings)
-
-    # ------------------------------------------------------------------
-    # Vector retrieval
-    # ------------------------------------------------------------------
-
-    results = search_vectors(
-        client=client,
-        settings=settings,
-        embedding_model=embedding_model,
-        query=query,
+    results = searcher.search(
+        query,
         top_k=top_k,
     )
 
     logger.info(
-        "Retrieved %d chunks for query",
+        "Hybrid retrieval returned %d chunks",
         len(results),
     )
-
-    # ------------------------------------------------------------------
-    # Generation
-    # ------------------------------------------------------------------
 
     answer = generate_answer(
         settings=settings,

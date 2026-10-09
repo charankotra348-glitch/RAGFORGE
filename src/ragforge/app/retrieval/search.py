@@ -8,120 +8,13 @@ from qdrant_client import QdrantClient
 
 from ragforge.app.retrieval.bm25 import BM25Retriever
 from ragforge.app.retrieval.reranker import rerank
+from ragforge.app.retrieval.fusion import reciprocal_rank_fusion
 from ragforge.app.retrieval.types import SearchResult
 from ragforge.app.retrieval.vector import search_vectors
 from ragforge.core.config import Settings
 from ragforge.ingestion.embedder import embed_chunks
 
 logger = logging.getLogger(__name__)
-
-
-# ---------------------------------------------------------------------------
-# Reciprocal Rank Fusion
-# ---------------------------------------------------------------------------
-
-
-def _rrf_score(
-    rank: int,
-    k: int = 60,
-) -> float:
-    """
-    Calculate Reciprocal Rank Fusion score.
-
-    RRF:
-        score = 1 / (k + rank)
-
-    Rank 1 receives the highest contribution.
-    """
-    return 1.0 / (k + rank)
-
-
-def reciprocal_rank_fusion(
-    vector_results: list[SearchResult],
-    bm25_results: list[SearchResult],
-    top_k: int = 5,
-    k: int = 60,
-) -> list[SearchResult]:
-    """
-    Merge vector and BM25 rankings using Reciprocal Rank Fusion.
-
-    A document appearing in both rankings receives contributions
-    from both retrievers.
-    """
-
-    if top_k <= 0:
-        raise ValueError("top_k must be greater than 0")
-
-    if k <= 0:
-        raise ValueError("RRF k must be greater than 0")
-
-    scores: dict[str, SearchResult] = {}
-
-    # -----------------------------------------------------------------------
-    # Vector results
-    # -----------------------------------------------------------------------
-
-    for rank, result in enumerate(
-        vector_results,
-        start=1,
-    ):
-        key = result.text
-
-        if key not in scores:
-            scores[key] = SearchResult(
-                text=result.text,
-                metadata=dict(result.metadata),
-                vector_score=result.vector_score,
-            )
-
-        scores[key].rrf_score += _rrf_score(
-            rank,
-            k,
-        )
-
-    # -----------------------------------------------------------------------
-    # BM25 results
-    # -----------------------------------------------------------------------
-
-    for rank, result in enumerate(
-        bm25_results,
-        start=1,
-    ):
-        key = result.text
-
-        if key not in scores:
-            scores[key] = SearchResult(
-                text=result.text,
-                metadata=dict(result.metadata),
-                bm25_score=result.bm25_score,
-            )
-        else:
-            scores[key].bm25_score = result.bm25_score
-
-        scores[key].rrf_score += _rrf_score(
-            rank,
-            k,
-        )
-
-    # -----------------------------------------------------------------------
-    # Final ranking
-    # -----------------------------------------------------------------------
-
-    merged = sorted(
-        scores.values(),
-        key=lambda result: result.rrf_score,
-        reverse=True,
-    )
-
-    logger.info(
-        "RRF merged %d vector + %d BM25 results "
-        "into %d unique results",
-        len(vector_results),
-        len(bm25_results),
-        len(merged),
-    )
-
-    return merged[:top_k]
 
 
 # ---------------------------------------------------------------------------
@@ -173,7 +66,7 @@ class HybridSearcher:
         *,
         top_k: int = 5,
         rrf_k: int = 60,
-        rerank_top_k: int = 10,
+        rerank_top_k: int = 30,
     ) -> list[SearchResult]:
 
         if not query.strip():
@@ -218,15 +111,10 @@ class HybridSearcher:
             top_k=self.bm25_top_k,
         )
 
-        # Convert BM25Result objects into SearchResult objects.
-        bm25_results = [
-            SearchResult(
-                text=result.text,
-                metadata=dict(result.metadata),
-                bm25_score=result.score,
-            )
-            for result in bm25_results_raw
-        ]
+        # BM25Retriever already returns SearchResult objects. Keep the
+        # shared result contract instead of converting through a nonexistent
+        # `.score` attribute.
+        bm25_results = bm25_results_raw
 
         logger.info(
             "Hybrid search: query=%r vector=%d bm25=%d",

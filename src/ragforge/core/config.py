@@ -1,13 +1,12 @@
-# app/config.py
+from __future__ import annotations
 
 from functools import lru_cache
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from fastembed import TextEmbedding
+
 
 class Settings(BaseSettings):
-    """
-    Application configuration, loaded from environment variables / .env file.
-    """
+    """Application configuration loaded from environment variables or .env."""
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -15,9 +14,9 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # App
+    # Application
     app_name: str = "RAGForge"
-    environment: str = "development"  # development | staging | production
+    environment: str = "development"
 
     # PostgreSQL
     postgres_host: str = "localhost"
@@ -43,12 +42,13 @@ class Settings(BaseSettings):
     qdrant_port: int = 6333
     qdrant_collection: str = "ragforge_chunks"
 
-    # LLM / embeddings (fill in once you pick a provider in Phase 1)
-    openai_api_key: str = ""
+    # Locked local model configuration
+    ollama_host: str = "http://localhost:11434"
+    ollama_model: str = "llama3.2:3b"
     embedding_model: str = "BAAI/bge-small-en-v1.5"
     vector_size: int = 384
 
 
-@lru_cache
+@lru_cache(maxsize=1)
 def get_settings() -> Settings:
     return Settings()
