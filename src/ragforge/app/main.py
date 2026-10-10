@@ -161,4 +161,6 @@ def query_documents(request: QueryRequest) -> QueryResponse:
         query=result.query,
         answer=result.answer,
         sources=sources,
+        abstained=getattr(result, "abstained", False),
+        abstention_reason=getattr(result, "abstention_reason", None),
     )

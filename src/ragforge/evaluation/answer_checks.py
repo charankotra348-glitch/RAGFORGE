@@ -242,12 +242,17 @@ def score_answer(
     source_texts: Sequence[str] | None = None,
     *,
     source_has_evidence: Sequence[bool] | None = None,
+    abstained: bool | None = None,
 ) -> AnswerScore:
     """Score one generated answer against its eval question.
 
     Pass either ``source_texts`` (chunk texts in the order shown to the model,
     so ``source_texts[0]`` is [Source 1]) or ``source_has_evidence`` (one flag
     per source, for re-scoring saved runs that did not store chunk text).
+
+    ``abstained=True`` comes from the system's structured abstention flag (for
+    example the grounding verifier replaced the answer). It counts as a refusal
+    led by a refusal, whatever the wording; no phrase matching is needed.
     """
     if source_has_evidence is None:
         if source_texts is None:
@@ -258,13 +263,13 @@ def score_answer(
     n_sources = len(source_has_evidence)
     citations = parse_citations(answer)
     out_of_range = [n for n in citations if not 1 <= n <= n_sources]
-    refused = is_refusal(answer)
+    refused = True if abstained else is_refusal(answer)
 
     score = AnswerScore(
         qid=question["id"],
         answerable=bool(question["answerable"]),
         refused=refused,
-        leads_with_refusal=leads_with_refusal(answer),
+        leads_with_refusal=True if abstained else leads_with_refusal(answer),
         citations=citations,
         citations_valid=not out_of_range,
         out_of_range_citations=out_of_range,

@@ -75,3 +75,22 @@ def test_query_returns_answer_and_sources():
         query="When must the deposit be returned?",
         top_k=5,
     )
+
+
+def test_query_reports_structured_abstention():
+    fake_result = SimpleNamespace(
+        query="What are the quiet hours?",
+        answer="I cannot provide a reliable answer because the retrieved context does not sufficiently support it.",
+        sources=[],
+        abstained=True,
+        abstention_reason="failed_verification",
+    )
+
+    # No context manager: this test does not start Postgres, Redis or Qdrant.
+    with patch("ragforge.app.main.answer_query", return_value=fake_result):
+        response = TestClient(app).post("/query", json={"query": "What are the quiet hours?", "top_k": 5})
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["abstained"] is True
+    assert body["abstention_reason"] == "failed_verification"

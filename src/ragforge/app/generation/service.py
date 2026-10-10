@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
+import time
+from dataclasses import asdict, dataclass, field
 
 from ragforge.app.generation.grounding import (
     SAFE_ABSTENTION,
+    check_answer_grounded,
     is_abstention_answer,
-    verify_answer_grounded,
 )
-from ragforge.app.generation.llm import generate_answer
+from ragforge.app.generation.llm import generate_answer_with_stats
 from ragforge.app.retrieval.search import HybridSearcher
 from ragforge.app.retrieval.types import SearchResult
 from ragforge.app.retrieval.vector import get_qdrant
@@ -21,9 +22,23 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class RAGResponse:
+    """Final answer plus what happened on the way.
+
+    abstention_reason: None (answered), "no_results" (retrieval returned
+    nothing), "model_abstained" (the model said the answer is not in the
+    sources) or "failed_verification" (the verifier rejected the model's
+    answer, or the check was malformed or raised; see ``verification``).
+    """
+
     query: str
     answer: str
     sources: list[SearchResult]
+    abstained: bool = False
+    abstention_reason: str | None = None
+    candidate_answer: str | None = None
+    verification: dict | None = None
+    timings_ms: dict[str, float] = field(default_factory=dict)
+    generation_stats: dict | None = None
 
 
 _searcher: HybridSearcher | None = None
@@ -78,8 +93,18 @@ def answer_query(
     settings: Settings,
     query: str,
     top_k: int = 5,
+    *,
+    verify: bool = True,
+    model: str | None = None,
+    system_prompt: str | None = None,
+    num_ctx: int | None = None,
 ) -> RAGResponse:
-    """Retrieve relevant chunks and generate a grounded answer."""
+    """Retrieve relevant chunks, generate an answer, and verify its grounding.
+
+    The keyword-only options exist for evaluation. The API uses the defaults.
+    Note that the verifier always uses settings.ollama_model, even when
+    ``model`` overrides the generation model.
+    """
 
     if not query.strip():
         raise ValueError("Query cannot be empty")
@@ -89,33 +114,62 @@ def answer_query(
 
     logger.info("Starting hybrid RAG query: %s", query)
 
+    timings: dict[str, float] = {}
+    start = time.perf_counter()
     searcher = get_hybrid_searcher(settings)
+    results = searcher.search(query, top_k=top_k)
+    timings["retrieval"] = _ms_since(start)
 
-    results = searcher.search(
-        query,
-        top_k=top_k,
+    logger.info("Hybrid retrieval returned %d chunks", len(results))
+
+    start = time.perf_counter()
+    candidate, generation_stats = generate_answer_with_stats(
+        settings=settings,
+        query=query,
+        results=results,
+        model=model,
+        system_prompt=system_prompt,
+        num_ctx=num_ctx,
+    )
+    timings["generation"] = _ms_since(start)
+
+    response = RAGResponse(
+        query=query,
+        answer=candidate,
+        sources=results,
+        candidate_answer=candidate,
+        timings_ms=timings,
+        generation_stats=generation_stats,
     )
 
-    logger.info(
-        "Hybrid retrieval returned %d chunks",
-        len(results),
-    )
-
-    answer = generate_answer(settings=settings, query=query, results=results)
-
-    if not is_abstention_answer(answer):
-        grounded = verify_answer_grounded(
+    if not results:
+        response.abstained = True
+        response.abstention_reason = "no_results"
+    elif is_abstention_answer(candidate):
+        response.abstained = True
+        response.abstention_reason = "model_abstained"
+    elif verify:
+        verdict = check_answer_grounded(
             settings=settings,
             query=query,
-            answer=answer,
+            answer=candidate,
             results=results,
         )
-
-        if not grounded:
+        response.verification = asdict(verdict)
+        if verdict.latency_ms is not None:
+            timings["verification"] = verdict.latency_ms
+        if not verdict.supported:
             logger.warning(
-                "Answer failed grounding verification; returning safe abstention"
+                "Answer failed grounding verification (%s); returning safe abstention",
+                verdict.status,
             )
-            answer = SAFE_ABSTENTION
+            response.answer = SAFE_ABSTENTION
+            response.abstained = True
+            response.abstention_reason = "failed_verification"
 
     logger.info("RAG query completed")
-    return RAGResponse(query=query, answer=answer, sources=results)
+    return response
+
+
+def _ms_since(start: float) -> float:
+    return round((time.perf_counter() - start) * 1000, 1)

@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -17,3 +19,14 @@ class QueryResponse(BaseModel):
     query: str
     answer: str
     sources: list[QuerySource]
+    abstained: bool = Field(
+        default=False,
+        description="True when the answer is a refusal rather than a claim.",
+    )
+    abstention_reason: Literal["no_results", "model_abstained", "failed_verification"] | None = Field(
+        default=None,
+        description=(
+            "Why the system abstained: retrieval found nothing, the model said the "
+            "sources do not contain the answer, or the grounding check rejected the answer."
+        ),
+    )
