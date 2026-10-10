@@ -117,8 +117,7 @@ class HybridSearcher:
         bm25_results = bm25_results_raw
 
         logger.info(
-            "Hybrid search: query=%r vector=%d bm25=%d",
-            query,
+            "Hybrid search: vector=%d bm25=%d",
             len(vector_results),
             len(bm25_results),
         )

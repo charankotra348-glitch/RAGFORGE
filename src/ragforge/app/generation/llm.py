@@ -90,9 +90,9 @@ def generate_answer_with_stats(
     user_prompt = build_user_prompt(query, results)
 
     logger.info(
-        "Generating answer with Ollama model '%s' for query: %s",
+        "Generating answer with Ollama model '%s' (%d sources)",
         selected_model,
-        query,
+        len(results),
     )
 
     response = client.chat(

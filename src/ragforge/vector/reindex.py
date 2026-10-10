@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+from dataclasses import dataclass
 from pathlib import Path
 
 from ragforge.core.config import Settings
@@ -50,13 +51,22 @@ def generate_embeddings(
 # Re-indexing
 # ---------------------------------------------------------------------------
 
+@dataclass(frozen=True)
+class IndexSummary:
+    document_id: str
+    source: str
+    chunks: int
+    pages: int
+    corpus_version: str | None
+
+
 def reindex(
     file_path: str | Path,
     settings: Settings,
     *,
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     chunk_overlap: int = DEFAULT_CHUNK_OVERLAP,
-) -> None:
+) -> IndexSummary:
     """
     Re-index one document in the shared Qdrant collection without deleting other documents.
 
@@ -199,6 +209,17 @@ def reindex(
 
     clear_hybrid_searcher_cache()
 
+    # Tell running API workers (other processes) that the corpus changed:
+    # they rebuild their BM25 index and stop serving cached answers.
+    from ragforge.app.cache.answers import bump_corpus_version
+    from ragforge.app.cache.redis import get_redis
+
+    new_version = bump_corpus_version(get_redis(settings))
+    if new_version is None:
+        logger.warning("Could not update the corpus version; restart the API to pick up this change.")
+    else:
+        logger.info("Corpus version is now %s", new_version)
+
     # -----------------------------------------------------------------------
     # 6. Verify
     # -----------------------------------------------------------------------
@@ -265,6 +286,17 @@ def reindex(
     )
 
     logger.info("=" * 80)
+
+    return IndexSummary(
+        document_id=document_id,
+        source=str(chunks[0].metadata.get("source", file_path)),
+        chunks=len(chunks),
+        pages=max(
+            int(chunk.metadata.get("page_end_number") or chunk.metadata.get("page_number") or 1)
+            for chunk in chunks
+        ),
+        corpus_version=new_version,
+    )
 
 
 # ---------------------------------------------------------------------------

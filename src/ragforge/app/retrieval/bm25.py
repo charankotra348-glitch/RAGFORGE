@@ -82,7 +82,7 @@ class BM25Retriever:
 
         query_tokens = self._tokenize(query)
         if not query_tokens:
-            logger.info("BM25 query has no searchable terms after tokenization: %s", query)
+            logger.info("BM25 query has no searchable terms after tokenization")
             return []
 
         scores = self._bm25.get_scores(query_tokens)
@@ -111,9 +111,8 @@ class BM25Retriever:
             )
 
         logger.info(
-            "BM25 search returned %d result(s) for query: %s",
+            "BM25 search returned %d result(s)",
             len(results),
-            query,
         )
 
         return results

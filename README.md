@@ -37,6 +37,8 @@ flowchart LR
 
 **Abstention is a field, not a phrase.** `/query` returns `abstained` and `abstention_reason` (`no_results`, `model_abstained` or `failed_verification`), so clients and the evaluation never guess from the answer's wording.
 
+**API layer:** every request passes through a request-ID middleware that writes one JSON log line per request. Protected endpoints then check the API key (`X-API-Key`, stored only as SHA-256 hashes) and a per-key rate limit in Redis. `/query` checks a Redis answer cache, keyed by a hash of the normalized question and invalidated whenever the indexed content changes. Redis problems never take the API down: rate limiting and caching fail open, with a warning in the log.
+
 ## Results
 
 Evaluation set: one 4-page residential lease (28 chunks), **35 hand-labeled questions**: 28 answerable, 7 deliberately unanswerable. Each question is tagged with the failure mode it probes (paraphrase, vocabulary gap, multi-clause, calculation, distractor, …). All numbers are single runs on an Apple M1 MacBook Air; with 28 questions, **one question is about 0.036 of any rate**, so small differences are noise.
@@ -106,16 +108,32 @@ Remaining failures in the baseline run, by cause:
 
 - **Model capability (3B):** refuses the late-fee calculation it has the facts for (q06); invents "quiet hours" from the landlord's entry hours (q35); answers the move-out question from the move-in clause although the move-out clause was retrieved and cited (q30); drops part of some multi-part answers (q05's $60 charge, q21, q22, q25, q28's late fee).
 - **Retrieval:** the "last 60 days" entry clause ranks outside the top 5 for "all conditions under which the landlord can enter" (q04); widening the candidate pool did not fix it.
-- **Operational:** BM25 is built in memory from the indexed chunks; after re-indexing, restart the API so it rebuilds.
+- **Operational:** indexing an upload runs inside the request (about 2 s for this document; large files would need a background job). The rate limit uses fixed one-minute windows, so a client can burst up to twice the limit across a window boundary. If Redis is down, requests are served without rate limiting or caching, and running API workers notice re-indexing only once Redis is back.
 
 **Scope:** one 4-page document and 35 questions. That is enough to catch regressions and large effects, not to claim small differences; the next step for the evaluation is a second document and more multi-clause and vocabulary-gap questions.
 
 ## API
 
+Interactive documentation is served at `/docs`. All endpoints except `/` and `/health` need an API key:
+
+```bash
+uv run python -m ragforge.app.security new-key
+```
+
+This prints a key (give it to the client) and its SHA-256 hash (add it to `API_KEY_HASHES` in `.env`; several keys are comma-separated). Only hashes are stored, and logs identify callers by a `key_id` derived from the hash, never by the key itself.
+
+| Endpoint | Purpose |
+|---|---|
+| `POST /query` | Answer a question with cited sources |
+| `POST /documents` | Upload a PDF, `.txt` or `.md` file (max 10 MB) and index it; the same file name replaces the earlier version |
+| `GET /documents` | List indexed documents with chunk and page counts |
+| `DELETE /documents/{document_id}` | Remove a document from the index (and its uploaded file) |
+| `GET /health` | Readiness: PostgreSQL, Redis and Qdrant |
+
 ### `POST /query`
 
 ```bash
-curl -s localhost:8000/query -H 'content-type: application/json' \
+curl -s localhost:8000/query -H "X-API-Key: $RAGFORGE_KEY" -H 'content-type: application/json' \
   -d '{"query": "How many days does the landlord have to return the deposit?", "top_k": 5}'
 ```
 
@@ -127,30 +145,78 @@ Response shape:
   "answer": "… within fourteen (14) days after the Tenant vacates [Source 1].",
   "sources": [{"citation": "[Source 1]", "page": "3", "section": "19", "text": "…"}],
   "abstained": false,
-  "abstention_reason": null
+  "abstention_reason": null,
+  "cached": false
 }
 ```
 
+### `POST /documents`
+
+```bash
+curl -s localhost:8000/documents -H "X-API-Key: $RAGFORGE_KEY" -F file=@data/test.pdf
+```
+
+The file is checked (type, size, PDF signature, extractable text) before anything is indexed. If indexing fails, the previous version of the file is restored, so the stored file always matches the index.
+
+### Status codes
+
 | Status | When |
 |---|---|
-| 200 | Answer or abstention; check `abstained` |
-| 422 | Empty query, or `top_k` outside 1–10 |
-| 503 | Qdrant or Ollama unreachable, or nothing indexed (safe to retry) |
+| 200 / 201 | Success. For `/query`, check `abstained` |
+| 401 | Missing or invalid API key |
+| 404 | `DELETE` of an unknown document |
+| 413 | Upload larger than `MAX_UPLOAD_MB` |
+| 415 | Unsupported file type, or not really a PDF |
+| 422 | Invalid request, or no text could be extracted from the upload |
+| 429 | Rate limit exceeded; wait `Retry-After` seconds |
+| 503 | Qdrant or Ollama unreachable, nothing indexed, or authentication not configured (safe to retry) |
 | 502 | Unexpected failure during retrieval or generation |
+
+Every response carries `X-Request-ID` (send your own to correlate calls across services), and protected endpoints add `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset`.
 
 ### `GET /health`
 
 Returns `200` with `"status": "healthy"` when PostgreSQL, Redis and Qdrant respond, otherwise `503` with each one marked `"ok"` or `"down"`. Error details go to the server log, never to the response. The API starts even when a service is down and reconnects to Qdrant when it comes back.
 
+### Logs
+
+One JSON object per line on stdout, including uvicorn's own messages. Each request produces a line like:
+
+```json
+{"ts": "2026-10-10T18:07:35.890Z", "level": "INFO", "logger": "ragforge.access", "msg": "request",
+ "request_id": "6631fa17…", "method": "POST", "path": "/query", "status": 200, "latency_ms": 6890.4,
+ "key_id": "key_263ba912ffcc", "top_k": 5, "query_chars": 61, "cache": "miss",
+ "abstained": false, "abstention_reason": null, "retrieval_ms": 812.0, "generation_ms": 6011.3}
+```
+
+The question text is never logged, since questions can contain personal data; a test fails if any log call includes it.
+
 ## Running it
 
-Requirements: Python 3.13, [uv](https://docs.astral.sh/uv/), Docker, [Ollama](https://ollama.com).
+Requirements: Docker, [Ollama](https://ollama.com) running on the host (it uses the host's GPU), and for local development Python 3.13 with [uv](https://docs.astral.sh/uv/).
 
 ```bash
 cp .env.example .env
+ollama pull llama3.2:3b
+uv run python -m ragforge.app.security new-key   # put the printed hash in API_KEY_HASHES in .env
+```
+
+### With Docker (everything except Ollama)
+
+```bash
+docker compose up -d --build
+docker compose ps                                 # wait until ragforge-api is "healthy"
+export RAGFORGE_KEY=rf_...                        # the key printed above
+curl -s localhost:8000/documents -H "X-API-Key: $RAGFORGE_KEY" -F file=@data/test.pdf
+```
+
+The API container reaches Ollama on the host through `host.docker.internal`. The first query or upload downloads the embedding and reranking models (a few hundred MB) into a volume, so later starts are fast. Uploaded files are kept in the `uploads` volume.
+
+### Locally
+
+```bash
 docker compose up -d postgres redis qdrant
 uv sync --frozen
-ollama pull llama3.2:3b
 uv run python -m ragforge.vector.reindex data/test.pdf
 uv run uvicorn ragforge.app.main:app --port 8000
 ```
@@ -175,14 +241,32 @@ uv run python tests/evaluation/answer_eval.py --compare data/eval/runs/A.json da
 
 ### Configuration
 
-Settings come from environment variables or `.env` (see [`.env.example`](.env.example)). Notable ones: `OLLAMA_MODEL` (default `llama3.2:3b`), `QDRANT_COLLECTION`, and `GROUNDING_VERIFIER_ENABLED` (default `false`, see above). The embedding model and vector size must match the Qdrant collection; changing the embedding model means re-indexing into a new collection.
+Settings come from environment variables or `.env` (see [`.env.example`](.env.example)):
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `API_KEY_HASHES` | *(empty)* | Comma-separated SHA-256 hashes of valid keys. Empty means protected endpoints return 503 |
+| `AUTH_ENABLED` | `true` | `false` disables authentication (local development only) |
+| `RATE_LIMIT_PER_MINUTE` | `30` | Requests per key per minute; `0` disables |
+| `ANSWER_CACHE_TTL_SECONDS` | `3600` | How long answers are cached; `0` disables |
+| `MAX_UPLOAD_MB` / `UPLOAD_DIR` | `10` / `data/uploads` | Upload size limit and storage folder |
+| `LOG_FORMAT` / `LOG_LEVEL` | `json` / `INFO` | `text` for human-readable logs |
+| `OLLAMA_MODEL` | `llama3.2:3b` | Generation model |
+| `GROUNDING_VERIFIER_ENABLED` | `false` | See the verifier experiment above |
+
+The embedding model and vector size must match the Qdrant collection; changing the embedding model means re-indexing into a new collection.
 
 ## Project layout
 
 ```
 src/ragforge/
   app/
-    main.py              FastAPI app: /query, /health, degraded-mode startup
+    main.py              FastAPI app: /query, /health, degraded-mode startup, answer cache
+    documents.py         /documents upload, list and delete
+    security.py          API keys (hashing, verification, key generation)
+    rate_limit.py        per-key Redis rate limit
+    middleware.py        request IDs and structured access logs
+    cache/answers.py     answer cache and corpus version
     generation/          prompts, Ollama client, answer_query(), grounding verifier
     retrieval/           Qdrant search, BM25, RRF fusion, reranker
     models/query.py      request/response schemas
@@ -199,4 +283,6 @@ data/eval/runs/          saved evaluation runs behind the numbers above
 
 - `data/test.pdf` is a real lease form with **fictional names and address**; rent, dates and clauses are unchanged so the labeled questions stay valid.
 - Never commit `.env`, API keys or private documents. `.env.example` holds local development defaults only.
-- Not yet implemented: authentication, rate limiting and request tracing. Do not expose this service publicly as-is.
+- API keys are stored only as hashes and compared in constant time. Without configured keys the API fails closed.
+- Uploads are limited in size and type, stored under a sanitized name inside `UPLOAD_DIR`, and never executed.
+- Not included: TLS (terminate it at a reverse proxy), key rotation beyond editing `API_KEY_HASHES`, and per-key permissions. Put it behind a reverse proxy before exposing it to the internet.

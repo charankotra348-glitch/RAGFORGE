@@ -181,7 +181,7 @@ Candidate answer to verify:
         "output_tokens": output_tokens if isinstance(output_tokens, int) else None,
         "hit_token_limit": output_tokens >= VERIFIER_MAX_TOKENS if isinstance(output_tokens, int) else None,
     }
-    logger.info("Grounding verifier raw response: %r", content)
+    logger.debug("Grounding verifier raw response: %r", content)
     if not content or not content.strip():
         logger.warning("Grounding verifier returned an empty response")
         return GroundingVerdict(False, "malformed", "empty response", **diagnostics)

@@ -23,6 +23,10 @@ class QueryResponse(BaseModel):
         default=False,
         description="True when the answer is a refusal rather than a claim.",
     )
+    cached: bool = Field(
+        default=False,
+        description="True when this answer was served from the answer cache.",
+    )
     abstention_reason: Literal["no_results", "model_abstained", "failed_verification"] | None = Field(
         default=None,
         description=(

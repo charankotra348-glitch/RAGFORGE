@@ -3,30 +3,36 @@
 import logging
 from contextlib import asynccontextmanager
 
-import httpx
-from fastapi import FastAPI, HTTPException, Response
-from qdrant_client.http.exceptions import ResponseHandlingException
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from sqlalchemy import text
 
 from ragforge.core.config import get_settings
 from ragforge.app.db.postgres import get_database
 from ragforge.app.cache.redis import get_redis
 from ragforge.app.retrieval.vector import get_qdrant
-from ragforge.app.generation.service import answer_query
+from ragforge.app.cache.answers import (
+    answer_cache_key,
+    bump_corpus_version,
+    config_fingerprint,
+    get_cached_answer,
+    get_corpus_version,
+    set_cached_answer,
+)
+from ragforge.app.generation.prompts import SYSTEM_PROMPT
+from ragforge.app.generation.service import answer_query, clear_hybrid_searcher_cache
 from ragforge.app.models.query import QueryRequest, QueryResponse, QuerySource
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from ragforge.app.documents import router as documents_router
+from ragforge.app.errors import DEPENDENCY_ERRORS, UNAVAILABLE_DETAIL, dependency_unavailable
+from ragforge.app.middleware import RequestContextMiddleware
+from ragforge.app.rate_limit import enforce_rate_limit
+from ragforge.core.logging import configure_logging
 
 settings = get_settings()
 
+configure_logging(settings.log_format, settings.log_level)
+logger = logging.getLogger(__name__)
 
-DEPENDENCY_ERRORS: tuple[type[BaseException], ...] = (
-    ConnectionError,
-    TimeoutError,
-    httpx.TransportError,
-    ResponseHandlingException,
-)
+
 
 
 @asynccontextmanager
@@ -44,6 +50,7 @@ async def lifespan(app: FastAPI):
     app.state.database = _start("PostgreSQL", get_database)
     app.state.redis = _start("Redis", get_redis)
     app.state.qdrant = _start("Qdrant", get_qdrant)
+    app.state.corpus_version = None
 
     logger.info("RAGForge API ready")
 
@@ -86,6 +93,10 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+app.add_middleware(RequestContextMiddleware)
+app.include_router(documents_router)
+for _error in DEPENDENCY_ERRORS:
+    app.add_exception_handler(_error, dependency_unavailable)
 
 
 @app.get("/")
@@ -101,8 +112,8 @@ def health_check(response: Response) -> dict:
     ports and credentials.
     """
     checks = {
-        "postgres": _check("PostgreSQL", app.state.database, _ping_postgres),
-        "redis": _check("Redis", app.state.redis, lambda client: client.ping()),
+        "postgres": _check("PostgreSQL", getattr(app.state, "database", None), _ping_postgres),
+        "redis": _check("Redis", getattr(app.state, "redis", None), lambda client: client.ping()),
         "qdrant": _check("Qdrant", _current_qdrant(), lambda client: client.get_collections()),
     }
     healthy = all(value == "ok" for value in checks.values())
@@ -138,15 +149,63 @@ def _check(name: str, client, probe) -> str:
     return "ok"
 
 
+def _answer_fingerprint() -> str:
+    """Everything besides the question and top_k that changes an answer."""
+    return config_fingerprint(
+        settings.ollama_model,
+        SYSTEM_PROMPT,
+        settings.grounding_verifier_enabled,
+        settings.qdrant_collection,
+        settings.embedding_model,
+    )
+
+
+def _refresh_searcher_if_corpus_changed(corpus_version: str | None) -> None:
+    """Rebuild the in-memory BM25 index after another process changed the indexed documents."""
+    if corpus_version is None:
+        return
+    seen = getattr(app.state, "corpus_version", None)
+    if seen is not None and seen != corpus_version:
+        logger.info("Corpus changed (version %s -> %s); rebuilding the search index", seen, corpus_version)
+        clear_hybrid_searcher_cache()
+    app.state.corpus_version = corpus_version
+
+
 @app.post("/query", response_model=QueryResponse)
-def query_documents(request: QueryRequest) -> QueryResponse:
+def query_documents(
+    request: QueryRequest,
+    http_request: Request,
+    key_id: str = Depends(enforce_rate_limit),
+) -> QueryResponse:
     query = request.query.strip()
+    log_fields = http_request.state.log_fields
+    log_fields.update({"top_k": request.top_k, "query_chars": len(query)})
 
     if not query:
         raise HTTPException(
             status_code=422,
             detail="Query cannot be empty or whitespace.",
         )
+
+    redis_client = getattr(app.state, "redis", None)
+    corpus_version = get_corpus_version(redis_client)
+    _refresh_searcher_if_corpus_changed(corpus_version)
+
+    cache_key = None
+    if corpus_version is not None and settings.answer_cache_ttl_seconds > 0:
+        cache_key = answer_cache_key(corpus_version, _answer_fingerprint(), request.top_k, query)
+        cached = get_cached_answer(redis_client, cache_key)
+        if cached is not None:
+            log_fields.update(
+                {
+                    "cache": "hit",
+                    "abstained": cached.get("abstained"),
+                    "abstention_reason": cached.get("abstention_reason"),
+                    "sources": len(cached.get("sources", [])),
+                }
+            )
+            return QueryResponse(query=query, cached=True, **cached)
+    log_fields["cache"] = "miss" if cache_key else "bypass"
 
     try:
         result = answer_query(
@@ -158,10 +217,7 @@ def query_documents(request: QueryRequest) -> QueryResponse:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except DEPENDENCY_ERRORS as exc:
         logger.warning("RAG dependency unavailable: %r", exc)
-        raise HTTPException(
-            status_code=503,
-            detail="A required service (vector store or language model) is unavailable. Try again shortly.",
-        ) from exc
+        raise HTTPException(status_code=503, detail=UNAVAILABLE_DETAIL) from exc
     except RuntimeError as exc:
         logger.warning("RAG query unavailable: %s", exc)
         raise HTTPException(
@@ -185,10 +241,26 @@ def query_documents(request: QueryRequest) -> QueryResponse:
         for index, source in enumerate(result.sources, start=1)
     ]
 
-    return QueryResponse(
+    response = QueryResponse(
         query=result.query,
         answer=result.answer,
         sources=sources,
         abstained=getattr(result, "abstained", False),
         abstention_reason=getattr(result, "abstention_reason", None),
     )
+    if cache_key:
+        set_cached_answer(
+            redis_client,
+            cache_key,
+            response.model_dump(exclude={"query", "cached"}),
+            settings.answer_cache_ttl_seconds,
+        )
+    log_fields.update(
+        {
+            "abstained": response.abstained,
+            "abstention_reason": response.abstention_reason,
+            "sources": len(sources),
+            **{f"{name}_ms": value for name, value in (getattr(result, "timings_ms", None) or {}).items()},
+        }
+    )
+    return response

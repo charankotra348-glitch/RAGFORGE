@@ -116,7 +116,7 @@ def answer_query(
     if verify is None:
         verify = bool(getattr(settings, "grounding_verifier_enabled", False))
 
-    logger.info("Starting hybrid RAG query: %s", query)
+    logger.info("Starting hybrid RAG query (%d chars)", len(query))
 
     timings: dict[str, float] = {}
     start = time.perf_counter()

@@ -55,6 +55,28 @@ class Settings(BaseSettings):
     # correct or partly correct answers to catch 1 hallucination.
     grounding_verifier_enabled: bool = False
 
+    # API authentication (see ragforge/app/security.py). Comma-separated
+    # SHA-256 hashes of valid API keys; create one with
+    # `uv run python -m ragforge.app.security new-key`. With no hashes set,
+    # protected endpoints return 503 (fail closed). AUTH_ENABLED=false turns
+    # authentication off for local development only.
+    auth_enabled: bool = True
+    api_key_hashes: str = ""
+
+    # Requests per API key per minute (Redis fixed window; 0 disables).
+    rate_limit_per_minute: int = 30
+
+    # Document uploads (POST /documents): where files are kept, and the size limit.
+    upload_dir: str = "data/uploads"
+    max_upload_mb: int = 10
+
+    # Seconds a /query answer stays in the Redis cache (0 disables caching).
+    answer_cache_ttl_seconds: int = 3600
+
+    # Logging: "json" (one object per line, for log collectors) or "text".
+    log_format: str = "json"
+    log_level: str = "INFO"
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
