@@ -1,7 +1,7 @@
 [project]
 name = "ragforge"
 version = "0.1.0"
-description = "Add your description here"
+description = "Hybrid retrieval-augmented generation (Qdrant + BM25 + reranking + local LLM) with a deterministic evaluation suite"
 readme = "README.md"
 authors = [
     { name = "Charan Kotra", email = "charankotra348@gmail.com" }
@@ -22,8 +22,6 @@ dependencies = [
     "sentence-transformers>=3.0",
     "fastembed>=0.7",
     "pypdf>=6.19.0",
-    "anthropic>=1.8.0",
-    "openai>=3.19.2",
     "ollama>=0.6.2",
     "rank-bm25>=0.2.2",
 ]

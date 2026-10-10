@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from production-rag!")
+"""RAGForge: hybrid retrieval-augmented generation with a deterministic evaluation suite."""

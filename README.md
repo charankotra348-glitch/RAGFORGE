@@ -161,7 +161,7 @@ uv run uvicorn ragforge.app.main:app --port 8000
 uv run pytest -q
 ```
 
-All tests run offline, without Docker, Ollama or model downloads. The same suite runs in [GitHub Actions](.github/workflows/tests.yml) on every push.
+All tests run offline, without Docker, Ollama or model downloads. The same suite runs in [GitHub Actions](.github/workflows/tests.yml) on every push. One opt-in end-to-end test, [`tests/test_integration.py`](tests/test_integration.py), calls the live stack; run it with `RAGFORGE_RUN_INTEGRATION=1 uv run pytest -q tests/test_integration.py`.
 
 ### Evaluations (need Qdrant and Ollama)
 

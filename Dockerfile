@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir uv
 COPY pyproject.toml uv.lock README.md ./
 COPY src ./src
 
-# Install dependencies and the local project package.
-RUN uv sync --frozen
+# Install runtime dependencies and the local project package (no test tools).
+RUN uv sync --frozen --no-dev
 
 # Run the application
 CMD ["uv", "run", "uvicorn", "ragforge.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
