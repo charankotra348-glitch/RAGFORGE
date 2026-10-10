@@ -1,0 +1,41 @@
+name: tests
+
+# Offline test suite: no Qdrant, Postgres, Redis or Ollama. Live evaluations
+# (tests/evaluation/*.py) need those services and a GPU-capable machine, so
+# they are run by hand and their results are committed under data/eval/runs/.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # Fail instead of silently downloading embedding or reranker models.
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install Python and dependencies from the lockfile
+        run: uv sync --locked --group dev
+
+      - name: Run offline tests
+        run: uv run pytest -q
