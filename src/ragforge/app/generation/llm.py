@@ -33,15 +33,57 @@ def generate_answer(
     results: list[SearchResult],
     model: str | None = None,
     max_tokens: int = 1000,
+    system_prompt: str | None = None,
+    num_ctx: int | None = None,
 ) -> str:
-    """Generate a grounded answer using the configured local Ollama model."""
+    """Generate a grounded answer using the configured local Ollama model.
+
+    ``system_prompt`` overrides the default SYSTEM_PROMPT. ``num_ctx`` sets
+    Ollama's context window; when None, Ollama's own default is used.
+    """
+
+    answer, _ = generate_answer_with_stats(
+        settings,
+        query,
+        results,
+        model=model,
+        max_tokens=max_tokens,
+        system_prompt=system_prompt,
+        num_ctx=num_ctx,
+    )
+    return answer
+
+
+def generate_answer_with_stats(
+    settings: Settings,
+    query: str,
+    results: list[SearchResult],
+    model: str | None = None,
+    max_tokens: int = 1000,
+    system_prompt: str | None = None,
+    num_ctx: int | None = None,
+) -> tuple[str, dict[str, int | None]]:
+    """Same as generate_answer, plus Ollama token counts for evaluation.
+
+    Stats: prompt_eval_count (prompt tokens Ollama processed; can undercount
+    when Ollama reuses a cached prompt prefix) and eval_count (output tokens).
+    """
 
     if not results:
-        return "The information is not available in the provided documents."
+        return (
+            "The information is not available in the provided documents.",
+            {"prompt_eval_count": None, "eval_count": None},
+        )
     if not query.strip():
         raise ValueError("Query cannot be empty")
     if max_tokens <= 0:
         raise ValueError("max_tokens must be greater than 0")
+    if num_ctx is not None and num_ctx <= 0:
+        raise ValueError("num_ctx must be greater than 0")
+
+    options: dict[str, int | float] = {"temperature": 0, "num_predict": max_tokens}
+    if num_ctx is not None:
+        options["num_ctx"] = num_ctx
 
     selected_model = model or settings.ollama_model
     client = get_llm_client(settings)
@@ -56,15 +98,24 @@ def generate_answer(
     response = client.chat(
         model=selected_model,
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": system_prompt or SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
-        options={"temperature": 0, "num_predict": max_tokens},
+        options=options,
     )
 
     answer = response.message.content
     if not answer or not answer.strip():
         raise RuntimeError("Ollama returned an empty response")
 
-    logger.info("Generated answer (%d chars)", len(answer))
-    return answer
+    stats = {
+        "prompt_eval_count": getattr(response, "prompt_eval_count", None),
+        "eval_count": getattr(response, "eval_count", None),
+    }
+    logger.info(
+        "Generated answer (%d chars, prompt_tokens=%s, output_tokens=%s)",
+        len(answer),
+        stats["prompt_eval_count"],
+        stats["eval_count"],
+    )
+    return answer, stats

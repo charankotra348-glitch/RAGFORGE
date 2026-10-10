@@ -1,6 +1,6 @@
 {
   "document": "data/test.pdf",
-  "description": "Hand-labeled retrieval evaluation for the sample lease. 'evidence' lists phrases from the lease that a retrieved chunk must contain; matching ignores case, whitespace and punctuation. Questions with answerable=false have no evidence and are used only to inspect score behavior. 'tags' describe the failure mode a question probes: fact, paraphrase, vocab-gap (question wording differs from the clause), multi-clause (several facts needed), cross-chunk, continuation (clause continues across a page break), calculation, distractor (a similar-but-wrong clause exists), unanswerable. Questions q11-q35 were drafted from the lease text and should be reviewed by a human.",
+  "description": "Hand-labeled retrieval evaluation for the sample lease. 'evidence' lists phrases from the lease that a retrieved chunk must contain; matching ignores case, whitespace and punctuation. Questions with answerable=false have no evidence and are used only to inspect score behavior. 'tags' describe the failure mode a question probes: fact, paraphrase, vocab-gap (question wording differs from the clause), multi-clause (several facts needed), cross-chunk, continuation (clause continues across a page break), calculation, distractor (a similar-but-wrong clause exists), unanswerable. Questions q11-q35 were drafted from the lease text and should be reviewed by a human. 'answer_facts' (answerable questions only) is a list of fact groups for the answer-level eval: each group lists acceptable phrasings (any-of, whole-word, case-insensitive); fact recall is the share of groups an answer contains. 'answer_must_not' (optional) lists phrasings that state the opposite of the correct answer; if one appears the answer is scored as contradicted (fact recall 0). 'label_note' records label changes and why.",
   "questions": [
     {
       "id": "q01",
@@ -12,6 +12,11 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "750"
+        ]
       ]
     },
     {
@@ -24,6 +29,22 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "august 1",
+          "august 1st",
+          "aug 1",
+          "08/01/2026",
+          "8/1/2026"
+        ],
+        [
+          "july 31",
+          "july 31st",
+          "jul 31",
+          "07/31/2027",
+          "7/31/2027"
+        ]
       ]
     },
     {
@@ -36,6 +57,11 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "750"
+        ]
       ]
     },
     {
@@ -52,6 +78,49 @@
       "tags": [
         "multi-clause",
         "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "24 hours",
+          "24 hour",
+          "twenty four hours",
+          "reasonable notice",
+          "reasonable prior notice"
+        ],
+        [
+          "inspection",
+          "inspect",
+          "inspections",
+          "repair",
+          "repairs",
+          "maintenance"
+        ],
+        [
+          "9am",
+          "9 am",
+          "9:00 am",
+          "9:00am",
+          "9 a.m.",
+          "9:00 a.m."
+        ],
+        [
+          "8pm",
+          "8 pm",
+          "8:00 pm",
+          "8:00pm",
+          "8 p.m.",
+          "8:00 p.m."
+        ],
+        [
+          "emergency",
+          "emergencies"
+        ],
+        [
+          "60 days",
+          "sixty days",
+          "sixty (60) days",
+          "60 day"
+        ]
       ]
     },
     {
@@ -67,6 +136,29 @@
       "tags": [
         "multi-clause",
         "continuation"
+      ],
+      "answer_facts": [
+        [
+          "70%",
+          "70 percent",
+          "70 per cent",
+          "seventy percent"
+        ],
+        [
+          "electricity",
+          "electric"
+        ],
+        [
+          "wifi",
+          "wi-fi",
+          "internet"
+        ],
+        [
+          "snow removal"
+        ],
+        [
+          "60"
+        ]
       ]
     },
     {
@@ -81,6 +173,11 @@
       "tags": [
         "multi-clause",
         "calculation"
+      ],
+      "answer_facts": [
+        [
+          "800"
+        ]
       ]
     },
     {
@@ -94,6 +191,24 @@
       ],
       "tags": [
         "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "cannot",
+          "can't",
+          "may not",
+          "shall not",
+          "not allowed",
+          "not permitted",
+          "prohibited",
+          "not without"
+        ],
+        [
+          "consent",
+          "permission",
+          "approval"
+        ]
       ]
     },
     {
@@ -127,6 +242,27 @@
       ],
       "tags": [
         "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "60 days",
+          "sixty days",
+          "sixty (60) days"
+        ],
+        [
+          "written notice",
+          "in writing",
+          "written"
+        ],
+        [
+          "renew",
+          "renewal"
+        ],
+        [
+          "vacate",
+          "move out",
+          "moving out"
+        ]
       ]
     },
     {
@@ -139,7 +275,17 @@
       ],
       "tags": [
         "fact"
-      ]
+      ],
+      "answer_facts": [
+        [
+          "seven days",
+          "7 days",
+          "seven (7) days",
+          "7 day",
+          "seven day"
+        ]
+      ],
+      "label_note": "2026-10-10: dropped the 'in writing' fact group; the question asks only for the number of days."
     },
     {
       "id": "q12",
@@ -151,6 +297,15 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "non-smoking",
+          "not allowed",
+          "not permitted",
+          "prohibited"
+        ]
       ]
     },
     {
@@ -163,6 +318,23 @@
       ],
       "tags": [
         "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "cannot",
+          "can't",
+          "may not",
+          "shall not",
+          "not allowed",
+          "not permitted",
+          "prohibited",
+          "not without"
+        ],
+        [
+          "consent",
+          "approval"
+        ]
       ]
     },
     {
@@ -175,6 +347,24 @@
       ],
       "tags": [
         "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "cannot",
+          "can't",
+          "may not",
+          "shall not",
+          "not allowed",
+          "not permitted",
+          "prohibited",
+          "not without"
+        ],
+        [
+          "consent",
+          "permission",
+          "approval"
+        ]
       ]
     },
     {
@@ -187,6 +377,18 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "1 individual",
+          "1 individuals",
+          "one individual",
+          "1 person",
+          "one person",
+          "1 occupant",
+          "one occupant",
+          "1 people"
+        ]
       ]
     },
     {
@@ -200,6 +402,14 @@
       "tags": [
         "fact",
         "distractor"
+      ],
+      "answer_facts": [
+        [
+          "14 days",
+          "fourteen days",
+          "fourteen (14) days",
+          "14 day"
+        ]
       ]
     },
     {
@@ -212,7 +422,32 @@
       ],
       "tags": [
         "distractor"
-      ]
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "cannot",
+          "can't",
+          "may not",
+          "shall not",
+          "not allowed",
+          "not permitted",
+          "prohibited",
+          "not without",
+          "not to be",
+          "must not",
+          "should not"
+        ],
+        [
+          "deduct",
+          "deducted",
+          "deducting",
+          "deduction",
+          "apply",
+          "applied"
+        ]
+      ],
+      "label_note": "2026-10-10: polarity group now accepts 'not to be' / 'must not' / 'should not' ('is not to be applied or deducted' is a correct No)."
     },
     {
       "id": "q18",
@@ -224,6 +459,11 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "65"
+        ]
       ]
     },
     {
@@ -236,6 +476,20 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "grease"
+        ],
+        [
+          "oil"
+        ],
+        [
+          "food"
+        ],
+        [
+          "coffee grounds"
+        ]
       ]
     },
     {
@@ -249,6 +503,27 @@
       ],
       "tags": [
         "multi-clause"
+      ],
+      "answer_facts": [
+        [
+          "retake possession",
+          "take possession",
+          "repossess",
+          "possession"
+        ],
+        [
+          "relet",
+          "re-let",
+          "relets",
+          "re-rent",
+          "rent it out",
+          "rent the premises"
+        ],
+        [
+          "liable",
+          "responsible",
+          "remain liable"
+        ]
       ]
     },
     {
@@ -263,6 +538,25 @@
       "tags": [
         "multi-clause",
         "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "abated",
+          "abatement",
+          "abate",
+          "reduced",
+          "reduce",
+          "proportion",
+          "proportional",
+          "proportionally",
+          "prorated"
+        ],
+        [
+          "terminate",
+          "terminated",
+          "termination",
+          "end the lease"
+        ]
       ]
     },
     {
@@ -276,6 +570,21 @@
       ],
       "tags": [
         "multi-clause"
+      ],
+      "answer_facts": [
+        [
+          "responsibility",
+          "responsible"
+        ],
+        [
+          "advised",
+          "advises",
+          "advise",
+          "recommended",
+          "recommends",
+          "encouraged",
+          "strongly"
+        ]
       ]
     },
     {
@@ -288,6 +597,11 @@
       ],
       "tags": [
         "continuation"
+      ],
+      "answer_facts": [
+        [
+          "landlord"
+        ]
       ]
     },
     {
@@ -300,6 +614,15 @@
       ],
       "tags": [
         "distractor"
+      ],
+      "answer_facts": [
+        [
+          "itemized",
+          "itemised"
+        ],
+        [
+          "statement"
+        ]
       ]
     },
     {
@@ -312,6 +635,16 @@
       ],
       "tags": [
         "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "landlord"
+        ],
+        [
+          "immediately",
+          "promptly",
+          "right away"
+        ]
       ]
     },
     {
@@ -324,6 +657,19 @@
       ],
       "tags": [
         "fact"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "cannot",
+          "can't",
+          "may not",
+          "shall not",
+          "not allowed",
+          "not permitted",
+          "prohibited",
+          "not without"
+        ]
       ]
     },
     {
@@ -336,7 +682,35 @@
       ],
       "tags": [
         "paraphrase"
-      ]
+      ],
+      "answer_facts": [
+        [
+          "yes",
+          "must provide",
+          "must give",
+          "has to give",
+          "has to provide",
+          "is required to",
+          "are required to",
+          "required to give",
+          "required to provide"
+        ],
+        [
+          "reasonable notice",
+          "reasonable prior notice",
+          "prior notice"
+        ]
+      ],
+      "answer_must_not": [
+        "does not have to give notice",
+        "does not have to provide notice",
+        "doesn't have to give notice",
+        "not required to give notice",
+        "not required to provide notice",
+        "no notice is required",
+        "does not need to give notice"
+      ],
+      "label_note": "2026-10-10: llama3.2:3b answered 'does not have to give notice' (wrong) yet scored 1.0, because bare 'required' matched 'not explicitly stated that notice is required'. Polarity group tightened and answer_must_not added."
     },
     {
       "id": "q28",
@@ -350,6 +724,14 @@
       "tags": [
         "multi-clause",
         "cross-chunk"
+      ],
+      "answer_facts": [
+        [
+          "50"
+        ],
+        [
+          "60"
+        ]
       ]
     },
     {
@@ -362,6 +744,25 @@
       ],
       "tags": [
         "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "terminate",
+          "terminates",
+          "terminated",
+          "termination",
+          "end",
+          "ends"
+        ],
+        [
+          "automatic",
+          "automatically"
+        ],
+        [
+          "vacate",
+          "move out",
+          "leave"
+        ]
       ]
     },
     {
@@ -375,6 +776,21 @@
       "tags": [
         "paraphrase",
         "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "broom clean",
+          "broom-clean"
+        ],
+        [
+          "vacant",
+          "empty"
+        ],
+        [
+          "personal property",
+          "belongings",
+          "debris"
+        ]
       ]
     },
     {

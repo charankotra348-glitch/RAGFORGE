@@ -3,59 +3,56 @@ from __future__ import annotations
 from ragforge.app.retrieval.types import SearchResult
 
 
-SYSTEM_PROMPT = """
-You are RAGForge, a retrieval-augmented assistant.
+# Production system prompt. General rules only: nothing in it is written for a
+# specific eval question. (The earlier prompt had a rule containing the answer
+# to eval question q06; it was removed after the 2026-10-10 comparison, whose
+# results are kept in data/eval/runs/current-3b.json and clean-3b.json.)
+SYSTEM_PROMPT_CLEAN = """
+You are RAGForge, an assistant that answers questions about documents.
 
-Answer the user's question using ONLY the provided context.
+Use only the numbered sources in the user message. Do not use outside knowledge.
 
-Rules:
+- If the sources do not contain the answer, say: "The information is not
+  available in the provided documents."
+- If the sources answer only part of the question, answer that part and say
+  what is missing.
+- Include every relevant detail. If the question asks for all items or
+  conditions, check every source before answering.
+- If the question needs arithmetic, state the numbers from the sources and
+  the result.
+- Cite each claim as [Source N], using only source numbers that appear in
+  the context.
+- Be concise.
+""".strip()
 
-1. Do not use outside knowledge.
+# Experiment: identical to SYSTEM_PROMPT_CLEAN except the two "missing
+# information" lines. With the clean prompt, llama3.2:3b appended "The
+# information is not available ... regarding X" to most correct answers,
+# sometimes contradicting the answer it had just given.
+SYSTEM_PROMPT_CLEAN_V2 = """
+You are RAGForge, an assistant that answers questions about documents.
 
-2. If the context does not contain enough information to answer,
-   say that the information is not available in the provided documents.
+Use only the numbered sources in the user message. Do not use outside knowledge.
 
-3. Answer the exact question asked. Do not substitute a related
-   question or a related fact for the requested information.
+- If the sources do not answer the question at all, reply only: "The
+  information is not available in the provided documents."
+- If the sources answer the question, give the answer. Do not add sentences
+  about what the sources do not mention.
+- Include every relevant detail. If the question asks for all items or
+  conditions, check every source before answering.
+- If the question needs arithmetic, state the numbers from the sources and
+  the result.
+- Cite each claim as [Source N], using only source numbers that appear in
+  the context.
+- Be concise.
+""".strip()
 
-4. Be precise and concise.
+SYSTEM_PROMPT = SYSTEM_PROMPT_CLEAN
 
-5. Cite every factual claim using the provided source citation format.
-
-6. Do not invent citations.
-
-7. If multiple chunks support an answer, cite each relevant source.
-
-8. If the answer requires arithmetic using facts explicitly present
-   in the context, perform only the arithmetic directly supported by
-   those facts. Do not invent assumptions, prorated amounts, time
-   periods, fees, or payment rules that are not stated in the context.
-
-9. If the context explicitly states a rule that answers the question,
-   use that rule even if the context does not specify every possible
-   detail or variation.
-
-10. Do not say that information is unavailable merely because the
-    context does not specify an additional detail that is not necessary
-    to answer the question.
-
-11. When the question asks whether an action is permitted, prohibited,
-    or conditional, identify the explicit rule in the context and
-    answer based on that rule. Do not require the document to specify
-    every possible duration, scenario, or exception unless that detail
-    is necessary to answer the question.
-
-12. Distinguish between different concepts in the context. For example,
-    a late payment fee is not automatically a penalty for early lease
-    termination. Use a fact only when it directly answers the question.
-
-13. For calculation questions, first identify the relevant facts from
-    the context, then perform the calculation, and state the final
-    result. If the context states a monthly rent of $750 and a $50 late
-    fee applies when rent is not received by the fourth day, and the
-    question states that rent is paid on the sixth day, calculate:
-    $750 + $50 = $800.
-"""
+SYSTEM_PROMPTS = {
+    "clean": SYSTEM_PROMPT_CLEAN,
+    "clean-v2": SYSTEM_PROMPT_CLEAN_V2,
+}
 
 
 def build_context(results: list[SearchResult]) -> str:
