@@ -22,6 +22,7 @@ class FakeSearcher:
 
 
 def run(candidate: str, verdict: GroundingVerdict | None = None, results=RESULTS, **kwargs):
+    kwargs.setdefault("verify", True)
     stats = {"prompt_eval_count": 10, "eval_count": 5}
     with (
         patch.object(service, "get_hybrid_searcher", return_value=FakeSearcher(results)),
@@ -75,3 +76,33 @@ def test_verify_false_skips_verifier_and_passes_generation_options() -> None:
     check.assert_not_called()
     kwargs = gen.call_args.kwargs
     assert (kwargs["model"], kwargs["system_prompt"], kwargs["num_ctx"]) == ("m", "p", 4096)
+
+
+def test_verifier_is_off_by_default() -> None:
+    stats = {"prompt_eval_count": 10, "eval_count": 5}
+    with (
+        patch.object(service, "get_hybrid_searcher", return_value=FakeSearcher(RESULTS)),
+        patch.object(service, "generate_answer_with_stats", return_value=("The rent is $750 [Source 1].", stats)),
+        patch.object(service, "check_answer_grounded") as check,
+    ):
+        response = service.answer_query(SETTINGS, "What is the rent?")
+    check.assert_not_called()
+    assert response.verification is None
+
+
+def test_settings_flag_turns_verifier_on() -> None:
+    settings = SimpleNamespace(ollama_model="llama3.2:3b", qdrant_collection="test", grounding_verifier_enabled=True)
+    stats = {"prompt_eval_count": 10, "eval_count": 5}
+    with (
+        patch.object(service, "get_hybrid_searcher", return_value=FakeSearcher(RESULTS)),
+        patch.object(service, "generate_answer_with_stats", return_value=("The rent is $750 [Source 1].", stats)),
+        patch.object(service, "check_answer_grounded", return_value=GroundingVerdict(True, "supported")) as check,
+    ):
+        service.answer_query(settings, "What is the rent?")
+    check.assert_called_once()
+
+
+def test_config_default_is_off() -> None:
+    from ragforge.core.config import Settings
+
+    assert Settings.model_fields["grounding_verifier_enabled"].default is False

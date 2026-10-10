@@ -164,3 +164,16 @@ def test_verdict_reports_why_verification_failed():
     assert verdict_for("[]").status == "malformed"
     assert verdict_for(side_effect=RuntimeError("Ollama unavailable")).status == "error"
     assert not verdict_for("not valid JSON").supported
+
+
+def test_verdict_records_raw_output_and_token_limit():
+    client = MagicMock()
+    truncated = '{"supported": true, "reason": "The context states that the monthly rent'
+    client.chat.return_value = SimpleNamespace(message=SimpleNamespace(content=truncated), eval_count=128)
+    with patch("ragforge.app.generation.llm.get_llm_client", return_value=client):
+        verdict = check_answer_grounded(
+            make_settings(), "What is the monthly rent?", "The monthly rent is $1,500.", make_results()
+        )
+    assert verdict.status == "malformed"
+    assert verdict.hit_token_limit is True and verdict.output_tokens == 128
+    assert verdict.raw == truncated

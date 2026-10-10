@@ -82,7 +82,7 @@ def run_main(module, monkeypatch, *argv):
 
 def test_runner_scores_perfect_stub_answers(answer_eval, tmp_path, monkeypatch, capsys) -> None:
     out = tmp_path / "run.json"
-    run_main(answer_eval, monkeypatch, "--json", str(out))
+    run_main(answer_eval, monkeypatch, "--verifier", "on", "--json", str(out))
 
     report = json.loads(out.read_text(encoding="utf-8"))
     s = report["summary"]
@@ -108,7 +108,7 @@ def test_verifier_blocks_are_classified(answer_eval, tmp_path, monkeypatch) -> N
         make_fake_answer_query(answer_eval._questions, candidates, blocked={"q01", "q06", "q35"}),
     )
     out = tmp_path / "run.json"
-    run_main(answer_eval, monkeypatch, "--only", "q01", "q06", "q35", "--json", str(out))
+    run_main(answer_eval, monkeypatch, "--verifier", "on", "--only", "q01", "q06", "q35", "--json", str(out))
 
     report = json.loads(out.read_text(encoding="utf-8"))
     effects = {row["id"]: row["verifier_effect"] for row in report["questions"]}
@@ -138,7 +138,7 @@ def test_compare_lists_changed_questions(answer_eval, tmp_path, monkeypatch, cap
 
 def test_compare_treats_runs_without_verifier_key_as_verifier_off(answer_eval, tmp_path, monkeypatch, capsys) -> None:
     a, b = tmp_path / "a.json", tmp_path / "b.json"
-    run_main(answer_eval, monkeypatch, "--json", str(b), "--only", "q01")
+    run_main(answer_eval, monkeypatch, "--verifier", "on", "--json", str(b), "--only", "q01")
     old = json.loads(b.read_text(encoding="utf-8"))
     del old["config"]["verifier"]
     a.write_text(json.dumps(old), encoding="utf-8")
@@ -182,3 +182,11 @@ def test_rescore_handles_runs_saved_before_the_verifier(answer_eval, tmp_path, m
     report = json.loads(out.read_text(encoding="utf-8"))
     assert report["summary"]["n_answerable"] == 28
     assert report["summary"]["verifier_effects"] == {}
+
+
+def test_verifier_defaults_to_off(answer_eval, tmp_path, monkeypatch) -> None:
+    out = tmp_path / "run.json"
+    run_main(answer_eval, monkeypatch, "--only", "q01", "--json", str(out))
+    report = json.loads(out.read_text(encoding="utf-8"))
+    assert report["config"]["verifier"] == "off"
+    assert report["summary"]["verifier_checked"] == 0

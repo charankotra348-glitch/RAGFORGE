@@ -241,6 +241,10 @@ def summarize(rows: list[dict]) -> dict:
         "abstention_reasons": dict(Counter(r.get("abstention_reason") for r in rows if r.get("abstention_reason"))),
         "verifier_checked": len(verified),
         "verifier_status": dict(Counter(r["verification"]["status"] for r in verified)),
+        "verifier_hit_token_limit": sum(bool(r["verification"].get("hit_token_limit")) for r in verified),
+        "verifier_output_tokens_mean": round(statistics.mean(
+            r["verification"]["output_tokens"] for r in verified if r["verification"].get("output_tokens") is not None
+        ), 1) if any(r["verification"].get("output_tokens") is not None for r in verified) else None,
         "verifier_effects": dict(Counter(r["verifier_effect"] for r in rows if r.get("verifier_effect"))),
         "fact_recall_by_tag": {
             tag: {"n": len(v), "mean": round(statistics.mean(v), 3)} for tag, v in sorted(by_tag.items())
@@ -280,6 +284,8 @@ def print_report(report: dict, verbose: bool) -> None:
     if s.get("verifier_checked"):
         print(f"verifier (checked {s['verifier_checked']} answers)")
         print(f"  status                {s['verifier_status']}")
+        print(f"  hit token limit       {s.get('verifier_hit_token_limit')}/{s['verifier_checked']}  "
+              f"(mean output tokens {s.get('verifier_output_tokens_mean')})")
         print(f"  effect of blocks      {s['verifier_effects'] or 'none'}")
     print(f"citations (n={na + nu} answers)")
     print(f"  all in range          {s['citations_valid']}/{na + nu}")
@@ -404,7 +410,7 @@ def main() -> None:
     parser.add_argument("--model", help="Ollama generation model (default: OLLAMA_MODEL). The verifier always uses OLLAMA_MODEL.")
     parser.add_argument("--num-ctx", type=int, help="Ollama context window (default: Ollama's own default).")
     parser.add_argument("--prompt", choices=sorted(SYSTEM_PROMPTS), default="clean")
-    parser.add_argument("--verifier", choices=("on", "off"), default="on", help="Grounding verifier (production default: on).")
+    parser.add_argument("--verifier", choices=("on", "off"), default="off", help="Grounding verifier (production default: off).")
     parser.add_argument("--top-k", type=int, default=DEFAULT_TOP_K, help="Chunks passed to the model.")
     parser.add_argument("--only", nargs="+", metavar="QID", help="Run only these question ids.")
     parser.add_argument("--verbose", action="store_true", help="Print every answer with expected text and sources.")

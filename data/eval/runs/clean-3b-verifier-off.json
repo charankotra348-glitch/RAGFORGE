@@ -1,0 +1,2690 @@
+{
+  "config": {
+    "model": "llama3.2:3b",
+    "prompt": "clean",
+    "system_prompt": "You are RAGForge, an assistant that answers questions about documents.\n\nUse only the numbered sources in the user message. Do not use outside knowledge.\n\n- If the sources do not contain the answer, say: \"The information is not\n  available in the provided documents.\"\n- If the sources answer only part of the question, answer that part and say\n  what is missing.\n- Include every relevant detail. If the question asks for all items or\n  conditions, check every source before answering.\n- If the question needs arithmetic, state the numbers from the sources and\n  the result.\n- Cite each claim as [Source N], using only source numbers that appear in\n  the context.\n- Be concise.",
+    "num_ctx": null,
+    "top_k": 5,
+    "verifier": "off",
+    "verifier_model": null,
+    "dataset": "data/eval/lease_eval.json",
+    "only": null,
+    "git": "92b5f16",
+    "timestamp": "2026-10-10T06:22:46+00:00"
+  },
+  "summary": {
+    "n_answerable": 28,
+    "n_unanswerable": 7,
+    "mean_fact_recall": 0.829,
+    "complete": 22,
+    "contradicted": 1,
+    "false_refusals": 2,
+    "hedged": 19,
+    "correct_refusals": 6,
+    "citations_valid": 35,
+    "answerable_without_citation": 2,
+    "citation_supported": 25,
+    "n_with_valid_citation": 26,
+    "abstention_reasons": {
+      "model_abstained": 3
+    },
+    "verifier_checked": 0,
+    "verifier_status": {},
+    "verifier_effects": {},
+    "fact_recall_by_tag": {
+      "calculation": {
+        "n": 1,
+        "mean": 0.0
+      },
+      "continuation": {
+        "n": 2,
+        "mean": 0.6
+      },
+      "cross-chunk": {
+        "n": 1,
+        "mean": 1.0
+      },
+      "distractor": {
+        "n": 3,
+        "mean": 0.833
+      },
+      "fact": {
+        "n": 10,
+        "mean": 1.0
+      },
+      "multi-clause": {
+        "n": 7,
+        "mean": 0.671
+      },
+      "paraphrase": {
+        "n": 7,
+        "mean": 0.714
+      },
+      "vocab-gap": {
+        "n": 4,
+        "mean": 0.625
+      }
+    },
+    "retrieval_ms": {
+      "mean": 2111.7,
+      "p50": 1381.1,
+      "max": 7309.1
+    },
+    "generation_ms": {
+      "mean": 10186.1,
+      "p50": 8103.4,
+      "max": 24665.9
+    },
+    "verification_ms": {
+      "mean": null,
+      "p50": null,
+      "max": null
+    },
+    "prompt_tokens_max": 1170,
+    "output_tokens_mean": 107.7
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "question": "What is the monthly rent amount?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "$750 per month",
+      "answer": "The monthly rent amount is $750.",
+      "candidate_answer": "The monthly rent amount is $750.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 2189.5,
+      "generation_ms": 3904.6,
+      "verification_ms": null,
+      "prompt_tokens": 956,
+      "output_tokens": 9,
+      "sources": [
+        {
+          "page": 1,
+          "section": "3",
+          "rerank_score": 4.916446685791016,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -7.927438735961914,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": -8.407353401184082,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -8.62925910949707,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "2",
+          "rerank_score": -10.259355545043945,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q01",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q02",
+      "question": "When does the lease term start and end?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "Starts August 1, 2026 and ends July 31, 2027",
+      "answer": "According to [Source 1], the lease term starts on August 1, 2026, and ends on July 31, 2027.\n\nThe information is not available in the provided documents regarding the exact start date of the lease term.",
+      "candidate_answer": "According to [Source 1], the lease term starts on August 1, 2026, and ends on July 31, 2027.\n\nThe information is not available in the provided documents regarding the exact start date of the lease term.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1557.4,
+      "generation_ms": 5906.8,
+      "verification_ms": null,
+      "prompt_tokens": 1034,
+      "output_tokens": 51,
+      "sources": [
+        {
+          "page": 1,
+          "section": "2",
+          "rerank_score": 8.131208419799805,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": -0.5312644243240356,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -1.1699769496917725,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "17",
+          "rerank_score": -2.2858264446258545,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -4.419366836547852,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q02",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q03",
+      "question": "What is the security deposit amount?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "$750",
+      "answer": "According to [Source 1], Section 4, the security deposit amount is $750.\n\nThe information is not available in the provided documents regarding the conditions under which the security deposit will be returned or the process for deductions.",
+      "candidate_answer": "According to [Source 1], Section 4, the security deposit amount is $750.\n\nThe information is not available in the provided documents regarding the conditions under which the security deposit will be returned or the process for deductions.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 701.6,
+      "generation_ms": 5882.1,
+      "verification_ms": null,
+      "prompt_tokens": 1088,
+      "output_tokens": 46,
+      "sources": [
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": 4.998559951782227,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": 0.019873790442943573,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -4.892397880554199,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -7.80922794342041,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -8.284502029418945,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q03",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q04",
+      "question": "What are all the conditions under which the landlord can enter the premises?",
+      "tags": [
+        "multi-clause",
+        "vocab-gap"
+      ],
+      "expected": "Reasonable prior notice (typically 24 hours) for inspection, maintenance or repair between 9AM and 8PM; no notice in a bona fide emergency; during the last 60 days to show the premises.",
+      "answer": "Based on the provided sources, the conditions under which the landlord can enter the premises are as follows:\n\n* The landlord or their agent can enter the premises for inspection, maintenance, or repair, provided they give reasonable prior notice to the tenant (typically 24 hours) [Source 1].\n* The landlord or their agent can enter the premises in the case of a bona fide emergency, without prior notice [Source 1].\n* The landlord or their agent can enter the premises at reasonable times, except in the case of a bona fide emergency, and in a manner that does not harass or unreasonably interfere with the tenant's quiet enjoyment of the premises [Source 2].\n* The landlord or their agent can enter the premises to address matters relating to the condition of the property, upon providing reasonable prior notice to the tenant, except in the case of a bona fide emergency [Source 2].\n* The landlord can enter the premises to conduct a move-in inspection and document the condition of the premises via photos and/or video, which shall serve as a reference for the condition of the unit at the end of the tenancy [Source 3].\n\nThe missing information is the specific conditions under which the landlord can enter the premises without prior notice, except in the case of a bona fide emergency. The sources do not provide this information explicitly.\n\nThe information is not available in the provided documents regarding the conditions under which the landlord can enter the premises without prior notice, except in the case of a bona fide emergency.",
+      "candidate_answer": "Based on the provided sources, the conditions under which the landlord can enter the premises are as follows:\n\n* The landlord or their agent can enter the premises for inspection, maintenance, or repair, provided they give reasonable prior notice to the tenant (typically 24 hours) [Source 1].\n* The landlord or their agent can enter the premises in the case of a bona fide emergency, without prior notice [Source 1].\n* The landlord or their agent can enter the premises at reasonable times, except in the case of a bona fide emergency, and in a manner that does not harass or unreasonably interfere with the tenant's quiet enjoyment of the premises [Source 2].\n* The landlord or their agent can enter the premises to address matters relating to the condition of the property, upon providing reasonable prior notice to the tenant, except in the case of a bona fide emergency [Source 2].\n* The landlord can enter the premises to conduct a move-in inspection and document the condition of the premises via photos and/or video, which shall serve as a reference for the condition of the unit at the end of the tenancy [Source 3].\n\nThe missing information is the specific conditions under which the landlord can enter the premises without prior notice, except in the case of a bona fide emergency. The sources do not provide this information explicitly.\n\nThe information is not available in the provided documents regarding the conditions under which the landlord can enter the premises without prior notice, except in the case of a bona fide emergency.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 598.6,
+      "generation_ms": 19673.2,
+      "verification_ms": null,
+      "prompt_tokens": 1046,
+      "output_tokens": 308,
+      "sources": [
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": 6.241519927978516,
+          "contains_evidence": true
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": 5.15165901184082,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": 3.0865769386291504,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "1",
+          "rerank_score": 2.9576234817504883,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": 1.5786705017089844,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q04",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          2,
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.5,
+        "complete": false,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "9am",
+            "9 am",
+            "9:00 am",
+            "9:00am",
+            "9 a.m.",
+            "9:00 a.m."
+          ],
+          [
+            "8pm",
+            "8 pm",
+            "8:00 pm",
+            "8:00pm",
+            "8 p.m.",
+            "8:00 p.m."
+          ],
+          [
+            "60 days",
+            "sixty days",
+            "sixty (60) days",
+            "60 day"
+          ]
+        ],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q05",
+      "question": "What is the tenant responsible for paying regarding utilities?",
+      "tags": [
+        "multi-clause",
+        "continuation"
+      ],
+      "expected": "70% of all utility bills including water, electricity, wifi and snow removal, plus a $60 charge if a utility is turned off and reverts to the landlord.",
+      "answer": "Based on the provided sources, the tenant is responsible for paying 70% of the utility services required on the premises, including water. The landlord is responsible for the remaining 30% of the utilities.\n\nThe information is not available in the provided documents regarding what specific utilities the tenant is responsible for paying.",
+      "candidate_answer": "Based on the provided sources, the tenant is responsible for paying 70% of the utility services required on the premises, including water. The landlord is responsible for the remaining 30% of the utilities.\n\nThe information is not available in the provided documents regarding what specific utilities the tenant is responsible for paying.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 2040.6,
+      "generation_ms": 7630.0,
+      "verification_ms": null,
+      "prompt_tokens": 1131,
+      "output_tokens": 62,
+      "sources": [
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": 6.363704681396484,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": 5.399829387664795,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": 0.9041011333465576,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -0.02085082232952118,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": -2.0711092948913574,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q05",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.2,
+        "complete": false,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "electricity",
+            "electric"
+          ],
+          [
+            "wifi",
+            "wi-fi",
+            "internet"
+          ],
+          [
+            "snow removal"
+          ],
+          [
+            "60"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q06",
+      "question": "If the tenant pays rent on the 6th of the month, what is the total amount owed?",
+      "tags": [
+        "multi-clause",
+        "calculation"
+      ],
+      "expected": "$800 ($750 rent plus $50 late fee)",
+      "answer": "To determine the total amount owed if the tenant pays rent on the 6th of the month, we need to consider the information provided in the context.\n\nAccording to [Source 1], the monthly rent is $750. However, there is no information about the amount owed if the tenant pays rent on the 6th of the month.\n\nThe context does not provide any information about the amount owed if the tenant pays rent on the 6th of the month. The rent is due on the 1st day of the month, and there is no mention of a discount or penalty for paying rent on a later date.\n\nTherefore, the information is not available in the provided documents.",
+      "candidate_answer": "To determine the total amount owed if the tenant pays rent on the 6th of the month, we need to consider the information provided in the context.\n\nAccording to [Source 1], the monthly rent is $750. However, there is no information about the amount owed if the tenant pays rent on the 6th of the month.\n\nThe context does not provide any information about the amount owed if the tenant pays rent on the 6th of the month. The rent is due on the 1st day of the month, and there is no mention of a discount or penalty for paying rent on a later date.\n\nTherefore, the information is not available in the provided documents.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 812.7,
+      "generation_ms": 9544.6,
+      "verification_ms": null,
+      "prompt_tokens": 1044,
+      "output_tokens": 139,
+      "sources": [
+        {
+          "page": 1,
+          "section": "3",
+          "rerank_score": 4.556586265563965,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -1.0335566997528076,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -3.6381916999816895,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -4.296968936920166,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "2",
+          "rerank_score": -5.058095932006836,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q06",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "800"
+          ]
+        ],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q07",
+      "question": "Can the tenant sublet the apartment to a friend for two months while traveling?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "No. Subletting requires the landlord's prior written consent.",
+      "answer": "Based on the provided context, it appears that the tenant is not allowed to sublet the apartment to a friend for any period of time without the Landlord's prior written consent.\n\nAccording to [Source 1], Section 9, the tenant is not allowed to sublet or grant any concession or license to use the Premises without the Landlord's prior written consent. This section explicitly states that any assignment or subletting without the required written consent shall be void and, at the Landlord's option, constitute a material breach of the Lease.\n\nThere is no information in the provided sources that would suggest a specific duration for the subletting, such as two months. The sources only address the general requirement for the Landlord's consent.\n\nTherefore, the answer to the question is that the tenant is not allowed to sublet the apartment to a friend for any period of time without the Landlord's prior written consent.",
+      "candidate_answer": "Based on the provided context, it appears that the tenant is not allowed to sublet the apartment to a friend for any period of time without the Landlord's prior written consent.\n\nAccording to [Source 1], Section 9, the tenant is not allowed to sublet or grant any concession or license to use the Premises without the Landlord's prior written consent. This section explicitly states that any assignment or subletting without the required written consent shall be void and, at the Landlord's option, constitute a material breach of the Lease.\n\nThere is no information in the provided sources that would suggest a specific duration for the subletting, such as two months. The sources only address the general requirement for the Landlord's consent.\n\nTherefore, the answer to the question is that the tenant is not allowed to sublet the apartment to a friend for any period of time without the Landlord's prior written consent.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 871.5,
+      "generation_ms": 11772.7,
+      "verification_ms": null,
+      "prompt_tokens": 876,
+      "output_tokens": 187,
+      "sources": [
+        {
+          "page": 2,
+          "section": "9",
+          "rerank_score": -3.972531318664551,
+          "contains_evidence": true
+        },
+        {
+          "page": 4,
+          "section": "21",
+          "rerank_score": -9.35626220703125,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -9.877927780151367,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "1",
+          "rerank_score": -9.949788093566895,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "15",
+          "rerank_score": -9.999368667602539,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q07",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q08",
+      "question": "What is the landlord's phone number?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The information is not available in the provided documents. The landlord's phone number is not mentioned in any of the sources.",
+      "candidate_answer": "The information is not available in the provided documents. The landlord's phone number is not mentioned in any of the sources.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 1031.8,
+      "generation_ms": 5185.5,
+      "verification_ms": null,
+      "prompt_tokens": 896,
+      "output_tokens": 25,
+      "sources": [
+        {
+          "page": 1,
+          "section": "1",
+          "rerank_score": -4.185205459594727,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": -5.757748126983643,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "22",
+          "rerank_score": -6.168135643005371,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": null,
+          "rerank_score": -7.18027400970459,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "17",
+          "rerank_score": -7.633323669433594,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q08",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q09",
+      "question": "What is the penalty for breaking the lease early?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The penalty for breaking the lease early is not explicitly stated in the provided documents. However, Section 18 of [Source 3] states that failure to provide written notice of intent to vacate or renew the lease at least 60 days prior to the expiration date results in the automatic termination of the lease. It does not specify any penalty for breaking the lease early.\n\nThe information is not available in the provided documents.",
+      "candidate_answer": "The penalty for breaking the lease early is not explicitly stated in the provided documents. However, Section 18 of [Source 3] states that failure to provide written notice of intent to vacate or renew the lease at least 60 days prior to the expiration date results in the automatic termination of the lease. It does not specify any penalty for breaking the lease early.\n\nThe information is not available in the provided documents.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 820.0,
+      "generation_ms": 6641.2,
+      "verification_ms": null,
+      "prompt_tokens": 830,
+      "output_tokens": 85,
+      "sources": [
+        {
+          "page": 1,
+          "section": "2",
+          "rerank_score": -3.224404811859131,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -3.8136205673217773,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": -3.914581060409546,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": -5.310237884521484,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "23",
+          "rerank_score": -5.782242298126221,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q09",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q10",
+      "question": "What must the tenant do before the lease expires to avoid automatic termination?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "Written notice no later than 60 days before expiration stating intent to renew or vacate.",
+      "answer": "To avoid automatic termination, the tenant must provide written notice to the Landlord stating their intent to either request a renewal of the Lease or vacate the Premises at least 60 days prior to the expiration date of the Lease.\n\nThe information is available in [Source 1].",
+      "candidate_answer": "To avoid automatic termination, the tenant must provide written notice to the Landlord stating their intent to either request a renewal of the Lease or vacate the Premises at least 60 days prior to the expiration date of the Lease.\n\nThe information is available in [Source 1].",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 710.8,
+      "generation_ms": 5996.0,
+      "verification_ms": null,
+      "prompt_tokens": 967,
+      "output_tokens": 57,
+      "sources": [
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": 7.089961051940918,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": 3.399399757385254,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "10",
+          "rerank_score": 2.5711240768432617,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "21",
+          "rerank_score": -0.9111137986183167,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "9",
+          "rerank_score": -1.0251187086105347,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q10",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q11",
+      "question": "How many days does the tenant have to report defects after the lease starts?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "Seven days from the lease start date, in writing.",
+      "answer": "According to [Source 1], Section 8, the tenant has 7 days to report defects after the lease starts.",
+      "candidate_answer": "According to [Source 1], Section 8, the tenant has 7 days to report defects after the lease starts.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 891.0,
+      "generation_ms": 5103.4,
+      "verification_ms": null,
+      "prompt_tokens": 1040,
+      "output_tokens": 26,
+      "sources": [
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": 7.022059440612793,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": 0.9704602956771851,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": 0.002443552017211914,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "17",
+          "rerank_score": -1.8266500234603882,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "2",
+          "rerank_score": -2.912156581878662,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q11",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q12",
+      "question": "Is smoking allowed on the property?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "No. It is a non-smoking property, including vaping and cannabis.",
+      "answer": "Based on the provided sources, it appears that smoking is strictly prohibited on the property grounds, as stated in [Source 1], Section 6:\n\n\"Smoke-Free & Substance Policy: This is a non-smoking property. The smoking or vaping of any substance—including but not to tobacco, cannabis, or e-cigarettes—is strictly prohibited within the Premises and on the property grounds.\"\n\nThere is no mention of exceptions or allowances for smoking on the property.",
+      "candidate_answer": "Based on the provided sources, it appears that smoking is strictly prohibited on the property grounds, as stated in [Source 1], Section 6:\n\n\"Smoke-Free & Substance Policy: This is a non-smoking property. The smoking or vaping of any substance—including but not to tobacco, cannabis, or e-cigarettes—is strictly prohibited within the Premises and on the property grounds.\"\n\nThere is no mention of exceptions or allowances for smoking on the property.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 713.7,
+      "generation_ms": 7875.9,
+      "verification_ms": null,
+      "prompt_tokens": 1017,
+      "output_tokens": 91,
+      "sources": [
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": 6.3684844970703125,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "7",
+          "rerank_score": -6.862857818603516,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "24",
+          "rerank_score": -9.003153800964355,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "15",
+          "rerank_score": -9.609696388244629,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -9.732720375061035,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q12",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q13",
+      "question": "Can the tenant repaint or renovate the unit without permission?",
+      "tags": [
+        "vocab-gap"
+      ],
+      "expected": "No. Alterations, additions and improvements need the landlord's prior written consent.",
+      "answer": "Based on the provided sources, the answer to the question is:\n\nThe tenant cannot repaint or renovate the unit without permission, as stated in [Source 1], Section 10: \"Tenant shall make no alterations, additions, or improvements to the Premises without the prior written consent of the Landlord.\"\n\nHowever, the sources do not provide information on what happens if the tenant does repaint or renovate the unit without permission. It only mentions that the Landlord reserves the right to require the Tenant to remove any such alterations or improvements and restore the Premises to their original condition upon the expiration or earlier termination of the Lease.\n\nAdditionally, the sources do not provide information on whether the Tenant can repaint or renovate the unit with the permission of the Landlord, but without specifying what the terms of that permission would be.",
+      "candidate_answer": "Based on the provided sources, the answer to the question is:\n\nThe tenant cannot repaint or renovate the unit without permission, as stated in [Source 1], Section 10: \"Tenant shall make no alterations, additions, or improvements to the Premises without the prior written consent of the Landlord.\"\n\nHowever, the sources do not provide information on what happens if the tenant does repaint or renovate the unit without permission. It only mentions that the Landlord reserves the right to require the Tenant to remove any such alterations or improvements and restore the Premises to their original condition upon the expiration or earlier termination of the Lease.\n\nAdditionally, the sources do not provide information on whether the Tenant can repaint or renovate the unit with the permission of the Landlord, but without specifying what the terms of that permission would be.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 791.2,
+      "generation_ms": 10416.4,
+      "verification_ms": null,
+      "prompt_tokens": 902,
+      "output_tokens": 166,
+      "sources": [
+        {
+          "page": 2,
+          "section": "10",
+          "rerank_score": 2.9450440406799316,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "9",
+          "rerank_score": -0.16587752103805542,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": -1.7285172939300537,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "7",
+          "rerank_score": -1.8690975904464722,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "15",
+          "rerank_score": -2.1761908531188965,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q13",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q14",
+      "question": "Are pets allowed?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "Not without the landlord's prior written consent.",
+      "answer": "Based on the provided sources, it appears that pets are not explicitly allowed in the lease. \n\nThe only relevant section is [Source 1], which states: \"Tenant shall keep no domestic or other animals in or about the Premises without the prior written consent of Landlord.\" This implies that pets are not permitted without the landlord's explicit permission.\n\nThe other sources do not mention pets or animals in any way. \n\nTherefore, the answer is that pets are not allowed without the landlord's prior written consent.",
+      "candidate_answer": "Based on the provided sources, it appears that pets are not explicitly allowed in the lease. \n\nThe only relevant section is [Source 1], which states: \"Tenant shall keep no domestic or other animals in or about the Premises without the prior written consent of Landlord.\" This implies that pets are not permitted without the landlord's explicit permission.\n\nThe other sources do not mention pets or animals in any way. \n\nTherefore, the answer is that pets are not allowed without the landlord's prior written consent.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 787.7,
+      "generation_ms": 8736.7,
+      "verification_ms": null,
+      "prompt_tokens": 1007,
+      "output_tokens": 103,
+      "sources": [
+        {
+          "page": 3,
+          "section": "15",
+          "rerank_score": 4.266098976135254,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "7",
+          "rerank_score": -10.135283470153809,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": -10.660914421081543,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "24",
+          "rerank_score": -10.788971900939941,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -10.872624397277832,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q14",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q15",
+      "question": "How many people may live in the apartment?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "No more than 1 individual; additional occupants need written consent.",
+      "answer": "According to [Source 1], Section 7, the property is leased exclusively for use as a private single-family residence occupied by no more than 1 individual.",
+      "candidate_answer": "According to [Source 1], Section 7, the property is leased exclusively for use as a private single-family residence occupied by no more than 1 individual.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1073.5,
+      "generation_ms": 7071.7,
+      "verification_ms": null,
+      "prompt_tokens": 1141,
+      "output_tokens": 34,
+      "sources": [
+        {
+          "page": 2,
+          "section": "7",
+          "rerank_score": -8.002432823181152,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -8.912487983703613,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "1",
+          "rerank_score": -10.75809097290039,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -10.999670028686523,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "17",
+          "rerank_score": -11.026485443115234,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q15",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q16",
+      "question": "How many days does the landlord have to return the security deposit after the tenant moves out?",
+      "tags": [
+        "fact",
+        "distractor"
+      ],
+      "expected": "Within fourteen (14) days after the tenant vacates.",
+      "answer": "According to [Source 1], Section 19, the Landlord has to return the security deposit within 14 days after the Tenant vacates the Premises.\n\nThe information is not available in the provided documents regarding the specific number of days after the Tenant moves out, but it is stated that the Landlord has to return the security deposit within 14 days after the Tenant vacates the Premises.",
+      "candidate_answer": "According to [Source 1], Section 19, the Landlord has to return the security deposit within 14 days after the Tenant vacates the Premises.\n\nThe information is not available in the provided documents regarding the specific number of days after the Tenant moves out, but it is stated that the Landlord has to return the security deposit within 14 days after the Tenant vacates the Premises.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1340.0,
+      "generation_ms": 8544.1,
+      "verification_ms": null,
+      "prompt_tokens": 1009,
+      "output_tokens": 82,
+      "sources": [
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": 6.040470600128174,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": 4.038147449493408,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": 4.035226821899414,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -0.05384000390768051,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": -0.4521905481815338,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q16",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q17",
+      "question": "Can the tenant use the security deposit as the last month's rent?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "No. The deposit cannot be deducted from the last month's rent or any other rent.",
+      "answer": "According to [Source 1], Section 20, the tenant cannot use the security deposit as the last month's rent. The Security Deposit is held as security for the faithful performance of the Tenant's obligations, and if Tenant fails to pay rent, Landlord may pursue all legal remedies for the collection of rent, independent of the Security Deposit.\n\nHowever, [Source 3], Section 19, states that after the Tenant vacates the Premises, the Landlord shall return the security deposit to the Tenant, less any amounts lawfully withheld for damage to the Premises beyond reasonable wear and tear. This implies that the security deposit can be used to cover unpaid rent, but it does not explicitly state that it can be used as the last month's rent.\n\nThe information is not available in the provided documents regarding whether the tenant can use the security deposit as the last month's rent.",
+      "candidate_answer": "According to [Source 1], Section 20, the tenant cannot use the security deposit as the last month's rent. The Security Deposit is held as security for the faithful performance of the Tenant's obligations, and if Tenant fails to pay rent, Landlord may pursue all legal remedies for the collection of rent, independent of the Security Deposit.\n\nHowever, [Source 3], Section 19, states that after the Tenant vacates the Premises, the Landlord shall return the security deposit to the Tenant, less any amounts lawfully withheld for damage to the Premises beyond reasonable wear and tear. This implies that the security deposit can be used to cover unpaid rent, but it does not explicitly state that it can be used as the last month's rent.\n\nThe information is not available in the provided documents regarding whether the tenant can use the security deposit as the last month's rent.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1171.9,
+      "generation_ms": 15573.6,
+      "verification_ms": null,
+      "prompt_tokens": 1095,
+      "output_tokens": 179,
+      "sources": [
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": 9.670307159423828,
+          "contains_evidence": true
+        },
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": 3.625753402709961,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": 0.7174917459487915,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": 0.2599279284477234,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -1.4022884368896484,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q17",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.5,
+        "complete": false,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "deduct",
+            "deducted",
+            "deducting",
+            "deduction",
+            "apply",
+            "applied"
+          ]
+        ],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q18",
+      "question": "What is the minimum indoor temperature the tenant must maintain in winter?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "No lower than 65 F at all times.",
+      "answer": "According to [Source 1], the minimum indoor temperature the tenant must maintain in winter is 65°F at all times to prevent frozen pipes and property damage.\n\nThe information is not available in the provided documents regarding the specific temperature in case of failure to maintain this temperature.",
+      "candidate_answer": "According to [Source 1], the minimum indoor temperature the tenant must maintain in winter is 65°F at all times to prevent frozen pipes and property damage.\n\nThe information is not available in the provided documents regarding the specific temperature in case of failure to maintain this temperature.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1745.7,
+      "generation_ms": 6512.7,
+      "verification_ms": null,
+      "prompt_tokens": 885,
+      "output_tokens": 55,
+      "sources": [
+        {
+          "page": 2,
+          "section": null,
+          "rerank_score": 8.398510932922363,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -6.313601493835449,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -7.767280101776123,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "15",
+          "rerank_score": -9.20523738861084,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -9.991425514221191,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q18",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q19",
+      "question": "What substances is the tenant not allowed to pour into the drains?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "Grease, oil, food, coffee grounds or similar substances.",
+      "answer": "According to the provided sources, the tenant is not allowed to pour the following substances into the drains:\n\n* Grease (Source 1, Section 6)\n* Oil (Source 1, Section 6)\n* Food (Source 1, Section 6)\n* Coffee grounds (Source 1, Section 6)\n\nThe information is not available in the provided documents regarding other substances that should not be poured into the drains.",
+      "candidate_answer": "According to the provided sources, the tenant is not allowed to pour the following substances into the drains:\n\n* Grease (Source 1, Section 6)\n* Oil (Source 1, Section 6)\n* Food (Source 1, Section 6)\n* Coffee grounds (Source 1, Section 6)\n\nThe information is not available in the provided documents regarding other substances that should not be poured into the drains.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1381.1,
+      "generation_ms": 9355.1,
+      "verification_ms": null,
+      "prompt_tokens": 1019,
+      "output_tokens": 88,
+      "sources": [
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": 5.4167633056640625,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -5.942048072814941,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": null,
+          "rerank_score": -6.193304061889648,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -6.415566921234131,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": -7.230078220367432,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q19",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q20",
+      "question": "What happens if the tenant abandons the apartment?",
+      "tags": [
+        "multi-clause"
+      ],
+      "expected": "Landlord may retake possession and relet; tenant stays liable for rent until the unit is relet, if the landlord makes good-faith efforts.",
+      "answer": "If the tenant abandons the apartment, the Landlord has the right to retake possession of the Premises in accordance with applicable law and proceed to relet the Premises to mitigate damages, as stated in [Source 1] Section 21.\n\nThe Tenant remains liable for the rent due under the remaining term of the Lease until the Premises are relet, provided the Landlord makes reasonable, good-faith efforts to find a new tenant, as stated in [Source 1] Section 21.\n\nThe Tenant is also responsible for any costs incurred by the Landlord in storing or disposing of the Tenant's abandoned personal property, as stated in [Source 1] Section 21.\n\nThe information about the Security Deposit is not explicitly stated in the context of the tenant abandoning the apartment. However, [Source 4] states that the Security Deposit is held as security for the faithful performance of the Tenant's obligations, and [Source 3] states that the Landlord shall return the Security Deposit to the Tenant, less any deductions for unpaid rent or damages beyond reasonable wear and tear, within fourteen (14) days after the Tenant vacates the Premises.",
+      "candidate_answer": "If the tenant abandons the apartment, the Landlord has the right to retake possession of the Premises in accordance with applicable law and proceed to relet the Premises to mitigate damages, as stated in [Source 1] Section 21.\n\nThe Tenant remains liable for the rent due under the remaining term of the Lease until the Premises are relet, provided the Landlord makes reasonable, good-faith efforts to find a new tenant, as stated in [Source 1] Section 21.\n\nThe Tenant is also responsible for any costs incurred by the Landlord in storing or disposing of the Tenant's abandoned personal property, as stated in [Source 1] Section 21.\n\nThe information about the Security Deposit is not explicitly stated in the context of the tenant abandoning the apartment. However, [Source 4] states that the Security Deposit is held as security for the faithful performance of the Tenant's obligations, and [Source 3] states that the Landlord shall return the Security Deposit to the Tenant, less any deductions for unpaid rent or damages beyond reasonable wear and tear, within fourteen (14) days after the Tenant vacates the Premises.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 3470.6,
+      "generation_ms": 24665.9,
+      "verification_ms": null,
+      "prompt_tokens": 1088,
+      "output_tokens": 238,
+      "sources": [
+        {
+          "page": 4,
+          "section": "21",
+          "rerank_score": 4.559237480163574,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -3.1031577587127686,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -3.1607961654663086,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": -3.9169318675994873,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -3.920705556869507,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q20",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          4,
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q21",
+      "question": "What happens to the rent if the unit is damaged by a fire the tenant did not cause?",
+      "tags": [
+        "multi-clause",
+        "vocab-gap"
+      ],
+      "expected": "Rent is abated in proportion to the unusable part; the landlord may terminate if repair is not economically feasible.",
+      "answer": "According to [Source 1], Section 11, if the unit is damaged by a fire the tenant did not cause, the rent shall be abated in proportion to the part of the Premises rendered untenantable until such time as the Premises are restored to a tenantable condition.\n\nHowever, the context does not specify what happens to the rent after the Premises are restored to a tenantable condition. It only mentions that if the Landlord determines it is not economically feasible to repair or rebuild the Premises, the Landlord may terminate the Lease, and in that case, the rent shall be prorated up to the date of the damage.\n\nThe information on what happens to the rent after the damage is restored is not provided in the context.",
+      "candidate_answer": "According to [Source 1], Section 11, if the unit is damaged by a fire the tenant did not cause, the rent shall be abated in proportion to the part of the Premises rendered untenantable until such time as the Premises are restored to a tenantable condition.\n\nHowever, the context does not specify what happens to the rent after the Premises are restored to a tenantable condition. It only mentions that if the Landlord determines it is not economically feasible to repair or rebuild the Premises, the Landlord may terminate the Lease, and in that case, the rent shall be prorated up to the date of the damage.\n\nThe information on what happens to the rent after the damage is restored is not provided in the context.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 5084.4,
+      "generation_ms": 13905.6,
+      "verification_ms": null,
+      "prompt_tokens": 1137,
+      "output_tokens": 154,
+      "sources": [
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": 6.876140117645264,
+          "contains_evidence": true
+        },
+        {
+          "page": 4,
+          "section": "24",
+          "rerank_score": 0.6774349212646484,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -0.22083567082881927,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -0.6449627876281738,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -1.5191031694412231,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q21",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q22",
+      "question": "Is the tenant required to carry renter's insurance?",
+      "tags": [
+        "multi-clause"
+      ],
+      "expected": "The lease makes obtaining renter's insurance the tenant's responsibility and strongly advises it.",
+      "answer": "Based on the provided sources, it appears that the tenant is strongly advised to obtain a renter's insurance policy to protect against loss of personal property, fire, theft, or liability. However, there is no explicit requirement for the tenant to carry renter's insurance.\n\nThe tenant is advised to obtain renter's insurance in [Source 1] and [Source 2], but the language used is \"strongly advised\" rather than \"required.\" The tenant is also responsible for arranging and paying for all utility services, including water, as stated in [Source 3].\n\nThe information is not available in the provided documents regarding whether the tenant is required to carry renter's insurance.",
+      "candidate_answer": "Based on the provided sources, it appears that the tenant is strongly advised to obtain a renter's insurance policy to protect against loss of personal property, fire, theft, or liability. However, there is no explicit requirement for the tenant to carry renter's insurance.\n\nThe tenant is advised to obtain renter's insurance in [Source 1] and [Source 2], but the language used is \"strongly advised\" rather than \"required.\" The tenant is also responsible for arranging and paying for all utility services, including water, as stated in [Source 3].\n\nThe information is not available in the provided documents regarding whether the tenant is required to carry renter's insurance.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1795.8,
+      "generation_ms": 10972.0,
+      "verification_ms": null,
+      "prompt_tokens": 994,
+      "output_tokens": 139,
+      "sources": [
+        {
+          "page": 4,
+          "section": "24",
+          "rerank_score": 6.242889404296875,
+          "contains_evidence": true
+        },
+        {
+          "page": 4,
+          "section": "22",
+          "rerank_score": 3.861510753631592,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -0.31263870000839233,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -2.0138063430786133,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -2.183137893676758,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q22",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          2,
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q23",
+      "question": "Who is responsible for landscaping?",
+      "tags": [
+        "continuation"
+      ],
+      "expected": "The landlord.",
+      "answer": "Based on the provided context, the responsible party for landscaping is the Landlord, as stated in [Source 1]:\n\n\"Landlord shall be responsible for landscaping.\"\n\nThere is no information in the provided sources that indicates the Tenant is responsible for landscaping.",
+      "candidate_answer": "Based on the provided context, the responsible party for landscaping is the Landlord, as stated in [Source 1]:\n\n\"Landlord shall be responsible for landscaping.\"\n\nThere is no information in the provided sources that indicates the Tenant is responsible for landscaping.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1685.9,
+      "generation_ms": 7865.3,
+      "verification_ms": null,
+      "prompt_tokens": 1125,
+      "output_tokens": 51,
+      "sources": [
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": 3.380671501159668,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -6.62813663482666,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "7",
+          "rerank_score": -9.132955551147461,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": null,
+          "rerank_score": -9.424383163452148,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -9.466779708862305,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q23",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q24",
+      "question": "If the landlord withholds part of the security deposit, what must they provide?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "An itemized statement describing the basis for each deduction; withholding is limited to damage beyond normal wear and tear.",
+      "answer": "According to [Source 1], Section 20, if the landlord withholds part of the security deposit, they must provide an itemized statement describing the basis for any such deduction.\n\nThe information is not available in the provided documents regarding what specific items or conditions must be included in the itemized statement.",
+      "candidate_answer": "According to [Source 1], Section 20, if the landlord withholds part of the security deposit, they must provide an itemized statement describing the basis for any such deduction.\n\nThe information is not available in the provided documents regarding what specific items or conditions must be included in the itemized statement.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1744.6,
+      "generation_ms": 7458.1,
+      "verification_ms": null,
+      "prompt_tokens": 1040,
+      "output_tokens": 62,
+      "sources": [
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": 3.1225662231445312,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": 2.7225430011749268,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": 0.9149137735366821,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "22",
+          "rerank_score": 0.07377353310585022,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -0.48188138008117676,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q24",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": false,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q25",
+      "question": "Who does the tenant tell about a plumbing or heating problem?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "The tenant must immediately notify the landlord of defects or issues with plumbing, heating, electrical or structural systems.",
+      "answer": "Based on the provided sources, the tenant is responsible for notifying the Landlord about a plumbing or heating problem. This is stated in [Source 1], Section 14, which states that the Tenant shall immediately notify the Landlord of any defects or issues with plumbing, heating, electrical, or structural systems.\n\nHowever, [Source 2] also mentions that the Tenant is responsible for any plumbing blockage or damage caused by improper use, and that failure to maintain a minimum indoor temperature during the winter months may result in damage and be the responsibility of the Tenant.\n\nThere is no mention of the Tenant being responsible for notifying the Landlord about a plumbing or heating problem in [Source 3] or [Source 4]. \n\nThe information is not available in the provided documents regarding who the Tenant tells about a plumbing or heating problem.",
+      "candidate_answer": "Based on the provided sources, the tenant is responsible for notifying the Landlord about a plumbing or heating problem. This is stated in [Source 1], Section 14, which states that the Tenant shall immediately notify the Landlord of any defects or issues with plumbing, heating, electrical, or structural systems.\n\nHowever, [Source 2] also mentions that the Tenant is responsible for any plumbing blockage or damage caused by improper use, and that failure to maintain a minimum indoor temperature during the winter months may result in damage and be the responsibility of the Tenant.\n\nThere is no mention of the Tenant being responsible for notifying the Landlord about a plumbing or heating problem in [Source 3] or [Source 4]. \n\nThe information is not available in the provided documents regarding who the Tenant tells about a plumbing or heating problem.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1279.0,
+      "generation_ms": 14555.9,
+      "verification_ms": null,
+      "prompt_tokens": 1020,
+      "output_tokens": 168,
+      "sources": [
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": 4.2006425857543945,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": null,
+          "rerank_score": -0.8354625105857849,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -3.8633296489715576,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": -4.599321365356445,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -5.215454578399658,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q25",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q26",
+      "question": "Are overnight guests allowed?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "No. Guests are for occasional visits only; no overnight guests and no parties.",
+      "answer": "According to [Source 1], Section 7, the property is leased exclusively for use as a private single-family residence occupied by no more than 1 individual. However, it states that \"No additional persons may reside at the Premises without the prior written consent of the Landlord.\"\n\nIt does not explicitly state whether overnight guests are allowed. However, it does mention that \"Guests are permitted for occasional visits only\" and that \"No Overnight guests.\" This suggests that overnight guests are not permitted, but it does not explicitly state this as a rule.\n\nTherefore, the answer is that overnight guests are not allowed, as stated in [Source 1], Section 7.",
+      "candidate_answer": "According to [Source 1], Section 7, the property is leased exclusively for use as a private single-family residence occupied by no more than 1 individual. However, it states that \"No additional persons may reside at the Premises without the prior written consent of the Landlord.\"\n\nIt does not explicitly state whether overnight guests are allowed. However, it does mention that \"Guests are permitted for occasional visits only\" and that \"No Overnight guests.\" This suggests that overnight guests are not permitted, but it does not explicitly state this as a rule.\n\nTherefore, the answer is that overnight guests are not allowed, as stated in [Source 1], Section 7.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 2824.1,
+      "generation_ms": 12257.9,
+      "verification_ms": null,
+      "prompt_tokens": 1170,
+      "output_tokens": 137,
+      "sources": [
+        {
+          "page": 2,
+          "section": "7",
+          "rerank_score": 2.9040350914001465,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": -9.313430786132812,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -10.028131484985352,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -10.41299057006836,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -10.51507568359375,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q26",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q27",
+      "question": "Does the landlord have to give notice before showing the apartment to prospective renters?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "Yes, reasonable prior notice to the tenant.",
+      "answer": "Based on the provided sources, it appears that the landlord does not have to give notice before showing the apartment to prospective renters. \n\nThe relevant sections are:\n\n* [Source 1], Section 17: \"The Landlord or the Landlord’s agents may show the Premises to prospective tenants, purchasers, lenders, or other authorized parties upon providing reasonable prior notice to the Tenant.\"\n* [Source 4], Section 5: \"Right of Entry: The Landlord or the Landlord’s agent may enter the Premises for purposes of inspection, maintenance, repair, or to address matters relating to the condition of the property, upon providing reasonable prior notice to the Tenant, except in the case of a bona fide emergency.\"\n\nHowever, it is not explicitly stated that the landlord must provide notice before showing the apartment to prospective renters. The notice requirement is mentioned in the context of the landlord's right to enter the premises for inspection, maintenance, or repair, but it is not clear if this notice requirement applies to showings of the premises to prospective renters.\n\nThe information is not available in the provided documents regarding the specific requirement for notice before showing the apartment to prospective renters.",
+      "candidate_answer": "Based on the provided sources, it appears that the landlord does not have to give notice before showing the apartment to prospective renters. \n\nThe relevant sections are:\n\n* [Source 1], Section 17: \"The Landlord or the Landlord’s agents may show the Premises to prospective tenants, purchasers, lenders, or other authorized parties upon providing reasonable prior notice to the Tenant.\"\n* [Source 4], Section 5: \"Right of Entry: The Landlord or the Landlord’s agent may enter the Premises for purposes of inspection, maintenance, repair, or to address matters relating to the condition of the property, upon providing reasonable prior notice to the Tenant, except in the case of a bona fide emergency.\"\n\nHowever, it is not explicitly stated that the landlord must provide notice before showing the apartment to prospective renters. The notice requirement is mentioned in the context of the landlord's right to enter the premises for inspection, maintenance, or repair, but it is not clear if this notice requirement applies to showings of the premises to prospective renters.\n\nThe information is not available in the provided documents regarding the specific requirement for notice before showing the apartment to prospective renters.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 6129.5,
+      "generation_ms": 20556.4,
+      "verification_ms": null,
+      "prompt_tokens": 1130,
+      "output_tokens": 237,
+      "sources": [
+        {
+          "page": 3,
+          "section": "17",
+          "rerank_score": 6.338656425476074,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": 0.4850925803184509,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": -1.3233952522277832,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -1.990293025970459,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "21",
+          "rerank_score": -2.543776512145996,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q27",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          4
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": true,
+        "contradiction": "does not have to give notice",
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q28",
+      "question": "What fees or extra charges can the tenant be charged besides rent?",
+      "tags": [
+        "multi-clause",
+        "cross-chunk"
+      ],
+      "expected": "A $50 late fee if rent is late after the 4th day, and a $60 additional rent charge if a utility is turned off and reverts to the landlord.",
+      "answer": "Based on the provided sources, the following fees or extra charges can be charged to the tenant besides rent:\n\n* Late fee of $50 if rent is not received by the Landlord by the Fourth (4th) day of the month (Source 1)\n* $60.00 as additional rent due and payable under paragraph 3 of the agreement (Source 2)\n* Cost of repairs for damages caused by the Tenant's misuse, waste, or neglect of the Premises (Source 3)\n\nThe information is not available in the provided documents regarding other specific fees or charges that the tenant may be liable for.",
+      "candidate_answer": "Based on the provided sources, the following fees or extra charges can be charged to the tenant besides rent:\n\n* Late fee of $50 if rent is not received by the Landlord by the Fourth (4th) day of the month (Source 1)\n* $60.00 as additional rent due and payable under paragraph 3 of the agreement (Source 2)\n* Cost of repairs for damages caused by the Tenant's misuse, waste, or neglect of the Premises (Source 3)\n\nThe information is not available in the provided documents regarding other specific fees or charges that the tenant may be liable for.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 5667.6,
+      "generation_ms": 10549.9,
+      "verification_ms": null,
+      "prompt_tokens": 1080,
+      "output_tokens": 125,
+      "sources": [
+        {
+          "page": 1,
+          "section": "3",
+          "rerank_score": 1.6370866298675537,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": 0.9739957451820374,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -2.611968517303467,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -4.112155914306641,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -4.18242073059082,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q28",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          2,
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q29",
+      "question": "What happens if the tenant does not give written notice about renewal before the lease expires?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "The lease terminates automatically on the expiration date and the tenant must vacate.",
+      "answer": "According to [Source 1], Section 18, if the tenant does not provide written notice about renewal before the lease expires, the lease will automatically terminate on the expiration date, and the tenant will be required to vacate the premises.\n\nThe information is not available in the provided documents regarding what happens to the tenant's personal property or belongings after they vacate the premises.",
+      "candidate_answer": "According to [Source 1], Section 18, if the tenant does not provide written notice about renewal before the lease expires, the lease will automatically terminate on the expiration date, and the tenant will be required to vacate the premises.\n\nThe information is not available in the provided documents regarding what happens to the tenant's personal property or belongings after they vacate the premises.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1052.8,
+      "generation_ms": 8103.4,
+      "verification_ms": null,
+      "prompt_tokens": 991,
+      "output_tokens": 76,
+      "sources": [
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": 7.452737808227539,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "10",
+          "rerank_score": 2.263803482055664,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": 1.34867262840271,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "9",
+          "rerank_score": 1.1471785306930542,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -0.03268832713365555,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q29",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q30",
+      "question": "What condition must the unit be in when the tenant moves out?",
+      "tags": [
+        "paraphrase",
+        "vocab-gap"
+      ],
+      "expected": "Broom clean, vacant, and free of personal property and debris; reasonable wear and tear excepted.",
+      "answer": "To determine the condition that the unit must be in when the tenant moves out, we can look at the relevant sections of the lease.\n\nAccording to [Source 1], Section 8, the tenant accepts the premises in their current condition, except for any defects reported in writing to the landlord within seven (7) days of the lease start date. However, this section does not specify the condition that the unit must be in when the tenant moves out.\n\nIn contrast, [Source 2], Section 19, states that the tenant must surrender the premises in \"as good a condition as they were at the commencement of this Lease, reasonable wear and tear excepted.\" This implies that the unit must be in a condition that is similar to when the tenant first moved in, with normal wear and tear taken into account.\n\nAdditionally, [Source 4], Section None, mentions that any plumbing blockage or damage caused by improper use will be the responsibility of the tenant. This suggests that the tenant is responsible for maintaining the unit and preventing damage.\n\nHowever, [Source 5], Section 11, states that if the premises are substantially damaged by fire or other casualty not caused by the tenant, the rent shall be abated in proportion to the part of the premises rendered untenantable. This section does not specify the condition that the unit must be in when the tenant moves out.\n\nTherefore, based on the provided sources, it appears that the unit must be in a condition similar to when the tenant first moved in, with normal wear and tear taken into account, but the exact condition is not specified.",
+      "candidate_answer": "To determine the condition that the unit must be in when the tenant moves out, we can look at the relevant sections of the lease.\n\nAccording to [Source 1], Section 8, the tenant accepts the premises in their current condition, except for any defects reported in writing to the landlord within seven (7) days of the lease start date. However, this section does not specify the condition that the unit must be in when the tenant moves out.\n\nIn contrast, [Source 2], Section 19, states that the tenant must surrender the premises in \"as good a condition as they were at the commencement of this Lease, reasonable wear and tear excepted.\" This implies that the unit must be in a condition that is similar to when the tenant first moved in, with normal wear and tear taken into account.\n\nAdditionally, [Source 4], Section None, mentions that any plumbing blockage or damage caused by improper use will be the responsibility of the tenant. This suggests that the tenant is responsible for maintaining the unit and preventing damage.\n\nHowever, [Source 5], Section 11, states that if the premises are substantially damaged by fire or other casualty not caused by the tenant, the rent shall be abated in proportion to the part of the premises rendered untenantable. This section does not specify the condition that the unit must be in when the tenant moves out.\n\nTherefore, based on the provided sources, it appears that the unit must be in a condition similar to when the tenant first moved in, with normal wear and tear taken into account, but the exact condition is not specified.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 3073.5,
+      "generation_ms": 24085.0,
+      "verification_ms": null,
+      "prompt_tokens": 1070,
+      "output_tokens": 322,
+      "sources": [
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": 5.271624565124512,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -2.2399544715881348,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -3.6785359382629395,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": null,
+          "rerank_score": -4.074534893035889,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -4.455817222595215,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q30",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "broom clean",
+            "broom-clean"
+          ],
+          [
+            "vacant",
+            "empty"
+          ],
+          [
+            "personal property",
+            "belongings",
+            "debris"
+          ]
+        ],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q31",
+      "question": "What is the pet deposit amount?",
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The pet deposit amount is not mentioned in the provided documents.",
+      "candidate_answer": "The pet deposit amount is not mentioned in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 7309.1,
+      "generation_ms": 4807.5,
+      "verification_ms": null,
+      "prompt_tokens": 827,
+      "output_tokens": 13,
+      "sources": [
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": -5.42006254196167,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -10.299259185791016,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "15",
+          "rerank_score": -10.30638313293457,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "3",
+          "rerank_score": -11.024444580078125,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -11.08669662475586,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q31",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q32",
+      "question": "What interest rate does the security deposit earn?",
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The information is not available in the provided documents regarding the interest rate earned on the security deposit.",
+      "candidate_answer": "The information is not available in the provided documents regarding the interest rate earned on the security deposit.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 1615.0,
+      "generation_ms": 6806.8,
+      "verification_ms": null,
+      "prompt_tokens": 1090,
+      "output_tokens": 20,
+      "sources": [
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": -1.6247706413269043,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "20",
+          "rerank_score": -5.385480880737305,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -9.32058048248291,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -10.401361465454102,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -10.541011810302734,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q32",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q33",
+      "question": "Does the apartment include a washer and dryer?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "Based on the provided sources, I found no information about the apartment including a washer and dryer. The sources do not mention the presence or absence of appliances, including laundry facilities.",
+      "candidate_answer": "Based on the provided sources, I found no information about the apartment including a washer and dryer. The sources do not mention the presence or absence of appliances, including laundry facilities.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 5322.3,
+      "generation_ms": 7143.7,
+      "verification_ms": null,
+      "prompt_tokens": 1028,
+      "output_tokens": 36,
+      "sources": [
+        {
+          "page": 2,
+          "section": null,
+          "rerank_score": -10.858673095703125,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -10.884931564331055,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "24",
+          "rerank_score": -10.902809143066406,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": -10.95227336883545,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -10.991382598876953,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q33",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q34",
+      "question": "How much can the rent increase if the lease is renewed?",
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "Based on the provided context, I can answer the following question:\n\nThe information is not available in the provided documents regarding the maximum rent increase if the lease is renewed.",
+      "candidate_answer": "Based on the provided context, I can answer the following question:\n\nThe information is not available in the provided documents regarding the maximum rent increase if the lease is renewed.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1367.7,
+      "generation_ms": 7253.1,
+      "verification_ms": null,
+      "prompt_tokens": 1040,
+      "output_tokens": 34,
+      "sources": [
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": -2.016353130340576,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "3",
+          "rerank_score": -2.8632633686065674,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "4",
+          "rerank_score": -4.4033355712890625,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": null,
+          "rerank_score": -5.248353004455566,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "11",
+          "rerank_score": -6.486149311065674,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q34",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "q35",
+      "question": "What are the quiet hours?",
+      "tags": [
+        "unanswerable",
+        "distractor"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "Based on the provided sources, the quiet hours are defined as 9:00 A.M. to 8:00 P.M., unless otherwise agreed to by the Tenant. This is stated in [Source 1] and [Source 2].\n\nHowever, it is also mentioned that the Landlord or Landlord's agent may enter the Premises during reasonable hours, but it does not specify the exact quiet hours. [Source 3] and [Source 4] do not provide any information about quiet hours.\n\nThe information is not available in the provided documents regarding the specific quiet hours, but it is stated that the Landlord or Landlord's agent shall enter the Premises at reasonable times and in a manner that does not harass or unreasonably interfere with the Tenant's quiet enjoyment of the Premises.",
+      "candidate_answer": "Based on the provided sources, the quiet hours are defined as 9:00 A.M. to 8:00 P.M., unless otherwise agreed to by the Tenant. This is stated in [Source 1] and [Source 2].\n\nHowever, it is also mentioned that the Landlord or Landlord's agent may enter the Premises during reasonable hours, but it does not specify the exact quiet hours. [Source 3] and [Source 4] do not provide any information about quiet hours.\n\nThe information is not available in the provided documents regarding the specific quiet hours, but it is stated that the Landlord or Landlord's agent shall enter the Premises at reasonable times and in a manner that does not harass or unreasonably interfere with the Tenant's quiet enjoyment of the Premises.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 3258.9,
+      "generation_ms": 14199.8,
+      "verification_ms": null,
+      "prompt_tokens": 1126,
+      "output_tokens": 165,
+      "sources": [
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": -1.7880816459655762,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -5.833670616149902,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "17",
+          "rerank_score": -9.184630393981934,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -11.225025177001953,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -11.242864608764648,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "q35",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": false
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    }
+  ]
+}

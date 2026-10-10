@@ -94,7 +94,7 @@ def answer_query(
     query: str,
     top_k: int = 5,
     *,
-    verify: bool = True,
+    verify: bool | None = None,
     model: str | None = None,
     system_prompt: str | None = None,
     num_ctx: int | None = None,
@@ -102,6 +102,7 @@ def answer_query(
     """Retrieve relevant chunks, generate an answer, and verify its grounding.
 
     The keyword-only options exist for evaluation. The API uses the defaults.
+    ``verify=None`` follows settings.grounding_verifier_enabled.
     Note that the verifier always uses settings.ollama_model, even when
     ``model`` overrides the generation model.
     """
@@ -111,6 +112,9 @@ def answer_query(
 
     if top_k <= 0:
         raise ValueError("top_k must be greater than 0")
+
+    if verify is None:
+        verify = bool(getattr(settings, "grounding_verifier_enabled", False))
 
     logger.info("Starting hybrid RAG query: %s", query)
 

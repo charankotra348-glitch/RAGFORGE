@@ -109,6 +109,10 @@ The supported field must be a JSON boolean, not a string.
 """.strip()
 
 
+VERIFIER_MAX_TOKENS = 128
+_RAW_CHARS = 400
+
+
 @dataclass
 class GroundingVerdict:
     """Outcome of one verification.
@@ -122,6 +126,9 @@ class GroundingVerdict:
     status: str
     reason: str | None = None
     latency_ms: float | None = None
+    raw: str | None = None
+    output_tokens: int | None = None
+    hit_token_limit: bool | None = None
 
 
 def check_answer_grounded(
@@ -159,7 +166,7 @@ Candidate answer to verify:
                 {"role": "user", "content": user_prompt},
             ],
             format="json",
-            options={"temperature": 0, "num_predict": 128},
+            options={"temperature": 0, "num_predict": VERIFIER_MAX_TOKENS},
         )
     except Exception:
         logger.exception("Grounding verification failed; rejecting candidate answer")
@@ -167,21 +174,28 @@ Candidate answer to verify:
 
     latency_ms = _ms_since(start)
     content = response.message.content
+    output_tokens = getattr(response, "eval_count", None)
+    diagnostics = {
+        "latency_ms": latency_ms,
+        "raw": content[:_RAW_CHARS] if isinstance(content, str) else None,
+        "output_tokens": output_tokens if isinstance(output_tokens, int) else None,
+        "hit_token_limit": output_tokens >= VERIFIER_MAX_TOKENS if isinstance(output_tokens, int) else None,
+    }
     logger.info("Grounding verifier raw response: %r", content)
     if not content or not content.strip():
         logger.warning("Grounding verifier returned an empty response")
-        return GroundingVerdict(False, "malformed", "empty response", latency_ms)
+        return GroundingVerdict(False, "malformed", "empty response", **diagnostics)
 
     try:
         parsed = json.loads(content)
     except (json.JSONDecodeError, TypeError):
         logger.warning("Grounding verifier returned invalid JSON")
-        return GroundingVerdict(False, "malformed", "invalid JSON", latency_ms)
+        return GroundingVerdict(False, "malformed", "invalid JSON", **diagnostics)
 
     supported = parsed.get("supported") if isinstance(parsed, dict) else None
     if not isinstance(supported, bool):
         logger.warning("Grounding verifier returned an invalid supported field")
-        return GroundingVerdict(False, "malformed", "supported is not a boolean", latency_ms)
+        return GroundingVerdict(False, "malformed", "supported is not a boolean", **diagnostics)
 
     reason = parsed.get("reason")
     logger.info("Grounding verification result: supported=%s, reason=%s", supported, reason or "not provided")
@@ -189,7 +203,7 @@ Candidate answer to verify:
         supported=supported,
         status="supported" if supported else "unsupported",
         reason=reason if isinstance(reason, str) else None,
-        latency_ms=latency_ms,
+        **diagnostics,
     )
 
 
