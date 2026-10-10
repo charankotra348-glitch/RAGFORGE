@@ -1,0 +1,1816 @@
+{
+  "strategies": {
+    "dense": {
+      "summary": {
+        "hit@1": 0.8571428571428571,
+        "hit@5": 1.0,
+        "coverage@3": 0.9910714285714286,
+        "coverage@5": 0.9910714285714286,
+        "coverage@8": 0.9910714285714286,
+        "mrr": 0.9226190476190476,
+        "ndcg@5": 0.9310154679830588,
+        "latency_ms_mean": 10.18517377108635
+      },
+      "per_question": {
+        "q01": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q02": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q03": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q04": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.38685280723454163,
+          "missing_at_verbose_k": [
+            "During the last sixty (60) days of the Lease term"
+          ],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 0.75,
+          "coverage@5": 0.75,
+          "coverage@8": 0.75
+        },
+        "q05": {
+          "tags": [
+            "multi-clause",
+            "continuation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 0.9197207891481876,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q06": {
+          "tags": [
+            "multi-clause",
+            "calculation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q07": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q10": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q11": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q12": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q13": {
+          "tags": [
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q14": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q15": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q16": {
+          "tags": [
+            "fact",
+            "distractor"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q17": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q18": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q19": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q20": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q21": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q22": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q23": {
+          "tags": [
+            "continuation"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q24": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q25": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q26": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q27": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q28": {
+          "tags": [
+            "multi-clause",
+            "cross-chunk"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q29": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q30": {
+          "tags": [
+            "paraphrase",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 3,
+          "mrr": 0.3333333333333333,
+          "ndcg@5": 0.5,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        }
+      }
+    },
+    "bm25": {
+      "summary": {
+        "hit@1": 0.7142857142857143,
+        "hit@5": 0.9285714285714286,
+        "coverage@3": 0.8303571428571429,
+        "coverage@5": 0.9285714285714286,
+        "coverage@8": 0.9642857142857143,
+        "mrr": 0.805952380952381,
+        "ndcg@5": 0.8204134303063999,
+        "latency_ms_mean": 0.06873339973805871
+      },
+      "per_question": {
+        "q01": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q02": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q03": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q04": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 0.8772153153380493,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 0.75,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q05": {
+          "tags": [
+            "multi-clause",
+            "continuation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 0.9197207891481876,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q06": {
+          "tags": [
+            "multi-clause",
+            "calculation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q07": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q10": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q11": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q12": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q13": {
+          "tags": [
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 5,
+          "mrr": 0.2,
+          "ndcg@5": 0.38685280723454163,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 0.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q14": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": null,
+          "mrr": 0.0,
+          "ndcg@5": 0.0,
+          "missing_at_verbose_k": [
+            "shall keep no domestic or other animals in or about the Premises without the prior written consent of Landlord"
+          ],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 0.0,
+          "coverage@3": 0.0,
+          "coverage@5": 0.0,
+          "coverage@8": 0.0
+        },
+        "q15": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 5,
+          "mrr": 0.2,
+          "ndcg@5": 0.38685280723454163,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 0.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q16": {
+          "tags": [
+            "fact",
+            "distractor"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q17": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q18": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q19": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q20": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q21": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q22": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q23": {
+          "tags": [
+            "continuation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q24": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q25": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q26": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q27": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q28": {
+          "tags": [
+            "multi-clause",
+            "cross-chunk"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 0.8772153153380493,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 0.5,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q29": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q30": {
+          "tags": [
+            "paraphrase",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 6,
+          "mrr": 0.16666666666666666,
+          "ndcg@5": 0.0,
+          "missing_at_verbose_k": [
+            "returned in \"broom clean\" condition, vacant, and free of all personal property and debris"
+          ],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 0.0,
+          "coverage@3": 0.0,
+          "coverage@5": 0.0,
+          "coverage@8": 1.0
+        }
+      }
+    },
+    "hybrid": {
+      "summary": {
+        "hit@1": 0.9285714285714286,
+        "hit@5": 1.0,
+        "coverage@3": 0.9910714285714286,
+        "coverage@5": 1.0,
+        "coverage@8": 1.0,
+        "mrr": 0.9583333333333333,
+        "ndcg@5": 0.9645766096039109,
+        "latency_ms_mean": 9.59323205741904
+      },
+      "per_question": {
+        "q01": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q02": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q03": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q04": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 0.8772153153380493,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 0.75,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q05": {
+          "tags": [
+            "multi-clause",
+            "continuation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q06": {
+          "tags": [
+            "multi-clause",
+            "calculation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q07": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q10": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q11": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q12": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q13": {
+          "tags": [
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q14": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q15": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q16": {
+          "tags": [
+            "fact",
+            "distractor"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q17": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q18": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q19": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q20": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q21": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q22": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q23": {
+          "tags": [
+            "continuation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q24": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q25": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q26": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q27": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q28": {
+          "tags": [
+            "multi-clause",
+            "cross-chunk"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q29": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q30": {
+          "tags": [
+            "paraphrase",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 3,
+          "mrr": 0.3333333333333333,
+          "ndcg@5": 0.5,
+          "missing_at_verbose_k": [],
+          "top_score": null,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        }
+      }
+    },
+    "hybrid+rerank": {
+      "summary": {
+        "hit@1": 0.9285714285714286,
+        "hit@5": 1.0,
+        "coverage@3": 0.9910714285714286,
+        "coverage@5": 0.9910714285714286,
+        "coverage@8": 0.9910714285714286,
+        "mrr": 0.9642857142857143,
+        "ndcg@5": 0.9598216678538705,
+        "latency_ms_mean": 174.9126333996953
+      },
+      "per_question": {
+        "q01": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 4.916446685791016,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q02": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 8.131208419799805,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q03": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 4.998559951782227,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q04": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 0.6131471927654584,
+          "missing_at_verbose_k": [
+            "During the last sixty (60) days of the Lease term"
+          ],
+          "top_score": 6.241519927978516,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 0.75,
+          "coverage@5": 0.75,
+          "coverage@8": 0.75
+        },
+        "q05": {
+          "tags": [
+            "multi-clause",
+            "continuation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 6.363704681396484,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q06": {
+          "tags": [
+            "multi-clause",
+            "calculation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 4.556586265563965,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q07": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": -3.972531318664551,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q10": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 7.089961051940918,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q11": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 7.022059440612793,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q12": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 6.3684844970703125,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q13": {
+          "tags": [
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 2.9450440406799316,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q14": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 4.266098976135254,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q15": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": -8.002432823181152,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q16": {
+          "tags": [
+            "fact",
+            "distractor"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 6.040470600128174,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q17": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 9.670307159423828,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q18": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 8.398510932922363,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q19": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 5.4167633056640625,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q20": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 4.559237480163574,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q21": {
+          "tags": [
+            "multi-clause",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 6.876140117645264,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q22": {
+          "tags": [
+            "multi-clause"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 6.242889404296875,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q23": {
+          "tags": [
+            "continuation"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 3.380671501159668,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q24": {
+          "tags": [
+            "distractor"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": 3.1225662231445312,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q25": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 4.2006425857543945,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q26": {
+          "tags": [
+            "fact"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 2.9040350914001465,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q27": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 6.338656425476074,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q28": {
+          "tags": [
+            "multi-clause",
+            "cross-chunk"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 1.6370866298675537,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q29": {
+          "tags": [
+            "paraphrase"
+          ],
+          "first_relevant_rank": 1,
+          "mrr": 1.0,
+          "ndcg@5": 1.0,
+          "missing_at_verbose_k": [],
+          "top_score": 7.452737808227539,
+          "hit@1": 1.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        },
+        "q30": {
+          "tags": [
+            "paraphrase",
+            "vocab-gap"
+          ],
+          "first_relevant_rank": 2,
+          "mrr": 0.5,
+          "ndcg@5": 0.6309297535714575,
+          "missing_at_verbose_k": [],
+          "top_score": 5.271624565124512,
+          "hit@1": 0.0,
+          "hit@5": 1.0,
+          "coverage@3": 1.0,
+          "coverage@5": 1.0,
+          "coverage@8": 1.0
+        }
+      }
+    }
+  },
+  "no_answer_scores": {
+    "q08": -4.185205459594727,
+    "q09": -3.224404811859131,
+    "q31": -5.42006254196167,
+    "q32": -1.6247706413269043,
+    "q33": -10.858673095703125,
+    "q34": -2.016353130340576,
+    "q35": -1.7880816459655762
+  },
+  "answerable_questions": 28,
+  "rerank_top1_answerable": [
+    4.916446685791016,
+    8.131208419799805,
+    4.998559951782227,
+    6.241519927978516,
+    6.363704681396484,
+    4.556586265563965,
+    -3.972531318664551,
+    7.089961051940918,
+    7.022059440612793,
+    6.3684844970703125,
+    2.9450440406799316,
+    4.266098976135254,
+    -8.002432823181152,
+    6.040470600128174,
+    9.670307159423828,
+    8.398510932922363,
+    5.4167633056640625,
+    4.559237480163574,
+    6.876140117645264,
+    6.242889404296875,
+    3.380671501159668,
+    3.1225662231445312,
+    4.2006425857543945,
+    2.9040350914001465,
+    6.338656425476074,
+    1.6370866298675537,
+    7.452737808227539,
+    5.271624565124512
+  ]
+}

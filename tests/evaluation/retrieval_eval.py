@@ -79,11 +79,35 @@ def build_strategies(chunks: list[Document], pool: int) -> dict[str, Strategy]:
     def hybrid_rerank(query: str) -> list[SearchResult]:
         return rerank(query, hybrid(query), top_k=pool)
 
+    
+    def hybrid_rank_fusion(query: str) -> list[SearchResult]:
+        """Fuse hybrid and reranked rankings using reciprocal rank fusion."""
+        candidates = hybrid(query)
+
+        # rerank() reorders the results but keeps the same SearchResult objects.
+        reranked = rerank(query, candidates, top_k=pool)
+
+        rrf_k = 60
+        fused_scores = {
+            id(result): 1.0 / (rrf_k + rank)
+            for rank, result in enumerate(candidates, start=1)
+        }
+
+        for rank, result in enumerate(reranked, start=1):
+            fused_scores[id(result)] += 1.0 / (rrf_k + rank)
+
+        return sorted(
+            candidates,
+            key=lambda result: fused_scores[id(result)],
+            reverse=True,
+        )
+
     return {
         "dense": dense,
         "bm25": bm25_only,
         "hybrid": hybrid,
         "hybrid+rerank": hybrid_rerank,
+        "hybrid+rank-fusion": hybrid_rank_fusion,
     }
 
 
