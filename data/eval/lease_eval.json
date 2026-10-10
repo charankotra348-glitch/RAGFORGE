@@ -693,7 +693,9 @@
           "is required to",
           "are required to",
           "required to give",
-          "required to provide"
+          "required to provide",
+          "upon providing",
+          "after providing"
         ],
         [
           "reasonable notice",
@@ -710,7 +712,7 @@
         "no notice is required",
         "does not need to give notice"
       ],
-      "label_note": "2026-10-10: llama3.2:3b answered 'does not have to give notice' (wrong) yet scored 1.0, because bare 'required' matched 'not explicitly stated that notice is required'. Polarity group tightened and answer_must_not added."
+      "label_note": "2026-10-10: llama3.2:3b answered 'does not have to give notice' (wrong) yet scored 1.0, because bare 'required' matched 'not explicitly stated that notice is required'. Polarity group tightened and answer_must_not added. 2026-10-10: polarity group also accepts the lease's own conditional wording ('may show ... upon providing reasonable prior notice'), which is a correct yes; seen in a clean-v2 answer that scored 0.5."
     },
     {
       "id": "q28",

@@ -142,7 +142,51 @@ def replace_document_chunks(
         )
         logger.info("Removed %d stale chunks for document %s", len(stale_ids), document_id)
 
+    _delete_superseded_copies(client, settings, chunks, document_id)
+
     return upserted
+
+
+def _delete_superseded_copies(
+    client: QdrantClient,
+    settings: Settings,
+    chunks: Sequence[Document],
+    document_id: str,
+) -> None:
+    """Delete chunks indexed from the same source under a different document_id.
+
+    The same file indexed again (after an edit, or after the document_id
+    scheme changed) must replace the old copy, not sit next to it. Runs only
+    after the new chunks were upserted, so a failure never leaves the source
+    with no chunks.
+    """
+    sources = {chunk.metadata.get("source") for chunk in chunks}
+    if len(sources) != 1:
+        return
+    source = next(iter(sources))
+    if not isinstance(source, str) or not source:
+        return
+
+    superseded = Filter(
+        must=[FieldCondition(key="metadata.source", match=MatchValue(value=source))],
+        must_not=[FieldCondition(key="metadata.document_id", match=MatchValue(value=document_id))],
+    )
+    removed = client.count(
+        collection_name=settings.qdrant_collection,
+        count_filter=superseded,
+        exact=True,
+    ).count
+    if removed:
+        client.delete(
+            collection_name=settings.qdrant_collection,
+            points_selector=superseded,
+            wait=True,
+        )
+        logger.warning(
+            "Removed %d chunks of an older copy of %s (different document_id)",
+            removed,
+            source,
+        )
 
 
 def delete_document(

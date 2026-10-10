@@ -73,10 +73,27 @@ def validate_file(file_path: str | Path) -> Path:
 
 def _default_document_id(source: str) -> str:
     """
-    Generate a deterministic document ID from the document source.
+    Generate a deterministic document ID.
 
-    The same source always produces the same document ID.
+    For a local file, the ID is a hash of the file's bytes, so the same file
+    gets the same ID whatever path it is loaded from (relative, absolute, or
+    after the repository moves), and an edited file gets a new ID. For other
+    sources (URLs), the ID is a hash of the source string.
+
+    Earlier versions hashed the path string. Loading data/test.pdf and its
+    absolute path then produced two IDs, and the document was indexed twice.
     """
+
+    path = Path(source)
+    try:
+        if path.is_file():
+            digest = hashlib.sha256()
+            with path.open("rb") as handle:
+                for block in iter(lambda: handle.read(1 << 20), b""):
+                    digest.update(block)
+            return digest.hexdigest()[:16]
+    except OSError:
+        logger.warning("Could not read %s for a content hash; using the path", source)
 
     return hashlib.sha256(
         source.encode("utf-8")
