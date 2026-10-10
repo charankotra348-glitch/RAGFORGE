@@ -94,3 +94,47 @@ def test_query_reports_structured_abstention():
     body = response.json()
     assert body["abstained"] is True
     assert body["abstention_reason"] == "failed_verification"
+
+
+# --- degraded mode: the API must work and report clearly without its services ---
+
+from qdrant_client.http.exceptions import ResponseHandlingException  # noqa: E402
+
+from ragforge.app import main as main_module  # noqa: E402
+
+
+def test_api_starts_and_reports_degraded_when_services_are_down():
+    def down(settings):
+        raise ConnectionError("connection refused to secret-host:6333 password=hunter2")
+
+    class BrokenRedis:
+        def ping(self):
+            raise ConnectionError("redis down at secret-host")
+
+        def close(self):
+            pass
+
+    with (
+        patch.object(main_module, "get_database", side_effect=down),
+        patch.object(main_module, "get_redis", return_value=BrokenRedis()),
+        patch.object(main_module, "get_qdrant", side_effect=down),
+    ):
+        with TestClient(app) as client:
+            response = client.get("/health")
+
+    assert response.status_code == 503
+    body = response.json()
+    assert body["status"] == "degraded"
+    assert body["checks"] == {"postgres": "down", "redis": "down", "qdrant": "down"}
+    assert "secret-host" not in response.text and "hunter2" not in response.text
+
+
+def test_query_returns_503_when_a_dependency_is_unavailable():
+    for error in (
+        ConnectionError("Failed to connect to Ollama"),
+        ResponseHandlingException(ConnectionError("Connection refused")),
+    ):
+        with patch.object(main_module, "answer_query", side_effect=error):
+            response = TestClient(app).post("/query", json={"query": "What is the rent?", "top_k": 5})
+        assert response.status_code == 503, error
+        assert "Connection refused" not in response.text

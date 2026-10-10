@@ -28,14 +28,23 @@ def get_qdrant(settings: Settings) -> QdrantClient:
     global _client
 
     if _client is None:
-        _client = QdrantClient(
+        client = QdrantClient(
             host=settings.qdrant_host,
             port=settings.qdrant_port,
         )
-
         logger.info("Qdrant client created")
 
-        _ensure_collection(_client, settings)
+        # Cache the client only after the collection check succeeds. Caching it
+        # first meant that if Qdrant was down at the first call, every later
+        # call got the unchecked client back and the collection was never
+        # created or validated.
+        try:
+            _ensure_collection(client, settings)
+        except Exception:
+            client.close()
+            raise
+
+        _client = client
 
     return _client
 
