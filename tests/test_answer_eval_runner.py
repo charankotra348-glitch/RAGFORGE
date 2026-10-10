@@ -124,7 +124,7 @@ def test_compare_lists_changed_questions(answer_eval, tmp_path, monkeypatch, cap
     a, b = tmp_path / "a.json", tmp_path / "b.json"
     run_main(answer_eval, monkeypatch, "--json", str(a), "--only", "q01", "q06")
     report = json.loads(a.read_text(encoding="utf-8"))
-    report["config"]["prompt"] = "clean-v2"
+    report["config"]["prompt"] = "clean"
     report["questions"][1]["score"]["fact_recall"] = 0.0
     b.write_text(json.dumps(report), encoding="utf-8")
 
@@ -190,3 +190,13 @@ def test_verifier_defaults_to_off(answer_eval, tmp_path, monkeypatch) -> None:
     report = json.loads(out.read_text(encoding="utf-8"))
     assert report["config"]["verifier"] == "off"
     assert report["summary"]["verifier_checked"] == 0
+
+
+def test_eval_default_prompt_matches_production() -> None:
+    from ragforge.app.generation.prompts import SYSTEM_PROMPT, SYSTEM_PROMPTS
+
+    module = load_module()
+    parser_default = "clean-v2"
+    assert SYSTEM_PROMPTS[parser_default] == SYSTEM_PROMPT
+    assert f'default="{parser_default}"' in SCRIPT.read_text(encoding="utf-8")
+    assert module is not None

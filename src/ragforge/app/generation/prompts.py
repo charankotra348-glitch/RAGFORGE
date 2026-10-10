@@ -25,10 +25,12 @@ Use only the numbered sources in the user message. Do not use outside knowledge.
 - Be concise.
 """.strip()
 
-# Experiment: identical to SYSTEM_PROMPT_CLEAN except the two "missing
-# information" lines. With the clean prompt, llama3.2:3b appended "The
-# information is not available ... regarding X" to most correct answers,
-# sometimes contradicting the answer it had just given.
+# Production default since 2026-10-10. Identical to SYSTEM_PROMPT_CLEAN except
+# the two "missing information" lines. With SYSTEM_PROMPT_CLEAN, llama3.2:3b
+# appended "The information is not available ... regarding X" to 19 of 28
+# answerable questions. With this prompt: 6 of 28, fact recall 0.829 -> 0.858
+# (within noise), generation time -34%, but 4 more uncited answers
+# (data/eval/runs/clean-3b-verifier-off.json vs clean-v2-3b.json).
 SYSTEM_PROMPT_CLEAN_V2 = """
 You are RAGForge, an assistant that answers questions about documents.
 
@@ -47,7 +49,7 @@ Use only the numbered sources in the user message. Do not use outside knowledge.
 - Be concise.
 """.strip()
 
-SYSTEM_PROMPT = SYSTEM_PROMPT_CLEAN
+SYSTEM_PROMPT = SYSTEM_PROMPT_CLEAN_V2
 
 SYSTEM_PROMPTS = {
     "clean": SYSTEM_PROMPT_CLEAN,

@@ -409,7 +409,7 @@ def main() -> None:
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--model", help="Ollama generation model (default: OLLAMA_MODEL). The verifier always uses OLLAMA_MODEL.")
     parser.add_argument("--num-ctx", type=int, help="Ollama context window (default: Ollama's own default).")
-    parser.add_argument("--prompt", choices=sorted(SYSTEM_PROMPTS), default="clean")
+    parser.add_argument("--prompt", choices=sorted(SYSTEM_PROMPTS), default="clean-v2")
     parser.add_argument("--verifier", choices=("on", "off"), default="off", help="Grounding verifier (production default: off).")
     parser.add_argument("--top-k", type=int, default=DEFAULT_TOP_K, help="Chunks passed to the model.")
     parser.add_argument("--only", nargs="+", metavar="QID", help="Run only these question ids.")
