@@ -1,0 +1,2426 @@
+{
+  "config": {
+    "model": "llama3.2:3b",
+    "prompt": "clean-v2",
+    "system_prompt": "You are RAGForge, an assistant that answers questions about documents.\n\nUse only the numbered sources in the user message. Do not use outside knowledge.\n\n- If the sources do not answer the question at all, reply only: \"The\n  information is not available in the provided documents.\"\n- If the sources answer the question, give the answer. Do not add sentences\n  about what the sources do not mention.\n- Include every relevant detail. If the question asks for all items or\n  conditions, check every source before answering.\n- If the question needs arithmetic, state the numbers from the sources and\n  the result.\n- Cite each claim as [Source N], using only source numbers that appear in\n  the context.\n- Be concise.",
+    "num_ctx": null,
+    "top_k": 5,
+    "verifier": "off",
+    "verifier_model": null,
+    "dataset": "data/eval/policy_eval.json",
+    "only": null,
+    "git": "b7358a5",
+    "timestamp": "2026-10-29T10:15:43+00:00"
+  },
+  "summary": {
+    "n_answerable": 27,
+    "n_unanswerable": 5,
+    "mean_fact_recall": 0.704,
+    "complete": 19,
+    "contradicted": 0,
+    "false_refusals": 8,
+    "hedged": 7,
+    "correct_refusals": 4,
+    "citations_valid": 32,
+    "answerable_without_citation": 11,
+    "citation_supported": 15,
+    "n_with_valid_citation": 16,
+    "abstention_reasons": {
+      "model_abstained": 11
+    },
+    "verifier_checked": 0,
+    "verifier_status": {},
+    "verifier_hit_token_limit": 0,
+    "verifier_output_tokens_mean": null,
+    "verifier_effects": {},
+    "fact_recall_by_tag": {
+      "calculation": {
+        "n": 1,
+        "mean": 1.0
+      },
+      "cross-doc": {
+        "n": 2,
+        "mean": 1.0
+      },
+      "distractor": {
+        "n": 7,
+        "mean": 0.714
+      },
+      "fact": {
+        "n": 8,
+        "mean": 0.625
+      },
+      "multi-clause": {
+        "n": 3,
+        "mean": 1.0
+      },
+      "paraphrase": {
+        "n": 3,
+        "mean": 0.667
+      },
+      "vocab-gap": {
+        "n": 5,
+        "mean": 0.6
+      }
+    },
+    "retrieval_ms": {
+      "mean": 1087.4,
+      "p50": 874.1,
+      "max": 3794.4
+    },
+    "generation_ms": {
+      "mean": 4618.9,
+      "p50": 4440.4,
+      "max": 8902.4
+    },
+    "verification_ms": {
+      "mean": null,
+      "p50": null,
+      "max": null
+    },
+    "prompt_tokens_max": 1121,
+    "output_tokens_mean": 39.2
+  },
+  "questions": [
+    {
+      "id": "p01",
+      "question": "How long must someone work at the company before they can ask to work remotely?",
+      "tags": [
+        "vocab-gap"
+      ],
+      "expected": "After a 90-day probationary period.",
+      "answer": "To determine how long someone must work at the company before they can ask to work remotely, we need to look at the eligibility criteria for remote work.\n\nAccording to [Source 1], an employee becomes eligible to request a remote arrangement after completing a probationary period of 90 days.\n\nTherefore, someone must work at the company for 90 days before they can ask to work remotely.",
+      "candidate_answer": "To determine how long someone must work at the company before they can ask to work remotely, we need to look at the eligibility criteria for remote work.\n\nAccording to [Source 1], an employee becomes eligible to request a remote arrangement after completing a probationary period of 90 days.\n\nTherefore, someone must work at the company for 90 days before they can ask to work remotely.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 3794.4,
+      "generation_ms": 6685.6,
+      "verification_ms": null,
+      "prompt_tokens": 736,
+      "output_tokens": 78,
+      "sources": [
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": 4.939476013183594,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": 3.114555597305298,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "4",
+          "rerank_score": 1.657650351524353,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": 0.6604551076889038,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": 0.30822157859802246,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p01",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p02",
+      "question": "What are the core hours everyone has to be available?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "11:00 a.m. to 3:00 p.m. Eastern Time on working days.",
+      "answer": "The core hours everyone has to be available are between 11:00 a.m. and 3:00 p.m. Eastern Time on working days.",
+      "candidate_answer": "The core hours everyone has to be available are between 11:00 a.m. and 3:00 p.m. Eastern Time on working days.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1796.4,
+      "generation_ms": 5059.9,
+      "verification_ms": null,
+      "prompt_tokens": 799,
+      "output_tokens": 32,
+      "sources": [
+        {
+          "page": null,
+          "section": "4",
+          "rerank_score": 6.782552242279053,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -8.774690628051758,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "16",
+          "rerank_score": -8.871392250061035,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": -10.553548812866211,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -10.82596206665039,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p02",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p03",
+      "question": "How much is the one-time home office stipend?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "$600, in the first remote year.",
+      "answer": "The one-time home office stipend is $600.",
+      "candidate_answer": "The one-time home office stipend is $600.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 943.2,
+      "generation_ms": 3513.9,
+      "verification_ms": null,
+      "prompt_tokens": 800,
+      "output_tokens": 12,
+      "sources": [
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": 9.651424407958984,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -1.6109094619750977,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -6.599212646484375,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -9.217281341552734,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "1",
+          "rerank_score": -9.420741081237793,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p03",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p04",
+      "question": "I'm fully remote. Can I get money back for my home Wi-Fi, and how much?",
+      "tags": [
+        "vocab-gap"
+      ],
+      "expected": "Yes, up to $50 per month toward home internet.",
+      "answer": "Based on the provided context, it appears that fully remote employees are eligible for reimbursement for home internet costs, but the amount is not explicitly stated in the provided sources.\n\nHowever, [Source 1] states that the company reimburses up to $50 per month toward home internet for fully remote employees.",
+      "candidate_answer": "Based on the provided context, it appears that fully remote employees are eligible for reimbursement for home internet costs, but the amount is not explicitly stated in the provided sources.\n\nHowever, [Source 1] states that the company reimburses up to $50 per month toward home internet for fully remote employees.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1618.5,
+      "generation_ms": 6908.9,
+      "verification_ms": null,
+      "prompt_tokens": 750,
+      "output_tokens": 61,
+      "sources": [
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": 1.6459888219833374,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -2.665062427520752,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -3.262906789779663,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -5.460887908935547,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -8.490238189697266,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p04",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p05",
+      "question": "How much internet reimbursement does a hybrid employee get each month?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "Up to $25 per month.",
+      "answer": "According to [Source 1], hybrid employees receive up to $25 per month for home internet reimbursement.",
+      "candidate_answer": "According to [Source 1], hybrid employees receive up to $25 per month for home internet reimbursement.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 3786.4,
+      "generation_ms": 4864.1,
+      "verification_ms": null,
+      "prompt_tokens": 764,
+      "output_tokens": 22,
+      "sources": [
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": 8.73218059539795,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": 3.5634684562683105,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": 2.595498561859131,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -1.904897689819336,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -3.888817548751831,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p05",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p06",
+      "question": "For a 3-night trip to the planning week with meals claimed for 3 days, what is the most the company pays for hotel and meals together?",
+      "tags": [
+        "calculation"
+      ],
+      "expected": "$885: hotel 3 x $220 = $660 plus meals 3 x $75 = $225.",
+      "answer": "To calculate the maximum amount the company pays for hotel and meals together, we need to consider the maximum amounts for each separately.\n\nMaximum hotel cost per night: $220\nMaximum meals per day: $75\n\nSince the trip is for 3 nights, the maximum hotel cost would be:\n$220/night * 3 nights = $660\n\nSince the trip is for 3 days, the maximum meals cost would be:\n$75/day * 3 days = $225\n\nThe maximum amount the company pays for hotel and meals together would be:\n$660 (hotel) + $225 (meals) = $885",
+      "candidate_answer": "To calculate the maximum amount the company pays for hotel and meals together, we need to consider the maximum amounts for each separately.\n\nMaximum hotel cost per night: $220\nMaximum meals per day: $75\n\nSince the trip is for 3 nights, the maximum hotel cost would be:\n$220/night * 3 nights = $660\n\nSince the trip is for 3 days, the maximum meals cost would be:\n$75/day * 3 days = $225\n\nThe maximum amount the company pays for hotel and meals together would be:\n$660 (hotel) + $225 (meals) = $885",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1079.5,
+      "generation_ms": 7427.6,
+      "verification_ms": null,
+      "prompt_tokens": 738,
+      "output_tokens": 127,
+      "sources": [
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": 1.864777684211731,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -8.021705627441406,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -9.50564193725586,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "13",
+          "rerank_score": -10.243470191955566,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -10.340246200561523,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p06",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p07",
+      "question": "After how long does a laptop have to lock itself when nobody is using it?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "After five minutes of inactivity.",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 836.1,
+      "generation_ms": 3020.5,
+      "verification_ms": null,
+      "prompt_tokens": 736,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "9",
+          "rerank_score": 4.287407875061035,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -1.4391406774520874,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -9.222773551940918,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": -10.2216796875,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -10.418569564819336,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p07",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "five minutes",
+            "5 minutes",
+            "5 min",
+            "five (5) minutes"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p08",
+      "question": "Within how many days of buying something must I submit the expense?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "Within 30 days of the purchase date.",
+      "answer": "To answer the question, I will look for the specific section that deals with the time frame for submitting expenses.\n\nAccording to [Source 1], Section 8, expenses must be submitted within 30 days of the purchase date.\n\nThere is no information in the provided sources about a specific time frame for submitting expenses after buying something, other than the general requirement to submit expenses within 30 days of the purchase date.",
+      "candidate_answer": "To answer the question, I will look for the specific section that deals with the time frame for submitting expenses.\n\nAccording to [Source 1], Section 8, expenses must be submitted within 30 days of the purchase date.\n\nThere is no information in the provided sources about a specific time frame for submitting expenses after buying something, other than the general requirement to submit expenses within 30 days of the purchase date.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 480.2,
+      "generation_ms": 6139.3,
+      "verification_ms": null,
+      "prompt_tokens": 866,
+      "output_tokens": 84,
+      "sources": [
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": 7.441213130950928,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -3.505005359649658,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -5.657108306884766,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -8.185802459716797,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -8.254621505737305,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p08",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p09",
+      "question": "After how many days does an expense claim stop being reimbursed at all?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "Claims older than 60 days are not reimbursed.",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 1065.4,
+      "generation_ms": 3052.2,
+      "verification_ms": null,
+      "prompt_tokens": 816,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": 4.056523323059082,
+          "contains_evidence": true
+        },
+        {
+          "page": 3,
+          "section": "19",
+          "rerank_score": -5.2601518630981445,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -5.305782318115234,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -5.608640670776367,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -6.780337333679199,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p09",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "60 days",
+            "sixty days"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p10",
+      "question": "Who has to approve an $800 expense?",
+      "tags": [
+        "multi-clause"
+      ],
+      "expected": "The manager and the Finance team, because it is above $500.",
+      "answer": "According to [Source 1], Section 8, expenses up to $500 need the manager's approval, and anything above $500 also needs approval from the Finance team. \n\nThe specific amount of $800 is not mentioned in the provided sources.",
+      "candidate_answer": "According to [Source 1], Section 8, expenses up to $500 need the manager's approval, and anything above $500 also needs approval from the Finance team. \n\nThe specific amount of $800 is not mentioned in the provided sources.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 451.6,
+      "generation_ms": 4670.9,
+      "verification_ms": null,
+      "prompt_tokens": 828,
+      "output_tokens": 51,
+      "sources": [
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": 1.6332483291625977,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -5.8732500076293945,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "1",
+          "rerank_score": -7.625051021575928,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -9.250692367553711,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "10",
+          "rerank_score": -9.410345077514648,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p10",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p11",
+      "question": "When do approved expenses get paid out?",
+      "tags": [
+        "multi-clause"
+      ],
+      "expected": "With the next payroll run, on the 15th and the last business day of each month.",
+      "answer": "According to [Source 1], approved expenses are paid with the next payroll run, which happens on the 15th and the last business day of each month.",
+      "candidate_answer": "According to [Source 1], approved expenses are paid with the next payroll run, which happens on the 15th and the last business day of each month.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 525.9,
+      "generation_ms": 3973.6,
+      "verification_ms": null,
+      "prompt_tokens": 828,
+      "output_tokens": 34,
+      "sources": [
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": 5.403341293334961,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "1",
+          "rerank_score": -3.051640510559082,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -6.2650580406188965,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "10",
+          "rerank_score": -8.472278594970703,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": -8.67794418334961,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p11",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p12",
+      "question": "Do I need a receipt for a $20 lunch?",
+      "tags": [
+        "vocab-gap"
+      ],
+      "expected": "No. An itemized receipt is only needed for purchases over $25.",
+      "answer": "Based on the provided sources, I could not find any information that directly addresses the need for a receipt for a $20 lunch.",
+      "candidate_answer": "Based on the provided sources, I could not find any information that directly addresses the need for a receipt for a $20 lunch.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 515.7,
+      "generation_ms": 4435.8,
+      "verification_ms": null,
+      "prompt_tokens": 1004,
+      "output_tokens": 27,
+      "sources": [
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -7.220926284790039,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -10.734275817871094,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -10.85481071472168,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "13",
+          "rerank_score": -11.196697235107422,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -11.202900886535645,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p12",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "no",
+            "not required",
+            "not needed",
+            "do not need",
+            "don't need",
+            "only needed",
+            "only required"
+          ],
+          [
+            "25"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p13",
+      "question": "Who owns the chair I bought with my stipend?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "The employee: items bought with the stipend belong to the employee.",
+      "answer": "Based on the provided context, the answer to the question \"Who owns the chair I bought with my stipend?\" is:\n\n[Source 1]\n\nAccording to Section 5 of [Source 1], \"Items bought with the stipend belong to the employee.\" Therefore, the chair you bought with your stipend belongs to you.",
+      "candidate_answer": "Based on the provided context, the answer to the question \"Who owns the chair I bought with my stipend?\" is:\n\n[Source 1]\n\nAccording to Section 5 of [Source 1], \"Items bought with the stipend belong to the employee.\" Therefore, the chair you bought with your stipend belongs to you.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 587.9,
+      "generation_ms": 6669.7,
+      "verification_ms": null,
+      "prompt_tokens": 1031,
+      "output_tokens": 68,
+      "sources": [
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": 0.9388226270675659,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -11.191076278686523,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -11.267143249511719,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -11.27157974243164,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "13",
+          "rerank_score": -11.310229301452637,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p13",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p14",
+      "question": "Can my partner use my work laptop?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "No. Company equipment must not be used by family members or other people.",
+      "answer": "Based on the provided sources, it is not explicitly stated whether your partner can use your work laptop. The relevant sections related to company equipment and data security do not provide a clear answer to this question.\n\nHowever, [Source 3] does mention that contractors and interns follow the terms in their own agreements, except that Section 9 (Data Security) applies to everyone who holds a company laptop. This implies that employees are not allowed to use personal devices for company work, but it does not explicitly state whether family members or partners are allowed to use the laptop.\n\nTherefore, the information is not available in the provided documents.",
+      "candidate_answer": "Based on the provided sources, it is not explicitly stated whether your partner can use your work laptop. The relevant sections related to company equipment and data security do not provide a clear answer to this question.\n\nHowever, [Source 3] does mention that contractors and interns follow the terms in their own agreements, except that Section 9 (Data Security) applies to everyone who holds a company laptop. This implies that employees are not allowed to use personal devices for company work, but it does not explicitly state whether family members or partners are allowed to use the laptop.\n\nTherefore, the information is not available in the provided documents.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 1225.6,
+      "generation_ms": 8902.4,
+      "verification_ms": null,
+      "prompt_tokens": 981,
+      "output_tokens": 125,
+      "sources": [
+        {
+          "page": null,
+          "section": "9",
+          "rerank_score": -6.280261993408203,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -6.415247440338135,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "1",
+          "rerank_score": -9.350360870361328,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -11.092350006103516,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": -11.14094352722168,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p14",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": false,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p15",
+      "question": "How quickly do I have to report a stolen laptop?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "Within 24 hours, to IT.",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 1704.2,
+      "generation_ms": 4162.8,
+      "verification_ms": null,
+      "prompt_tokens": 848,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": 4.858054161071777,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "9",
+          "rerank_score": -7.526058673858643,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -10.516578674316406,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -10.620842933654785,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -10.816705703735352,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p15",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "24 hours",
+            "twenty-four hours",
+            "24-hour",
+            "24 hrs"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p16",
+      "question": "How long do I have to send my equipment back after I leave the company?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "Within 14 days, with the prepaid shipping label from IT.",
+      "answer": "According to [Source 1], Section 7, when employment ends, all company equipment must be returned within 14 days, using the prepaid shipping label IT provides.\n\nThis answer directly addresses the question of how long you have to send your equipment back after leaving the company.",
+      "candidate_answer": "According to [Source 1], Section 7, when employment ends, all company equipment must be returned within 14 days, using the prepaid shipping label IT provides.\n\nThis answer directly addresses the question of how long you have to send your equipment back after leaving the company.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 715.6,
+      "generation_ms": 4639.8,
+      "verification_ms": null,
+      "prompt_tokens": 730,
+      "output_tokens": 56,
+      "sources": [
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": 6.358665466308594,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": -1.0938780307769775,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -2.631570339202881,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -3.882697820663452,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": -5.856663703918457,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p16",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p17",
+      "question": "How many days a week do hybrid employees have to be in the office?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "At least two days per week.",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 1132.6,
+      "generation_ms": 3241.3,
+      "verification_ms": null,
+      "prompt_tokens": 733,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": 8.061349868774414,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": 5.212362766265869,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": 1.0448012351989746,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": -3.586354970932007,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": -4.028942584991455,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p17",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "two days",
+            "2 days",
+            "at least two",
+            "at least 2"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p18",
+      "question": "Who is allowed to be fully remote?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "Employees who live more than 50 miles from any company office.",
+      "answer": "According to [Source 1], fully remote employees are limited to employees who live more than 50 miles from any company office.\n\n[Source 3] states that roles that require daily access to the hardware lab or the mail room are not eligible for remote work.\n\nAdditionally, [Source 1] mentions that fully remote employees must attend the quarterly planning week in person at the Boston headquarters.",
+      "candidate_answer": "According to [Source 1], fully remote employees are limited to employees who live more than 50 miles from any company office.\n\n[Source 3] states that roles that require daily access to the hardware lab or the mail room are not eligible for remote work.\n\nAdditionally, [Source 1] mentions that fully remote employees must attend the quarterly planning week in person at the Boston headquarters.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 2133.7,
+      "generation_ms": 7179.4,
+      "verification_ms": null,
+      "prompt_tokens": 760,
+      "output_tokens": 79,
+      "sources": [
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": 4.679037570953369,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": 1.1051455736160278,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -0.02199314534664154,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -4.210219383239746,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "1",
+          "rerank_score": -4.530991077423096,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p18",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1,
+          3
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p19",
+      "question": "How often can I switch between hybrid and fully remote?",
+      "tags": [
+        "paraphrase"
+      ],
+      "expected": "Once every 12 months.",
+      "answer": "According to [Source 1], Section 3, an employee may switch between hybrid and fully remote status once every 12 months.\n\nThe information is not available in the provided documents regarding how often you can switch between hybrid and fully remote, specifically the frequency of switching.",
+      "candidate_answer": "According to [Source 1], Section 3, an employee may switch between hybrid and fully remote status once every 12 months.\n\nThe information is not available in the provided documents regarding how often you can switch between hybrid and fully remote, specifically the frequency of switching.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 925.2,
+      "generation_ms": 4740.7,
+      "verification_ms": null,
+      "prompt_tokens": 728,
+      "output_tokens": 55,
+      "sources": [
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": 8.534040451049805,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -0.7335156202316284,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -2.5297272205352783,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": -5.6233415603637695,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -5.687833309173584,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p19",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p20",
+      "question": "How long can I work from another country each year?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "Up to 20 working days in a calendar year.",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 835.9,
+      "generation_ms": 2963.0,
+      "verification_ms": null,
+      "prompt_tokens": 739,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": 9.011346817016602,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -6.050758361816406,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -8.665020942687988,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -9.012734413146973,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -9.093481063842773,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p20",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "20 working days",
+            "20 days",
+            "twenty working days",
+            "twenty days"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p21",
+      "question": "How much notice does the company give before ending a remote arrangement, and when is it shorter?",
+      "tags": [
+        "multi-clause",
+        "cross-doc"
+      ],
+      "expected": "30 days' written notice, shortened to 7 days if it ends because of repeated performance problems.",
+      "answer": "According to [Source 1], the company gives 30 days' written notice before ending a remote arrangement for business reasons. \n\nIf a remote arrangement ends because of repeated performance problems, notice is shortened to 7 days, as stated in [Source 1].\n\nThe context does not provide information on how much notice is given before ending a remote arrangement when it is not due to performance problems.",
+      "candidate_answer": "According to [Source 1], the company gives 30 days' written notice before ending a remote arrangement for business reasons. \n\nIf a remote arrangement ends because of repeated performance problems, notice is shortened to 7 days, as stated in [Source 1].\n\nThe context does not provide information on how much notice is given before ending a remote arrangement when it is not due to performance problems.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 564.0,
+      "generation_ms": 5695.7,
+      "verification_ms": null,
+      "prompt_tokens": 732,
+      "output_tokens": 80,
+      "sources": [
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": 7.859684944152832,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": 0.7095605731010437,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -3.1464786529541016,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -4.567396640777588,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -4.8039937019348145,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p21",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p22",
+      "question": "How much notice does an employee give to go back to working in the office full time?",
+      "tags": [
+        "distractor",
+        "cross-doc"
+      ],
+      "expected": "14 days' notice to their manager.",
+      "answer": "According to [Source 1], Section 12, an employee who wants to return to the office full time gives their manager 14 days' notice.",
+      "candidate_answer": "According to [Source 1], Section 12, an employee who wants to return to the office full time gives their manager 14 days' notice.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 962.4,
+      "generation_ms": 4445.0,
+      "verification_ms": null,
+      "prompt_tokens": 741,
+      "output_tokens": 32,
+      "sources": [
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": 7.500693321228027,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -2.3199751377105713,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -2.7018251419067383,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -5.382471084594727,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -5.988260269165039,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p22",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p23",
+      "question": "Can I print work documents on a library printer?",
+      "tags": [
+        "vocab-gap"
+      ],
+      "expected": "No. Employees must not use public printers when working outside the home.",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 1034.7,
+      "generation_ms": 4822.1,
+      "verification_ms": null,
+      "prompt_tokens": 1121,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "9",
+          "rerank_score": -8.696617126464844,
+          "contains_evidence": true
+        },
+        {
+          "page": 2,
+          "section": "8",
+          "rerank_score": -11.215764999389648,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "14",
+          "rerank_score": -11.220430374145508,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "6",
+          "rerank_score": -11.23100757598877,
+          "contains_evidence": false
+        },
+        {
+          "page": 2,
+          "section": "13",
+          "rerank_score": -11.237615585327148,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p23",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "no",
+            "cannot",
+            "can't",
+            "may not",
+            "must not",
+            "should not",
+            "shouldn't",
+            "not allowed",
+            "not permitted",
+            "prohibited"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p24",
+      "question": "Who must approve working abroad for longer than the allowed days?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "People Operations and Legal, in writing.",
+      "answer": "According to [Source 1], Section 11, longer stays (more than 20 working days) need written approval from People Operations and Legal.\n\nThe information is not available in the provided documents.",
+      "candidate_answer": "According to [Source 1], Section 11, longer stays (more than 20 working days) need written approval from People Operations and Legal.\n\nThe information is not available in the provided documents.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 679.1,
+      "generation_ms": 4126.6,
+      "verification_ms": null,
+      "prompt_tokens": 710,
+      "output_tokens": 41,
+      "sources": [
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": 5.648974418640137,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -3.2410335540771484,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -3.7923460006713867,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "13",
+          "rerank_score": -6.024252891540527,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -7.30325984954834,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p24",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": true,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p25",
+      "question": "How far ahead do I have to book travel for the planning week?",
+      "tags": [
+        "distractor"
+      ],
+      "expected": "At least 14 days in advance, through the company travel portal.",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 953.9,
+      "generation_ms": 3135.4,
+      "verification_ms": null,
+      "prompt_tokens": 780,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": 4.167814254760742,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -4.058226585388184,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": -8.140996932983398,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "18",
+          "rerank_score": -10.870099067687988,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -10.871282577514648,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p25",
+        "answerable": true,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 0.0,
+        "complete": false,
+        "false_refusal": true,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [
+          [
+            "14 days",
+            "fourteen days",
+            "two weeks"
+          ]
+        ],
+        "citation_supported": null,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p26",
+      "question": "Does the company cover a hybrid employee's daily commute?",
+      "tags": [
+        "vocab-gap"
+      ],
+      "expected": "No, the daily commute of hybrid employees is not reimbursed.",
+      "answer": "The company does not cover a hybrid employee's daily commute. [Source 1]",
+      "candidate_answer": "The company does not cover a hybrid employee's daily commute. [Source 1]",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 722.9,
+      "generation_ms": 3423.7,
+      "verification_ms": null,
+      "prompt_tokens": 736,
+      "output_tokens": 18,
+      "sources": [
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": 6.620051860809326,
+          "contains_evidence": true
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": 2.7158262729644775,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -0.9028618335723877,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -3.998405933380127,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -8.7724027633667,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p26",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p27",
+      "question": "When did this policy take effect?",
+      "tags": [
+        "fact"
+      ],
+      "expected": "March 1, 2026.",
+      "answer": "The policy took effect on March 1, 2026, as stated in [Source 1].",
+      "candidate_answer": "The policy took effect on March 1, 2026, as stated in [Source 1].",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 523.9,
+      "generation_ms": 2961.4,
+      "verification_ms": null,
+      "prompt_tokens": 619,
+      "output_tokens": 22,
+      "sources": [
+        {
+          "page": null,
+          "section": "1",
+          "rerank_score": -0.6865988969802856,
+          "contains_evidence": true
+        },
+        {
+          "page": 4,
+          "section": "25",
+          "rerank_score": -6.357673645019531,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "13",
+          "rerank_score": -6.698724269866943,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "15",
+          "rerank_score": -7.0710930824279785,
+          "contains_evidence": false
+        },
+        {
+          "page": 4,
+          "section": "23",
+          "rerank_score": -7.266802787780762,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p27",
+        "answerable": true,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [
+          1
+        ],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": 1.0,
+        "complete": true,
+        "false_refusal": false,
+        "hedged": false,
+        "contradicted": false,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": true,
+        "correct_refusal": null
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p28",
+      "question": "How many weeks of parental leave do employees get?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 538.7,
+      "generation_ms": 3388.4,
+      "verification_ms": null,
+      "prompt_tokens": 714,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": -3.5557589530944824,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": -4.47031307220459,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": -4.611330509185791,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -4.900504112243652,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "7",
+          "rerank_score": -5.496715545654297,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p28",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p29",
+      "question": "How much is the gym membership allowance?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 675.9,
+      "generation_ms": 2855.1,
+      "verification_ms": null,
+      "prompt_tokens": 725,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": -7.3183722496032715,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -9.66702938079834,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -10.110471725463867,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "13",
+          "rerank_score": -10.220264434814453,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "8",
+          "rerank_score": -10.664199829101562,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p29",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p30",
+      "question": "What is the phone number for People Operations?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The phone number for People Operations is not explicitly stated in the provided context.",
+      "candidate_answer": "The phone number for People Operations is not explicitly stated in the provided context.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 495.7,
+      "generation_ms": 3068.2,
+      "verification_ms": null,
+      "prompt_tokens": 725,
+      "output_tokens": 16,
+      "sources": [
+        {
+          "page": null,
+          "section": "13",
+          "rerank_score": -2.5542361736297607,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "1",
+          "rerank_score": -2.9220733642578125,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -5.720613479614258,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "11",
+          "rerank_score": -7.181766510009766,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "4",
+          "rerank_score": -10.794822692871094,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p30",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p31",
+      "question": "Does the company pay for a coworking space membership?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "Based on the provided context, I can answer the following:\n\nThe company does not pay for a coworking space membership.",
+      "candidate_answer": "Based on the provided context, I can answer the following:\n\nThe company does not pay for a coworking space membership.",
+      "abstained": false,
+      "abstention_reason": null,
+      "verification": null,
+      "retrieval_ms": 579.4,
+      "generation_ms": 4563.6,
+      "verification_ms": null,
+      "prompt_tokens": 925,
+      "output_tokens": 25,
+      "sources": [
+        {
+          "page": 2,
+          "section": "13",
+          "rerank_score": -11.013843536376953,
+          "contains_evidence": false
+        },
+        {
+          "page": 3,
+          "section": "13",
+          "rerank_score": -11.061515808105469,
+          "contains_evidence": false
+        },
+        {
+          "page": 1,
+          "section": "5",
+          "rerank_score": -11.223125457763672,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "6",
+          "rerank_score": -11.225374221801758,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": -11.259588241577148,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p31",
+        "answerable": false,
+        "refused": false,
+        "leads_with_refusal": false,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": false
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    },
+    {
+      "id": "p32",
+      "question": "How many vacation days do remote employees get each year?",
+      "tags": [
+        "unanswerable"
+      ],
+      "expected": "NOT IN DOCUMENT",
+      "answer": "The information is not available in the provided documents.",
+      "candidate_answer": "The information is not available in the provided documents.",
+      "abstained": true,
+      "abstention_reason": "model_abstained",
+      "verification": null,
+      "retrieval_ms": 912.1,
+      "generation_ms": 3069.6,
+      "verification_ms": null,
+      "prompt_tokens": 735,
+      "output_tokens": 11,
+      "sources": [
+        {
+          "page": null,
+          "section": "3",
+          "rerank_score": 1.1320878267288208,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "5",
+          "rerank_score": 1.084842562675476,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "10",
+          "rerank_score": 0.08121335506439209,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "2",
+          "rerank_score": -0.06915287673473358,
+          "contains_evidence": false
+        },
+        {
+          "page": null,
+          "section": "12",
+          "rerank_score": -0.3796985149383545,
+          "contains_evidence": false
+        }
+      ],
+      "score": {
+        "qid": "p32",
+        "answerable": false,
+        "refused": true,
+        "leads_with_refusal": true,
+        "citations": [],
+        "citations_valid": true,
+        "out_of_range_citations": [],
+        "fact_recall": null,
+        "complete": null,
+        "false_refusal": null,
+        "hedged": null,
+        "contradicted": null,
+        "contradiction": null,
+        "missing_facts": [],
+        "citation_supported": null,
+        "correct_refusal": true
+      },
+      "candidate_score": null,
+      "verifier_effect": null
+    }
+  ]
+}

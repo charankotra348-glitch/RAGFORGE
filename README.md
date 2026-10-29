@@ -120,7 +120,31 @@ Remaining failures in the baseline run, by cause:
 - **Near-duplicate numbers.** 14 days appears four times (equipment return, travel booking, return-to-office notice) and 30 or 60 days twice, so `distractor` questions need the right clause, not just the right number.
 - **A fact outside every section.** The effective date sits in the title block before section 1. The chunker used to drop a title block shorter than 200 characters, so p27 was unanswerable by construction; a short title block is now joined to the first section instead. The lease's chunks are byte-for-byte unchanged by this fix, so its results above still hold.
 
-Results for this set: not run yet (needs Qdrant and Ollama).
+**Results** (both documents indexed: 41 chunks; single run on an Apple M1, llama3.2:3b, same settings as above). Source: [`data/eval/runs/policy-3b.json`](data/eval/runs/policy-3b.json).
+
+| Retrieval (27 answerable) | Hit@1 | Hit@5 | MRR | nDCG@5 | Coverage@5 | ms/query |
+|---|---:|---:|---:|---:|---:|---:|
+| Dense (Qdrant) | 0.93 | 1.00 | 0.95 | 0.97 | 1.00 | 10 |
+| BM25 | 0.74 | 0.96 | 0.83 | 0.86 | 0.96 | <1 |
+| Hybrid (RRF) | 0.85 | 1.00 | 0.92 | 0.94 | 1.00 | 9 |
+| **Hybrid + rerank** (production) | **0.96** | **1.00** | **0.98** | **0.99** | **1.00** | **75** |
+
+| Answers | Policy | Lease (above) |
+|---|---:|---:|
+| Mean fact recall (answerable) | 0.704 | 0.826 |
+| Complete answers | 19 / 27 | 19 / 28 |
+| Wrong yes/no (contradicted) | 0 / 27 | 0 / 28 |
+| False refusals | **8 / 27** | 1 / 28 |
+| Correct refusals (unanswerable) | 4 / 5 | 6 / 7 |
+| Cited chunk contains the evidence | 15 / 16 | 23 / 24 |
+| Generation time, mean | 4.6 s | 6.9 s |
+
+What this set showed:
+
+- **Retrieval held up with two documents in the index.** The evidence for every answerable question was in the top 5 after reranking, including both `cross-doc` questions and all seven `distractor` questions. On this set the reranker earns its latency: Hit@1 rises from 0.85 (hybrid) to 0.96, where on the 28-chunk lease alone it changed nothing.
+- **The failures are the model, not the search.** All 8 lost questions are refusals ("not in the provided documents") although the evidence was retrieved for every one of them, e.g. the 5-minute screen lock (p07), the 24-hour loss report (p15) and the 20 working days abroad (p20). The 3B model refuses short factual answers here far more often than on the lease. Retrieval tuning can't fix that; the next experiments are a larger generation model and a prompt change aimed at refusals, each measured against this run.
+- **The fixed chunker answered p27.** The effective date in the title block, which the old chunker dropped, is now retrieved and answered.
+- **One unanswerable question was answered.** Asked whether the company pays for a coworking membership (p31), the model answered instead of refusing. The policy never covers it; the likely pull is the data security clause that mentions working from a shared workspace, a near-miss distractor worth a label note once the answer is inspected.
 
 ## API
 
