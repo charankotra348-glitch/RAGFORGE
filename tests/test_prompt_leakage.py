@@ -16,7 +16,11 @@ from ragforge.app.generation import grounding
 from ragforge.app.generation.prompts import SYSTEM_PROMPTS
 
 ROOT = Path(__file__).resolve().parents[1]
-QUESTIONS = json.loads((ROOT / "data" / "eval" / "lease_eval.json").read_text(encoding="utf-8"))["questions"]
+QUESTIONS = [
+    q
+    for path in sorted((ROOT / "data" / "eval").glob("*_eval.json"))
+    for q in json.loads(path.read_text(encoding="utf-8"))["questions"]
+]
 
 PROMPT_TEXTS = {
     **{f"system prompt {name!r}": text for name, text in SYSTEM_PROMPTS.items()},

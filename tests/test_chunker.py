@@ -54,6 +54,18 @@ def test_short_continuation_on_next_page_is_kept() -> None:
     assert any("notice\nof deductions." in c.page_content for c in chunks)
 
 
+def test_short_preamble_is_joined_to_the_first_section() -> None:
+    # A title block shorter than a chunk used to be dropped, losing facts such as an
+    # effective date that appear nowhere else in the document.
+    pages = [page("ACME POLICY\nEffective March 1, 2026.\n\n1. SCOPE\nThis policy applies to staff.\n2. HOURS\nCore hours are 11 to 3.", 1)]
+    chunks = chunk_documents(pages)
+    first = chunks[0]
+    assert first.metadata["section_number"] == "1"
+    assert first.page_content.startswith("ACME POLICY\nEffective March 1, 2026.")
+    assert "This policy applies to staff." in first.page_content
+    assert all("Effective" not in c.page_content for c in chunks[1:])
+
+
 def test_different_documents_are_not_merged() -> None:
     pages = [
         page("1. PREMISES.\n" + "a" * 300, 1, source="a.pdf", document_id="a"),

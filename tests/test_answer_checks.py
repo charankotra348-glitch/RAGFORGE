@@ -16,11 +16,18 @@ from ragforge.evaluation.answer_checks import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-DATASET = ROOT / "data" / "eval" / "lease_eval.json"
+DATASETS = sorted((ROOT / "data" / "eval").glob("*_eval.json"))
 
 
 def load_questions() -> list[dict]:
-    return json.loads(DATASET.read_text(encoding="utf-8"))["questions"]
+    """Questions from every eval set (lease, remote work policy); ids are unique across sets."""
+    return [q for path in DATASETS for q in json.loads(path.read_text(encoding="utf-8"))["questions"]]
+
+
+def test_question_ids_are_unique_across_datasets() -> None:
+    ids = [q["id"] for q in load_questions()]
+    assert len(DATASETS) >= 2
+    assert len(ids) == len(set(ids))
 
 
 # --- phrase matching -------------------------------------------------------

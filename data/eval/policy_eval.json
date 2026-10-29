@@ -1,0 +1,618 @@
+{
+  "document": "data/remote_work_policy.md",
+  "description": "Hand-labeled evaluation for the remote work policy, a second document with a different domain and wording from the lease, written for this evaluation. Same format and rules as lease_eval.json. Labels were written before any model run. 'cross-doc' marks questions whose wording also matches clauses in the lease (notice periods), so they test retrieval with both documents indexed. p27 asks for the effective date, which sits in the title block before the first numbered section; the chunker used to drop that block.",
+  "questions": [
+    {
+      "id": "p01",
+      "question": "How long must someone work at the company before they can ask to work remotely?",
+      "answerable": true,
+      "expected": "After a 90-day probationary period.",
+      "evidence": [
+        "probationary period of 90 days"
+      ],
+      "tags": [
+        "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "90 days",
+          "90-day",
+          "ninety days"
+        ]
+      ]
+    },
+    {
+      "id": "p02",
+      "question": "What are the core hours everyone has to be available?",
+      "answerable": true,
+      "expected": "11:00 a.m. to 3:00 p.m. Eastern Time on working days.",
+      "evidence": [
+        "between 11:00 a.m. and 3:00 p.m. Eastern Time"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "11:00",
+          "11 a.m.",
+          "11am",
+          "11 am"
+        ],
+        [
+          "3:00",
+          "3 p.m.",
+          "3pm",
+          "3 pm"
+        ]
+      ]
+    },
+    {
+      "id": "p03",
+      "question": "How much is the one-time home office stipend?",
+      "answerable": true,
+      "expected": "$600, in the first remote year.",
+      "evidence": [
+        "one-time home office stipend of $600"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "600"
+        ]
+      ]
+    },
+    {
+      "id": "p04",
+      "question": "I'm fully remote. Can I get money back for my home Wi-Fi, and how much?",
+      "answerable": true,
+      "expected": "Yes, up to $50 per month toward home internet.",
+      "evidence": [
+        "up to $50 per month toward home internet for fully remote employees"
+      ],
+      "tags": [
+        "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "50"
+        ]
+      ]
+    },
+    {
+      "id": "p05",
+      "question": "How much internet reimbursement does a hybrid employee get each month?",
+      "answerable": true,
+      "expected": "Up to $25 per month.",
+      "evidence": [
+        "up to $25 per month for hybrid employees"
+      ],
+      "tags": [
+        "distractor"
+      ],
+      "answer_facts": [
+        [
+          "25"
+        ]
+      ]
+    },
+    {
+      "id": "p06",
+      "question": "For a 3-night trip to the planning week with meals claimed for 3 days, what is the most the company pays for hotel and meals together?",
+      "answerable": true,
+      "expected": "$885: hotel 3 x $220 = $660 plus meals 3 x $75 = $225.",
+      "evidence": [
+        "hotel up to $220 per night, and meals up to $75 per day"
+      ],
+      "tags": [
+        "calculation"
+      ],
+      "answer_facts": [
+        [
+          "885"
+        ]
+      ]
+    },
+    {
+      "id": "p07",
+      "question": "After how long does a laptop have to lock itself when nobody is using it?",
+      "answerable": true,
+      "expected": "After five minutes of inactivity.",
+      "evidence": [
+        "lock automatically after five minutes of inactivity"
+      ],
+      "tags": [
+        "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "five minutes",
+          "5 minutes",
+          "5 min",
+          "five (5) minutes"
+        ]
+      ]
+    },
+    {
+      "id": "p08",
+      "question": "Within how many days of buying something must I submit the expense?",
+      "answerable": true,
+      "expected": "Within 30 days of the purchase date.",
+      "evidence": [
+        "Expenses must be submitted within 30 days of the purchase date"
+      ],
+      "tags": [
+        "distractor"
+      ],
+      "answer_facts": [
+        [
+          "30 days",
+          "thirty days"
+        ]
+      ]
+    },
+    {
+      "id": "p09",
+      "question": "After how many days does an expense claim stop being reimbursed at all?",
+      "answerable": true,
+      "expected": "Claims older than 60 days are not reimbursed.",
+      "evidence": [
+        "claims older than 60 days are not reimbursed"
+      ],
+      "tags": [
+        "distractor"
+      ],
+      "answer_facts": [
+        [
+          "60 days",
+          "sixty days"
+        ]
+      ]
+    },
+    {
+      "id": "p10",
+      "question": "Who has to approve an $800 expense?",
+      "answerable": true,
+      "expected": "The manager and the Finance team, because it is above $500.",
+      "evidence": [
+        "Expenses up to $500 need the manager's approval",
+        "anything above $500 also needs approval from the Finance team"
+      ],
+      "tags": [
+        "multi-clause"
+      ],
+      "answer_facts": [
+        [
+          "manager"
+        ],
+        [
+          "finance"
+        ]
+      ]
+    },
+    {
+      "id": "p11",
+      "question": "When do approved expenses get paid out?",
+      "answerable": true,
+      "expected": "With the next payroll run, on the 15th and the last business day of each month.",
+      "evidence": [
+        "Approved expenses are paid with the next payroll run",
+        "on the 15th and the last business day of each month"
+      ],
+      "tags": [
+        "multi-clause"
+      ],
+      "answer_facts": [
+        [
+          "payroll"
+        ],
+        [
+          "15th"
+        ],
+        [
+          "last business day"
+        ]
+      ]
+    },
+    {
+      "id": "p12",
+      "question": "Do I need a receipt for a $20 lunch?",
+      "answerable": true,
+      "expected": "No. An itemized receipt is only needed for purchases over $25.",
+      "evidence": [
+        "itemized receipt for every purchase over $25"
+      ],
+      "tags": [
+        "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "not required",
+          "not needed",
+          "do not need",
+          "don't need",
+          "only needed",
+          "only required"
+        ],
+        [
+          "25"
+        ]
+      ]
+    },
+    {
+      "id": "p13",
+      "question": "Who owns the chair I bought with my stipend?",
+      "answerable": true,
+      "expected": "The employee: items bought with the stipend belong to the employee.",
+      "evidence": [
+        "Items bought with the stipend belong to the employee"
+      ],
+      "tags": [
+        "distractor"
+      ],
+      "answer_facts": [
+        [
+          "employee",
+          "belongs to you",
+          "belong to you",
+          "yours",
+          "you own"
+        ]
+      ],
+      "answer_must_not": [
+        "company property",
+        "belongs to the company",
+        "property of the company"
+      ]
+    },
+    {
+      "id": "p14",
+      "question": "Can my partner use my work laptop?",
+      "answerable": true,
+      "expected": "No. Company equipment must not be used by family members or other people.",
+      "evidence": [
+        "must not be used by family members or other people"
+      ],
+      "tags": [
+        "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "cannot",
+          "can't",
+          "may not",
+          "must not",
+          "should not",
+          "shouldn't",
+          "not allowed",
+          "not permitted",
+          "prohibited"
+        ]
+      ]
+    },
+    {
+      "id": "p15",
+      "question": "How quickly do I have to report a stolen laptop?",
+      "answerable": true,
+      "expected": "Within 24 hours, to IT.",
+      "evidence": [
+        "reported to IT within 24 hours"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "24 hours",
+          "twenty-four hours",
+          "24-hour",
+          "24 hrs"
+        ]
+      ]
+    },
+    {
+      "id": "p16",
+      "question": "How long do I have to send my equipment back after I leave the company?",
+      "answerable": true,
+      "expected": "Within 14 days, with the prepaid shipping label from IT.",
+      "evidence": [
+        "all company equipment must be returned within 14 days"
+      ],
+      "tags": [
+        "distractor"
+      ],
+      "answer_facts": [
+        [
+          "14 days",
+          "fourteen days",
+          "two weeks"
+        ]
+      ]
+    },
+    {
+      "id": "p17",
+      "question": "How many days a week do hybrid employees have to be in the office?",
+      "answerable": true,
+      "expected": "At least two days per week.",
+      "evidence": [
+        "work from the office at least two days per week"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "two days",
+          "2 days",
+          "at least two",
+          "at least 2"
+        ]
+      ]
+    },
+    {
+      "id": "p18",
+      "question": "Who is allowed to be fully remote?",
+      "answerable": true,
+      "expected": "Employees who live more than 50 miles from any company office.",
+      "evidence": [
+        "Fully remote status is limited to employees who live more than 50 miles from any company office"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "50 miles",
+          "fifty miles"
+        ]
+      ]
+    },
+    {
+      "id": "p19",
+      "question": "How often can I switch between hybrid and fully remote?",
+      "answerable": true,
+      "expected": "Once every 12 months.",
+      "evidence": [
+        "switch between hybrid and fully remote status once every 12 months"
+      ],
+      "tags": [
+        "paraphrase"
+      ],
+      "answer_facts": [
+        [
+          "12 months",
+          "twelve months",
+          "once a year",
+          "once per year",
+          "every year",
+          "annually"
+        ]
+      ]
+    },
+    {
+      "id": "p20",
+      "question": "How long can I work from another country each year?",
+      "answerable": true,
+      "expected": "Up to 20 working days in a calendar year.",
+      "evidence": [
+        "up to 20 working days in a calendar year"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "20 working days",
+          "20 days",
+          "twenty working days",
+          "twenty days"
+        ]
+      ]
+    },
+    {
+      "id": "p21",
+      "question": "How much notice does the company give before ending a remote arrangement, and when is it shorter?",
+      "answerable": true,
+      "expected": "30 days' written notice, shortened to 7 days if it ends because of repeated performance problems.",
+      "evidence": [
+        "with 30 days' written notice",
+        "notice is shortened to 7 days"
+      ],
+      "tags": [
+        "multi-clause",
+        "cross-doc"
+      ],
+      "answer_facts": [
+        [
+          "30 days",
+          "thirty days"
+        ],
+        [
+          "7 days",
+          "seven days"
+        ],
+        [
+          "performance"
+        ]
+      ]
+    },
+    {
+      "id": "p22",
+      "question": "How much notice does an employee give to go back to working in the office full time?",
+      "answerable": true,
+      "expected": "14 days' notice to their manager.",
+      "evidence": [
+        "gives their manager 14 days' notice"
+      ],
+      "tags": [
+        "distractor",
+        "cross-doc"
+      ],
+      "answer_facts": [
+        [
+          "14 days",
+          "fourteen days",
+          "two weeks"
+        ]
+      ]
+    },
+    {
+      "id": "p23",
+      "question": "Can I print work documents on a library printer?",
+      "answerable": true,
+      "expected": "No. Employees must not use public printers when working outside the home.",
+      "evidence": [
+        "must not use public printers"
+      ],
+      "tags": [
+        "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "cannot",
+          "can't",
+          "may not",
+          "must not",
+          "should not",
+          "shouldn't",
+          "not allowed",
+          "not permitted",
+          "prohibited"
+        ]
+      ]
+    },
+    {
+      "id": "p24",
+      "question": "Who must approve working abroad for longer than the allowed days?",
+      "answerable": true,
+      "expected": "People Operations and Legal, in writing.",
+      "evidence": [
+        "Longer stays need written approval from People Operations and Legal"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "people operations"
+        ],
+        [
+          "legal"
+        ]
+      ]
+    },
+    {
+      "id": "p25",
+      "question": "How far ahead do I have to book travel for the planning week?",
+      "answerable": true,
+      "expected": "At least 14 days in advance, through the company travel portal.",
+      "evidence": [
+        "at least 14 days in advance"
+      ],
+      "tags": [
+        "distractor"
+      ],
+      "answer_facts": [
+        [
+          "14 days",
+          "fourteen days",
+          "two weeks"
+        ]
+      ]
+    },
+    {
+      "id": "p26",
+      "question": "Does the company cover a hybrid employee's daily commute?",
+      "answerable": true,
+      "expected": "No, the daily commute of hybrid employees is not reimbursed.",
+      "evidence": [
+        "Hybrid employees' daily commute is not reimbursed"
+      ],
+      "tags": [
+        "vocab-gap"
+      ],
+      "answer_facts": [
+        [
+          "no",
+          "not reimbursed",
+          "not covered",
+          "does not",
+          "doesn't",
+          "isn't"
+        ]
+      ]
+    },
+    {
+      "id": "p27",
+      "question": "When did this policy take effect?",
+      "answerable": true,
+      "expected": "March 1, 2026.",
+      "evidence": [
+        "Effective March 1, 2026"
+      ],
+      "tags": [
+        "fact"
+      ],
+      "answer_facts": [
+        [
+          "march 1"
+        ]
+      ]
+    },
+    {
+      "id": "p28",
+      "question": "How many weeks of parental leave do employees get?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    },
+    {
+      "id": "p29",
+      "question": "How much is the gym membership allowance?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    },
+    {
+      "id": "p30",
+      "question": "What is the phone number for People Operations?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    },
+    {
+      "id": "p31",
+      "question": "Does the company pay for a coworking space membership?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    },
+    {
+      "id": "p32",
+      "question": "How many vacation days do remote employees get each year?",
+      "answerable": false,
+      "expected": "NOT IN DOCUMENT",
+      "evidence": [],
+      "tags": [
+        "unanswerable"
+      ]
+    }
+  ]
+}

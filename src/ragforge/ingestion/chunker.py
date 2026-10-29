@@ -291,7 +291,9 @@ def chunk_documents(
     3. Keep complete sections together when possible.
     4. Split only sections that exceed chunk_size.
     5. Preserve section and page metadata (start and end page).
-    6. Ignore tiny text before the first section heading.
+    6. Join a short preamble (a title, an effective date) to the first
+       section instead of dropping it: it is too small to stand alone,
+       but it can hold the only copy of a fact.
     """
 
     if not documents:
@@ -306,12 +308,18 @@ def chunk_documents(
     global_chunk_index = 0
 
     for base_metadata, text, page_starts in _merge_pages(documents):
+        preamble_start: int | None = None
         for unit_text, section_number, unit_start in _split_into_structural_units(text):
 
-            # Tiny unsectioned text (for example a stray title fragment
-            # before the first heading) is not a meaningful chunk.
+            # Unsectioned text too small to be a chunk of its own (a title
+            # block before the first heading) is carried into the next unit.
             if section_number is None and len(unit_text) < MIN_CHUNK_SIZE:
+                preamble_start = unit_start
                 continue
+            if preamble_start is not None:
+                unit_text = text[preamble_start:unit_start + len(unit_text)].strip()
+                unit_start = preamble_start
+                preamble_start = None
 
             if len(unit_text) <= chunk_size:
                 pieces = [(unit_text, 0)]

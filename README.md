@@ -110,7 +110,17 @@ Remaining failures in the baseline run, by cause:
 - **Retrieval:** the "last 60 days" entry clause ranks outside the top 5 for "all conditions under which the landlord can enter" (q04); widening the candidate pool did not fix it.
 - **Operational:** indexing an upload runs inside the request (about 2 s for this document; large files would need a background job). The rate limit uses fixed one-minute windows, so a client can burst up to twice the limit across a window boundary. If Redis is down, requests are served without rate limiting or caching, and running API workers notice re-indexing only once Redis is back.
 
-**Scope:** one 4-page document and 35 questions. That is enough to catch regressions and large effects, not to claim small differences; the next step for the evaluation is a second document and more multi-clause and vocabulary-gap questions.
+**Scope:** the numbers above are one 4-page document and 35 questions. That is enough to catch regressions and large effects, not to claim small differences.
+
+### Second document
+
+[`data/remote_work_policy.md`](data/remote_work_policy.md) is a 13-section workplace policy written for this evaluation, in a different domain and style from the lease, with [32 labeled questions](data/eval/policy_eval.json) (27 answerable, 5 unanswerable). It is designed to probe what the lease couldn't:
+
+- **Two documents in one index.** With both indexed, every lease question also competes with policy chunks, and the two `cross-doc` questions ask about notice periods, which both documents have. The lease numbers above were measured with the lease alone.
+- **Near-duplicate numbers.** 14 days appears four times (equipment return, travel booking, return-to-office notice) and 30 or 60 days twice, so `distractor` questions need the right clause, not just the right number.
+- **A fact outside every section.** The effective date sits in the title block before section 1. The chunker used to drop a title block shorter than 200 characters, so p27 was unanswerable by construction; a short title block is now joined to the first section instead. The lease's chunks are byte-for-byte unchanged by this fix, so its results above still hold.
+
+Results for this set: not run yet (needs Qdrant and Ollama).
 
 ## API
 
@@ -234,6 +244,11 @@ All tests run offline, without Docker, Ollama or model downloads. The same suite
 ```bash
 uv run python tests/evaluation/retrieval_eval.py
 uv run python tests/evaluation/answer_eval.py --json data/eval/runs/my-run.json
+
+# second document: index it next to the lease, then run each set
+uv run python -m ragforge.vector.reindex data/remote_work_policy.md
+uv run python tests/evaluation/retrieval_eval.py --dataset data/eval/policy_eval.json
+uv run python tests/evaluation/answer_eval.py --dataset data/eval/policy_eval.json --json data/eval/runs/policy-3b.json
 uv run python tests/evaluation/answer_eval.py --compare data/eval/runs/A.json data/eval/runs/B.json
 ```
 
@@ -275,13 +290,15 @@ src/ragforge/
   vector/reindex.py      index or re-index one document
 tests/                   offline unit tests (run in CI)
 tests/evaluation/        live retrieval and answer evaluations
-data/eval/lease_eval.json  35 labeled questions
+data/eval/lease_eval.json  35 labeled questions on the lease
+data/eval/policy_eval.json 32 labeled questions on the remote work policy
 data/eval/runs/          saved evaluation runs behind the numbers above
 ```
 
 ## Security and data
 
 - `data/test.pdf` is a real lease form with **fictional names and address**; rent, dates and clauses are unchanged so the labeled questions stay valid.
+- `data/remote_work_policy.md` describes a fictional company and was written for the evaluation.
 - Never commit `.env`, API keys or private documents. `.env.example` holds local development defaults only.
 - API keys are stored only as hashes and compared in constant time. Without configured keys the API fails closed.
 - Uploads are limited in size and type, stored under a sanitized name inside `UPLOAD_DIR`, and never executed.
